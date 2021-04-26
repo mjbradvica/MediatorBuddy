@@ -1,4 +1,4 @@
-﻿namespace NMediatController.Tests
+﻿namespace NMediatController.Tests.ObjectValidation
 {
     using System.ComponentModel.DataAnnotations;
 

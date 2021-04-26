@@ -1,4 +1,4 @@
-﻿namespace NMediatController
+﻿namespace NMediatController.ASPNET
 {
     using System.Collections.Generic;
 

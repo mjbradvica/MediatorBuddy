@@ -11,6 +11,7 @@
     [TestClass]
     public class BaseControllerTests
     {
+        private const string ActionName = "MyActionName";
         private const string UriString = "http://www.test.com/";
         private readonly Mock<IMediator> _mediator;
         private readonly TestMediatController _controller;
@@ -20,33 +21,72 @@
         {
             _mediator = new Mock<IMediator>();
             _controller = new TestMediatController(_mediator.Object);
+        }
 
-            _mediator.Setup(mediator => mediator.Send(It.IsAny<IRequest<string>>(), CancellationToken.None))
-                .ReturnsAsync(string.Empty);
+        // Accepted
+        [TestMethod]
+        public async Task HandleAccepted_ReturnsAcceptedResult()
+        {
+            var result = await _controller.Accepted(TestObjectRequest.Valid());
+
+            TestHelper.AssertInstance<AcceptedResult>(result);
         }
 
         [TestMethod]
-        public async Task HandleAccepted_Success_ReturnsOkResult()
+        public async Task HandleAcceptedObject_ReturnsAcceptedResult()
         {
-            await TestHelper.TestControllerMethod<AcceptedResult>(_controller.Accepted, TestStringRequest.Valid());
+            var result = await _controller.AcceptedObject(TestObjectRequest.Valid());
+
+            TestHelper.AssertInstance<AcceptedResult>(result);
         }
 
         [TestMethod]
-        public async Task HandleAccepted_StringUri_Success_ReturnsOkResult()
+        public async Task HandleAccepted_StringUri_ReturnsAcceptedResult()
         {
-            await TestHelper.TestControllerMethod<AcceptedResult>(_controller.Accepted, UriString, TestStringRequest.Valid());
+            var result = await _controller.Accepted(TestObjectRequest.Valid(), UriString);
+
+            TestHelper.AssertUriInstance<AcceptedResult>(UriString, result);
         }
 
         [TestMethod]
-        public async Task HandleAccepted_Uri_Success_ReturnsOkResult()
+        public async Task HandleAccepted_Uri_ReturnsAcceptedResult()
         {
-            await TestHelper.TestControllerMethod<AcceptedResult>(_controller.Accepted, _uri, TestStringRequest.Valid());
+            var result = await _controller.Accepted(TestObjectRequest.Valid(), _uri);
+
+            TestHelper.AssertUriInstance<AcceptedResult>(_uri, result);
         }
 
         [TestMethod]
-        public async Task HandleAccepted_Success_ReturnsOkObjectResult()
+        public async Task HandleAcceptedObject_StringUri_ReturnsAcceptedResult()
         {
-            await TestHelper.TestControllerMethod<ActionResult>(_controller.AcceptedObject, TestObjectRequest.Valid());
+            var result = await _controller.AcceptedObject(TestObjectRequest.Valid(), UriString);
+
+            TestHelper.AssertUriInstance<AcceptedResult>(UriString, result);
+        }
+
+        [TestMethod]
+        public async Task HandleAcceptedObject_Uri_ReturnsAcceptedResult()
+        {
+            var result = await _controller.AcceptedObject(TestObjectRequest.Valid(), _uri);
+
+            TestHelper.AssertUriInstance<AcceptedResult>(_uri, result);
+        }
+
+        // Accepted At Action
+        [TestMethod]
+        public async Task HandleAcceptedAtAction_String_ReturnsAcceptedAtActionResult()
+        {
+            var result = await _controller.AcceptedAtAction(TestObjectRequest.Valid(), ActionName);
+
+            TestHelper.AssertActionNameInstance<AcceptedAtActionResult>(ActionName, result);
+        }
+
+        [TestMethod]
+        public async Task HandleAcceptedAtActionObject_ReturnsAcceptedAtActionResult()
+        {
+            var result = await _controller.AcceptedAtActionObject(TestObjectRequest.Valid(), ActionName);
+
+            TestHelper.AssertActionNameInstance<AcceptedAtActionResult>(ActionName, result);
         }
 
         [TestMethod]

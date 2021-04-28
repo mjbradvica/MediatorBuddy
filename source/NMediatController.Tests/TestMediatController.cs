@@ -14,46 +14,32 @@
         }
 
         // Accepted
-        public async Task<IActionResult> Accepted(IRequest<object> request)
-        {
-            return await HandleAccepted(request);
-        }
+        public async Task<IActionResult> Accepted(TestObjectRequest request) => await HandleAccepted(request);
 
-        public async Task<IActionResult> AcceptedObject(IRequest<object> request)
-        {
-            return await HandleAcceptedObject(request);
-        }
+        public async Task<IActionResult> AcceptedObject(TestObjectRequest request) => await HandleAcceptedObject(request);
 
-        public async Task<IActionResult> Accepted(IRequest<object> request, string uri)
-        {
-            return await HandleAccepted(request, uri);
-        }
+        public async Task<IActionResult> Accepted(TestObjectRequest request, string uri) => await HandleAccepted(request, uri);
 
-        public async Task<IActionResult> Accepted(IRequest<object> request, Uri uri)
-        {
-            return await HandleAccepted(request, uri);
-        }
+        public async Task<IActionResult> Accepted(TestObjectRequest request, Uri uri) => await HandleAccepted(request, uri);
 
-        public async Task<IActionResult> AcceptedObject(IRequest<object> request, string uri)
-        {
-            return await HandleAcceptedObject(request, uri);
-        }
+        public async Task<IActionResult> AcceptedObject(TestObjectRequest request, string uri) => await HandleAcceptedObject(request, uri);
 
-        public async Task<IActionResult> AcceptedObject(IRequest<object> request, Uri uri)
-        {
-            return await HandleAcceptedObject(request, uri);
-        }
+        public async Task<IActionResult> AcceptedObject(TestObjectRequest request, Uri uri) => await HandleAcceptedObject(request, uri);
 
         // Accepted At Action
-        public async Task<IActionResult> AcceptedAtAction(IRequest<object> request, string actionName)
-        {
-            return await HandleAcceptedAtAction(request, actionName);
-        }
+        public async Task<IActionResult> AcceptedAtAction(TestObjectRequest request, string actionName) => await HandleAcceptedAtAction(request, actionName);
 
-        public async Task<IActionResult> AcceptedAtActionObject(IRequest<object> request, string actionName)
-        {
-            return await HandleAcceptedAtActionObject(request, actionName);
-        }
+        public async Task<IActionResult> AcceptedAtActionObject(TestObjectRequest request, string actionName) => await HandleAcceptedAtActionObject(request, actionName);
+
+        public async Task<IActionResult> AcceptedAtAction(TestObjectRequest request, string actionName, string controllerName) => await HandleAcceptedAtAction(request, actionName, controllerName);
+
+        public async Task<IActionResult> AcceptedAtActionObject(TestObjectRequest request, string actionName, object routeValues) => await HandleAcceptedAtActionObject(request, actionName, routeValues);
+
+        public async Task<IActionResult> AcceptedAtAction(TestObjectRequest request, string actionName, string controllerName, object routeValues) => await HandleAcceptedAtAction(request, actionName, controllerName, routeValues);
+
+        public async Task<IActionResult> AcceptedAtActionObject(TestObjectRequest request, string actionName, string controllerName, object routeValues) => await HandleAcceptedAtActionObject(request, actionName, controllerName, routeValues);
+
+
 
         // Ok
         public async Task<IActionResult> Ok(IRequest<string> request)

@@ -3,7 +3,7 @@
     using System.ComponentModel.DataAnnotations;
     using MediatR;
 
-    public class TestObjectRequest : IRequest<object>
+    public class TestObjectRequest : IRequest<TestResponse>
     {
         [Required]
         public string TestField { get; set; }

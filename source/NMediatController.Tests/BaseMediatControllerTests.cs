@@ -4,7 +4,9 @@
     using System.Threading;
     using System.Threading.Tasks;
     using MediatR;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Routing;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Moq;
 
@@ -12,7 +14,9 @@
     public class BaseControllerTests
     {
         private const string ActionName = "MyActionName";
+        private const string ControllerName = "MyControllerName";
         private const string UriString = "http://www.test.com/";
+        private readonly RouteValueDictionary _routeValues = new RouteValueDictionary { { "route", "value" } };
         private readonly Mock<IMediator> _mediator;
         private readonly TestMediatController _controller;
         private readonly Uri _uri = new Uri(UriString);
@@ -21,73 +25,140 @@
         {
             _mediator = new Mock<IMediator>();
             _controller = new TestMediatController(_mediator.Object);
+            _mediator.Setup(x => x.Send(It.IsAny<TestObjectRequest>(), CancellationToken.None)).ReturnsAsync(new TestResponse());
         }
 
-        // Accepted
         [TestMethod]
         public async Task HandleAccepted_ReturnsAcceptedResult()
         {
-            var result = await _controller.Accepted(TestObjectRequest.Valid());
+            var result = await _controller.Accepted(TestObjectRequest.Valid()) as AcceptedResult;
 
-            TestHelper.AssertInstance<AcceptedResult>(result);
+            Assert.IsInstanceOfType(result, typeof(AcceptedResult));
+            Assert.IsNull(result.Value);
         }
 
         [TestMethod]
         public async Task HandleAcceptedObject_ReturnsAcceptedResult()
         {
-            var result = await _controller.AcceptedObject(TestObjectRequest.Valid());
+            var result = await _controller.AcceptedObject(TestObjectRequest.Valid()) as AcceptedResult;
 
-            TestHelper.AssertInstance<AcceptedResult>(result);
+            Assert.IsInstanceOfType(result, typeof(AcceptedResult));
+            Assert.IsInstanceOfType(result.Value, typeof(TestResponse));
         }
 
         [TestMethod]
         public async Task HandleAccepted_StringUri_ReturnsAcceptedResult()
         {
-            var result = await _controller.Accepted(TestObjectRequest.Valid(), UriString);
+            var result = await _controller.Accepted(TestObjectRequest.Valid(), UriString) as AcceptedResult;
 
-            TestHelper.AssertUriInstance<AcceptedResult>(UriString, result);
+            Assert.IsInstanceOfType(result, typeof(AcceptedResult));
+            Assert.IsNull(result.Value);
+            Assert.AreEqual(UriString, result.Location);
         }
 
         [TestMethod]
         public async Task HandleAccepted_Uri_ReturnsAcceptedResult()
         {
-            var result = await _controller.Accepted(TestObjectRequest.Valid(), _uri);
+            var result = await _controller.Accepted(TestObjectRequest.Valid(), _uri) as AcceptedResult;
 
-            TestHelper.AssertUriInstance<AcceptedResult>(_uri, result);
+            Assert.IsInstanceOfType(result, typeof(AcceptedResult));
+            Assert.IsNull(result.Value);
+            Assert.AreEqual(UriString, result.Location);
         }
 
         [TestMethod]
         public async Task HandleAcceptedObject_StringUri_ReturnsAcceptedResult()
         {
-            var result = await _controller.AcceptedObject(TestObjectRequest.Valid(), UriString);
+            var result = await _controller.AcceptedObject(TestObjectRequest.Valid(), UriString) as AcceptedResult;
 
-            TestHelper.AssertUriInstance<AcceptedResult>(UriString, result);
+            Assert.IsInstanceOfType(result, typeof(AcceptedResult));
+            Assert.AreEqual(UriString, result.Location);
+            Assert.IsInstanceOfType(result.Value, typeof(TestResponse));
         }
 
         [TestMethod]
         public async Task HandleAcceptedObject_Uri_ReturnsAcceptedResult()
         {
-            var result = await _controller.AcceptedObject(TestObjectRequest.Valid(), _uri);
+            var result = await _controller.AcceptedObject(TestObjectRequest.Valid(), _uri) as AcceptedResult;
 
-            TestHelper.AssertUriInstance<AcceptedResult>(_uri, result);
+            Assert.IsInstanceOfType(result, typeof(AcceptedResult));
+            Assert.AreEqual(UriString, result.Location);
+            Assert.IsInstanceOfType(result.Value, typeof(TestResponse));
         }
 
         // Accepted At Action
         [TestMethod]
-        public async Task HandleAcceptedAtAction_String_ReturnsAcceptedAtActionResult()
+        public async Task HandleAcceptedAtAction_ActionName_ReturnsAcceptedAtActionResult()
         {
-            var result = await _controller.AcceptedAtAction(TestObjectRequest.Valid(), ActionName);
+            var result = await _controller.AcceptedAtAction(TestObjectRequest.Valid(), ActionName) as AcceptedAtActionResult;
 
-            TestHelper.AssertActionNameInstance<AcceptedAtActionResult>(ActionName, result);
+            Assert.IsInstanceOfType(result, typeof(AcceptedAtActionResult));
+            Assert.IsNull(result.Value);
+            Assert.AreEqual(ActionName, result.ActionName);
         }
 
         [TestMethod]
-        public async Task HandleAcceptedAtActionObject_ReturnsAcceptedAtActionResult()
+        public async Task HandleAcceptedAtActionObject_ActionName_ReturnsAcceptedAtActionResult()
         {
-            var result = await _controller.AcceptedAtActionObject(TestObjectRequest.Valid(), ActionName);
+            var result = await _controller.AcceptedAtActionObject(TestObjectRequest.Valid(), ActionName) as AcceptedAtActionResult;
 
-            TestHelper.AssertActionNameInstance<AcceptedAtActionResult>(ActionName, result);
+            Assert.IsInstanceOfType(result, typeof(AcceptedAtActionResult));
+            Assert.IsInstanceOfType(result.Value, typeof(TestResponse));
+            Assert.AreEqual(ActionName, result.ActionName);
         }
+
+        [TestMethod]
+        public async Task HandleAcceptedAtAction_ActionName_ControllerName_ReturnsAcceptedAtActionResult()
+        {
+            var result = await _controller.AcceptedAtAction(TestObjectRequest.Valid(), ActionName, ControllerName) as AcceptedAtActionResult;
+
+            Assert.IsInstanceOfType(result, typeof(AcceptedAtActionResult));
+            Assert.IsNull(result.Value);
+            Assert.AreEqual(ActionName, result.ActionName);
+            Assert.AreEqual(ControllerName, result.ControllerName);
+        }
+
+        [TestMethod]
+        public async Task HandleAcceptedAtActionObject_ActionName_RouteValues_ReturnsCorrectValues()
+        {
+            var result = await _controller.AcceptedAtActionObject(TestObjectRequest.Valid(), ActionName, _routeValues) as AcceptedAtActionResult;
+
+            Assert.IsInstanceOfType(result, typeof(AcceptedAtActionResult));
+            Assert.IsInstanceOfType(result.Value, typeof(TestResponse));
+            Assert.AreEqual(ActionName, result.ActionName);
+            Assert.IsInstanceOfType(result.RouteValues, typeof(RouteValueDictionary));
+        }
+
+        [TestMethod]
+        public async Task HandleAcceptedAtAction_ActionName_ControllerName_RouteValues_ReturnsCorrectValues()
+        {
+            var result = await _controller.AcceptedAtAction(TestObjectRequest.Valid(), ActionName, ControllerName, _routeValues) as AcceptedAtActionResult;
+
+            Assert.IsInstanceOfType(result, typeof(AcceptedAtActionResult));
+            Assert.IsNull(result.Value);
+            Assert.AreEqual(ControllerName, result.ControllerName);
+            Assert.AreEqual(ActionName, result.ActionName);
+            Assert.IsInstanceOfType(result.RouteValues, typeof(RouteValueDictionary));
+        }
+
+        [TestMethod]
+        public async Task HandleAcceptedAtActionObject_ActionName_ControllerName_RouteValues_ReturnsCorrectValues()
+        {
+            var result = await _controller.AcceptedAtActionObject(TestObjectRequest.Valid(), ActionName, ControllerName, _routeValues) as AcceptedAtActionResult;
+
+            Assert.IsInstanceOfType(result, typeof(AcceptedAtActionResult));
+            Assert.IsInstanceOfType(result.Value, typeof(TestResponse));
+            Assert.AreEqual(ControllerName, result.ControllerName);
+            Assert.AreEqual(ActionName, result.ActionName);
+            Assert.IsInstanceOfType(result.RouteValues, typeof(RouteValueDictionary));
+        }
+
+
+
+
+
+
+
 
         [TestMethod]
         public async Task HandleOk_Success_ReturnsOkResult()
@@ -135,9 +206,9 @@
             _mediator.Setup(mediator => mediator.Send(It.IsAny<IRequest<string>>(), CancellationToken.None))
                 .Throws<Exception>();
 
-            var result = await _controller.Ok(TestStringRequest.Valid());
+            var result = await _controller.Ok(TestStringRequest.Valid()) as StatusCodeResult;
 
-            Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
+            Assert.AreEqual(result.StatusCode, StatusCodes.Status500InternalServerError);
         }
     }
 }

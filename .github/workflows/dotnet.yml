@@ -29,8 +29,8 @@ jobs:
         run: dotnet test --no-build --verbosity normal
 
       - name: Publish NMediatController
-        run: dotnet nuget push NMediatController.*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_KEY }} --skip-duplicate
+        run: dotnet nuget push NMediatController.*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.KEY }} --skip-duplicate
 
         
       - name: Publish NMediatController.ASPNET
-        run: dotnet nuget push NMediatController.ASPNET.*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_KEY }} --skip-duplicate
+        run: dotnet nuget push NMediatController.ASPNET.*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.KEY }} --skip-duplicate

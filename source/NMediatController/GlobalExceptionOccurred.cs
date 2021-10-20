@@ -1,8 +1,9 @@
 ﻿namespace NMediatController
 {
     using System;
+    using MediatR;
 
-    public class GlobalExceptionOccurred
+    public class GlobalExceptionOccurred : INotification
     {
         public GlobalExceptionOccurred(Exception exception)
         {

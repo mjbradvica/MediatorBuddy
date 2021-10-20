@@ -3,9 +3,9 @@
     using System.ComponentModel.DataAnnotations;
     using MediatR;
 
-    internal class TestStringRequest : IRequest<string>
+    internal class TestStringRequest : IRequest<TestResponse>
     {
-        [Required]
+        [Required(AllowEmptyStrings = false)]
         public string TestField { get; set; }
 
         public static TestStringRequest Valid()

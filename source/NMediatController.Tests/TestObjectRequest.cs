@@ -12,5 +12,10 @@
         {
             return new TestObjectRequest { TestField = "valid" };
         }
+
+        public static TestObjectRequest InValid()
+        {
+            return new TestObjectRequest { TestField = null };
+        }
     }
 }

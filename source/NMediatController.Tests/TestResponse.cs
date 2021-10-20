@@ -2,5 +2,6 @@
 {
     public class TestResponse
     {
+        public string Value { get; set; }
     }
 }

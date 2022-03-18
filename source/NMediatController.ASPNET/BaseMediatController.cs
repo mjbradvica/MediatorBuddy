@@ -40,5 +40,15 @@
 
             return response;
         }
+
+        protected async Task<IActionResult> ExecuteOk<TResponse>(IRequest<TResponse> request)
+        {
+            return await ExecuteRequest(request, CommonResponseFunctions.Ok);
+        }
+
+        protected async Task<IActionResult> ExecuteOkObject<TResponse>(IRequest<TResponse> request)
+        {
+            return await ExecuteRequest(request, CommonResponseFunctions.OkObject);
+        }
     }
 }

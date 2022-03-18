@@ -52,5 +52,18 @@
 
             Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
         }
+
+        [TestMethod]
+        public async Task EnvelopeDoesItsThang()
+        {
+            var response = Envelope<TestResponse>.Success(new TestResponse { Value = "success" });
+
+            _mediator.Setup(x => x.Send(It.IsAny<IEnvelopeRequest<TestResponse>>(), CancellationToken.None))
+                .ReturnsAsync(response);
+
+            var result = await _controller.SomeWeirdAction();
+
+            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+        }
     }
 }

@@ -46,9 +46,19 @@
             return await ExecuteRequest(request, CommonResponseFunctions.Ok);
         }
 
+        protected async Task<IActionResult> ExecuteOk<TResponse>(IEnvelopeRequest<TResponse> request)
+        {
+            return await ExecuteRequest(request, CommonResponseFunctions.OkEnvelope);
+        }
+
         protected async Task<IActionResult> ExecuteOkObject<TResponse>(IRequest<TResponse> request)
         {
             return await ExecuteRequest(request, CommonResponseFunctions.OkObject);
+        }
+
+        protected async Task<IActionResult> ExecuteOkObject<TResponse>(IEnvelopeRequest<TResponse> request)
+        {
+            return await ExecuteRequest(request, CommonResponseFunctions.OkEnvelopeObject);
         }
     }
 }

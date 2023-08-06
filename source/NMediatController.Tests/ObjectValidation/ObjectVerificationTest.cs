@@ -1,7 +1,7 @@
-﻿namespace NMediatController.Tests.ObjectValidation
-{
-    using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
+namespace NMediatController.Tests.ObjectValidation
+{
     public class ObjectVerificationTest
     {
         [Required]

@@ -1,8 +1,8 @@
-﻿namespace NMediatController.Tests.ObjectValidation
-{
-    using ASPNET;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NMediatController.ASPNET;
 
+namespace NMediatController.Tests.ObjectValidation
+{
     [TestClass]
     public class ObjectVerificationTests
     {

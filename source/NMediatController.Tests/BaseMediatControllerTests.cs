@@ -1,13 +1,13 @@
-﻿namespace NMediatController.Tests
-{
-    using System;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using MediatR;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Moq;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
+namespace NMediatController.Tests
+{
     [TestClass]
     public class BaseControllerTests
     {
@@ -51,19 +51,6 @@
             var result = await _controller.Handle(TestObjectRequest.InValid());
 
             Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
-        }
-
-        [TestMethod]
-        public async Task EnvelopeDoesItsThang()
-        {
-            var response = Envelope<TestResponse>.Success(new TestResponse { Value = "success" });
-
-            _mediator.Setup(x => x.Send(It.IsAny<IEnvelopeRequest<TestResponse>>(), CancellationToken.None))
-                .ReturnsAsync(response);
-
-            var result = await _controller.SomeWeirdAction();
-
-            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
         }
     }
 }

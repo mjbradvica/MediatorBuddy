@@ -1,8 +1,8 @@
-﻿namespace NMediatController.Tests
-{
-    using System.ComponentModel.DataAnnotations;
-    using MediatR;
+﻿using System.ComponentModel.DataAnnotations;
+using MediatR;
 
+namespace NMediatController.Tests
+{
     public class TestObjectRequest : IRequest<TestResponse>
     {
         [Required]

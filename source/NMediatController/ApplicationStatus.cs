@@ -8,6 +8,6 @@
         /// <summary>
         /// Indicates an operation was successful.
         /// </summary>
-        public static readonly int Success = 0;
+        public const int Success = 0;
     }
 }

@@ -30,7 +30,7 @@ namespace NMediatController.ASPNET
         /// <param name="responseFunc">A function that will accepts a response object and return a web response.</param>
         /// <returns>An IActionResult representing the end result of the request object.</returns>
         protected async Task<IActionResult> ExecuteRequest<TResponse>(IRequest<TResponse> request, Func<TResponse, IActionResult> responseFunc)
-            where TResponse : ApplicationResponse
+            where TResponse : IApplicationResponse
         {
             IActionResult response;
 

@@ -16,7 +16,7 @@ namespace NMediatController.Tests
     public class BaseControllerTests
     {
         private readonly Mock<IMediator> _mediator;
-        private readonly TestMediatController _controller;
+        private TestMediatController _controller;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseControllerTests"/> class.
@@ -51,10 +51,12 @@ namespace NMediatController.Tests
             _mediator.Setup(x => x.Send(It.IsAny<IRequest<TestResponse>>(), CancellationToken.None))
                 .ReturnsAsync(response);
 
-            var result = await _controller.Handle(TestObjectRequest.Valid()) as OkObjectResult;
+            _controller = new TestMediatController(_mediator.Object);
 
-            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
-            Assert.AreEqual(response, result.Value);
+            var result = await _controller.Handle(TestObjectRequest.Valid());
+
+            Assert.IsInstanceOfType<OkObjectResult>(result);
+            Assert.AreEqual(response, (result as OkObjectResult)?.Value);
         }
 
         /// <summary>
@@ -64,10 +66,10 @@ namespace NMediatController.Tests
         [TestMethod]
         public async Task ExecuteRequest_OnException_ReturnsBadRequest()
         {
-            _mediator.Setup(x => x.Send(It.IsAny<IRequest<TestResponse>>(), CancellationToken.None))
+            _mediator.Setup(x => x.Send(It.IsAny<TestObjectRequest>(), CancellationToken.None))
                 .ThrowsAsync(new Exception());
 
-            var result = await _controller.Handle(TestObjectRequest.InValid());
+            var result = await _controller.Handle(TestObjectRequest.Valid());
 
             Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
         }

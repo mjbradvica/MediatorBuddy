@@ -40,7 +40,7 @@ namespace NMediatController.ASPNET
         /// Returns a function that will yield a <see cref="OkObjectResult"/>.
         /// </summary>
         /// <returns>A function that will return an IActionResult of type OkObjectResponse.</returns>
-        public static Func<ApplicationResponse, IActionResult> OkObjectResponse()
+        public static Func<IApplicationResponse, IActionResult> OkObjectResponse()
         {
             return response => DetermineResponse(response.StatusCode, new OkObjectResult(response));
         }

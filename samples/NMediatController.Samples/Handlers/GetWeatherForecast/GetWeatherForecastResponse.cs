@@ -28,5 +28,14 @@
         /// Gets a status code.
         /// </summary>
         public int StatusCode { get; }
+
+        /// <summary>
+        /// Fac function.
+        /// </summary>
+        /// <returns>Response.</returns>
+        public static Envelope<GetWeatherForecastResponse> Success()
+        {
+            return Envelope<GetWeatherForecastResponse>.Success(new GetWeatherForecastResponse());
+        }
     }
 }

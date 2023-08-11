@@ -46,6 +46,27 @@ namespace NMediatController.ASPNET
         }
 
         /// <summary>
+        /// Uses the envelope response.
+        /// </summary>
+        /// <typeparam name="T">The response type.</typeparam>
+        /// <returns>A response.</returns>
+        public static Func<Envelope<T>, IActionResult> OkObjectResponse<T>()
+        {
+            return envelope => DetermineResponse(envelope.StatusCode, new OkObjectResult(envelope.Response));
+        }
+
+        /// <summary>
+        /// Do the stuff.
+        /// </summary>
+        /// <typeparam name="T">The response type.</typeparam>
+        /// <returns>A response.</returns>
+        public static Func<Envelope<T>, IActionResult> Determine<T>()
+            where T : class
+        {
+            return envelope => DetermineResponse(envelope.StatusCode, new OkObjectResult(envelope.Response));
+        }
+
+        /// <summary>
         /// Returns a function that will yield a <see cref="OkResult"/>.
         /// </summary>
         /// <returns>A function that will return an IActionResult of type OkResponse.</returns>

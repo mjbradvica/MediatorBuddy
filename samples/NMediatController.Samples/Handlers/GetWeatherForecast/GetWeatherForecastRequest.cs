@@ -5,7 +5,7 @@ namespace NMediatController.Samples.Handlers.GetWeatherForecast
     /// <summary>
     /// Request for a weather forecast.
     /// </summary>
-    public class GetWeatherForecastRequest : IRequest<GetWeatherForecastResponse>
+    public class GetWeatherForecastRequest : IRequest<Envelope<GetWeatherForecastResponse>>
     {
     }
 }

@@ -31,7 +31,7 @@ namespace NMediatController.Samples.Controllers
         [HttpGet(Name = "GetWeatherForecast")]
         public async Task<IActionResult> Get()
         {
-            return Ok(await _mediator.Send(new GetWeatherForecastRequest()));
+            return await ExecuteRequest(new GetWeatherForecastRequest(), ResponseOptions.Determine<GetWeatherForecastResponse>());
         }
     }
 }

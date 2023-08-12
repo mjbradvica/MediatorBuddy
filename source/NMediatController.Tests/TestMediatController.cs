@@ -27,7 +27,7 @@ namespace NMediatController.Tests
         [HttpPost]
         public async Task<IActionResult> Handle(TestObjectRequest request)
         {
-            return await ExecuteRequest(request, ResponseOptions.OkObjectResponse());
+            return await ExecuteRequest(request, ResponseOptions.OkObjectResponse<TestResponse>());
         }
     }
 }

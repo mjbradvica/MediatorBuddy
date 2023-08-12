@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -47,9 +48,10 @@ namespace NMediatController.Tests
         public async Task ExecuteRequest_OnSuccess_ReturnsCorrectResult()
         {
             var response = new TestResponse { Value = "success" };
+            var envelope = Envelope<TestResponse>.Success(response);
 
-            _mediator.Setup(x => x.Send(It.IsAny<IRequest<TestResponse>>(), CancellationToken.None))
-                .ReturnsAsync(response);
+            _mediator.Setup(x => x.Send(It.IsAny<TestObjectRequest>(), CancellationToken.None))
+                .ReturnsAsync(envelope);
 
             _controller = new TestMediatController(_mediator.Object);
 
@@ -71,7 +73,8 @@ namespace NMediatController.Tests
 
             var result = await _controller.Handle(TestObjectRequest.Valid());
 
-            Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
+            Assert.IsInstanceOfType<StatusCodeResult>(result);
+            Assert.AreEqual(StatusCodes.Status500InternalServerError, (result as StatusCodeResult)?.StatusCode);
         }
     }
 }

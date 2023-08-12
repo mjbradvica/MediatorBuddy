@@ -3,10 +3,10 @@
 namespace NMediatController.Tests
 {
     /// <summary>
-    /// Tests the <see cref="ApplicationResponse"/> class capabilities.
+    /// Tests the <see cref="Envelope{T}"/> class capabilities.
     /// </summary>
     [TestClass]
-    public class ApplicationResponseTests
+    public class EnvelopeTests
     {
         /// <summary>
         /// Ensures the default constructor has the correct properties.
@@ -14,9 +14,8 @@ namespace NMediatController.Tests
         [TestMethod]
         public void DefaultConstructor_HasCorrectProperties()
         {
-            var response = new TestApplicationResponse();
+            var response = Envelope<TestResponse>.Success(new TestResponse());
 
-            Assert.IsTrue(response.IsSuccess);
             Assert.AreEqual(ApplicationStatus.Success, response.StatusCode);
         }
 
@@ -28,9 +27,8 @@ namespace NMediatController.Tests
         {
             const int statusCode = 201;
 
-            var response = new TestApplicationResponse(statusCode);
+            var response = Envelope<TestResponse>.Failure(statusCode);
 
-            Assert.IsFalse(response.IsSuccess);
             Assert.AreEqual(statusCode, response.StatusCode);
         }
     }

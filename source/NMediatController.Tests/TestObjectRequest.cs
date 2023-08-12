@@ -1,12 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using MediatR;
 
 namespace NMediatController.Tests
 {
     /// <summary>
     /// A test request object for unit testing.
     /// </summary>
-    public class TestObjectRequest : IRequest<TestResponse>
+    public class TestObjectRequest : IEnvelopeRequest<TestResponse>
     {
         /// <summary>
         /// Gets or sets a test field for validation.

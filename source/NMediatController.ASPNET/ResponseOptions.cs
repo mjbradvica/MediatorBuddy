@@ -12,56 +12,39 @@ namespace NMediatController.ASPNET
         /// <summary>
         /// Returns a function that will yield a <see cref="StatusCodeResult"/> of type 100 Continue.
         /// </summary>
+        /// <typeparam name="TResponse">The type of the response object.</typeparam>
         /// <returns>A function that will return an IActionResult of type StatusCodeResult.</returns>
-        public static Func<ApplicationResponse, IActionResult> ContinueResponse()
+        public static Func<IEnvelope<TResponse>, IActionResult> ContinueResponse<TResponse>()
         {
-            return response => DetermineResponse(response.StatusCode, new StatusCodeResult(StatusCodes.Status100Continue));
+            return envelope => DetermineResponse(envelope.StatusCode, new StatusCodeResult(StatusCodes.Status100Continue));
         }
 
         /// <summary>
         /// Returns a function that will yield a <see cref="StatusCodeResult"/> of type 101 Switching Protocols.
         /// </summary>
+        /// <typeparam name="TResponse">The type of the response object.</typeparam>
         /// <returns>An function that will return an IActionResult of type StatusCodeResult.</returns>
-        public static Func<ApplicationResponse, IActionResult> SwitchingProtocolsResponse()
+        public static Func<IEnvelope<TResponse>, IActionResult> SwitchingProtocolsResponse<TResponse>()
         {
-            return response => DetermineResponse(response.StatusCode, new StatusCodeResult(StatusCodes.Status101SwitchingProtocols));
+            return envelope => DetermineResponse(envelope.StatusCode, new StatusCodeResult(StatusCodes.Status101SwitchingProtocols));
         }
 
         /// <summary>
         /// Returns a function that will yield a <see cref="StatusCodeResult"/> of type 102 Processing.
         /// </summary>
+        /// <typeparam name="TResponse">The type of the response object.</typeparam>
         /// <returns>A function that will return an IActionResult of type StatusCodeResult.</returns>
-        public static Func<ApplicationResponse, IActionResult> ProcessingResponse()
+        public static Func<IEnvelope<TResponse>, IActionResult> ProcessingResponse<TResponse>()
         {
-            return response => DetermineResponse(response.StatusCode, new StatusCodeResult(StatusCodes.Status102Processing));
+            return envelope => DetermineResponse(envelope.StatusCode, new StatusCodeResult(StatusCodes.Status102Processing));
         }
 
         /// <summary>
         /// Returns a function that will yield a <see cref="OkObjectResult"/>.
         /// </summary>
+        /// <typeparam name="TResponse">The type of the response object.</typeparam>
         /// <returns>A function that will return an IActionResult of type OkObjectResponse.</returns>
-        public static Func<IApplicationResponse, IActionResult> OkObjectResponse()
-        {
-            return response => DetermineResponse(response.StatusCode, new OkObjectResult(response));
-        }
-
-        /// <summary>
-        /// Uses the envelope response.
-        /// </summary>
-        /// <typeparam name="T">The response type.</typeparam>
-        /// <returns>A response.</returns>
-        public static Func<Envelope<T>, IActionResult> OkObjectResponse<T>()
-        {
-            return envelope => DetermineResponse(envelope.StatusCode, new OkObjectResult(envelope.Response));
-        }
-
-        /// <summary>
-        /// Do the stuff.
-        /// </summary>
-        /// <typeparam name="T">The response type.</typeparam>
-        /// <returns>A response.</returns>
-        public static Func<Envelope<T>, IActionResult> Determine<T>()
-            where T : class
+        public static Func<IEnvelope<TResponse>, IActionResult> OkObjectResponse<TResponse>()
         {
             return envelope => DetermineResponse(envelope.StatusCode, new OkObjectResult(envelope.Response));
         }
@@ -69,30 +52,33 @@ namespace NMediatController.ASPNET
         /// <summary>
         /// Returns a function that will yield a <see cref="OkResult"/>.
         /// </summary>
+        /// <typeparam name="TResponse">The type of the response object.</typeparam>
         /// <returns>A function that will return an IActionResult of type OkResponse.</returns>
-        public static Func<ApplicationResponse, IActionResult> OkResponse()
+        public static Func<IEnvelope<TResponse>, IActionResult> OkResponse<TResponse>()
         {
-            return response => DetermineResponse(response.StatusCode, new OkResult());
+            return envelope => DetermineResponse(envelope.StatusCode, new OkResult());
         }
 
         /// <summary>
         /// Returns a function that will yield a <see cref="CreatedResult"/>.
         /// </summary>
         /// <param name="location">The Uri where the resource can be accessed.</param>
+        /// <typeparam name="TResponse">The type of the response object.</typeparam>
         /// <returns>A function that will return an IActionResult of type CreatedResponse.</returns>
-        public static Func<ApplicationResponse, IActionResult> CreatedResponse(Uri location)
+        public static Func<IEnvelope<TResponse>, IActionResult> CreatedResponse<TResponse>(Uri location)
         {
-            return response => DetermineResponse(response.StatusCode, new CreatedResult(location, response));
+            return envelope => DetermineResponse(envelope.StatusCode, new CreatedResult(location, envelope.Response));
         }
 
         /// <summary>
         /// Returns a function that will yield a <see cref="CreatedResult"/>.
         /// </summary>
         /// <param name="location">A string that represents a Uri location of the resource.</param>
+        /// <typeparam name="TResponse">The type of the response object.</typeparam>
         /// <returns>A function that will return an IActionResult of type CreatedResult..</returns>
-        public static Func<ApplicationResponse, IActionResult> CreatedResponse(string location)
+        public static Func<IEnvelope<TResponse>, IActionResult> CreatedResponse<TResponse>(string location)
         {
-            return response => DetermineResponse(response.StatusCode, new CreatedResult(location, response));
+            return envelope => DetermineResponse(envelope.StatusCode, new CreatedResult(location, envelope.Response));
         }
 
         /// <summary>
@@ -100,11 +86,12 @@ namespace NMediatController.ASPNET
         /// </summary>
         /// <param name="actionName">The name of the controller action.</param>
         /// <param name="controllerName">The name of the controller.</param>
-        /// <param name="routeValues">An object containing any route values.</param>
+        /// <param name="routeValuesFunc">An func that will return a routeValues object.</param>
+        /// <typeparam name="TResponse">The type of the response object.</typeparam>
         /// <returns>A function that will return an IActionResult of type CreatedAtActionResult.</returns>
-        public static Func<ApplicationResponse, IActionResult> CreatedAtActionResponse(string actionName, string controllerName, object routeValues)
+        public static Func<IEnvelope<TResponse>, IActionResult> CreatedAtActionResponse<TResponse>(string actionName, string controllerName, Func<TResponse, object> routeValuesFunc)
         {
-            return response => DetermineResponse(response.StatusCode, new CreatedAtActionResult(actionName, controllerName, routeValues, response));
+            return envelope => DetermineResponse(envelope.StatusCode, new CreatedAtActionResult(actionName, controllerName, routeValuesFunc.Invoke(envelope.Response), envelope.Response));
         }
 
         /// <summary>

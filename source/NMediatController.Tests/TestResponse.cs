@@ -3,7 +3,7 @@
     /// <summary>
     /// A test response used for unit testing.
     /// </summary>
-    public class TestResponse : ApplicationResponse
+    public class TestResponse
     {
         /// <summary>
         /// Gets or sets a Value for the response.

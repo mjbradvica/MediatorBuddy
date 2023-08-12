@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using NMediatController.ASPNET;
+using NMediatController.Samples.Handlers.GetCurrentTime;
 using NMediatController.Samples.Handlers.GetWeatherForecast;
 
 namespace NMediatController.Samples.Controllers
@@ -31,7 +32,17 @@ namespace NMediatController.Samples.Controllers
         [HttpGet(Name = "GetWeatherForecast")]
         public async Task<IActionResult> Get()
         {
-            return await ExecuteRequest(new GetWeatherForecastRequest(), ResponseOptions.Determine<GetWeatherForecastResponse>());
+            return await ExecuteRequest(new GetWeatherForecastRequest(), ResponseOptions.OkObjectResponse<GetWeatherForecastResponse>());
+        }
+
+        /// <summary>
+        /// Gets the current time.
+        /// </summary>
+        /// <returns>An <see cref="IActionResult"/> with the time.</returns>
+        [HttpGet("time")]
+        public async Task<IActionResult> GetTime()
+        {
+            return await ExecuteRequest(new GetTimeRequest(), ResponseOptions.OkObjectResponse<GetTimeResponse>());
         }
     }
 }

@@ -8,13 +8,13 @@ namespace NMediatController.Tests
     /// <summary>
     /// A test controller used for unit testing.
     /// </summary>
-    public class TestMediatController : BaseMediatController
+    public class TestMediatApiController : BaseMediatApiController
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="TestMediatController"/> class.
+        /// Initializes a new instance of the <see cref="TestMediatApiController"/> class.
         /// </summary>
         /// <param name="mediator">An instance of the Mediator object.</param>
-        public TestMediatController(IMediator mediator)
+        public TestMediatApiController(IMediator mediator)
             : base(mediator)
         {
         }

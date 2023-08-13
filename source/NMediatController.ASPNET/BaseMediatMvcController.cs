@@ -1,25 +1,37 @@
 ﻿using System;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace NMediatController.ASPNET
 {
     /// <summary>
-    /// A base class that provides basic boilerplate for a web request.
+    /// A base controller to use for MVC controllers.
     /// </summary>
-    public abstract class BaseMediatController : ControllerBase
+    public abstract class BaseMediatMvcController : Controller
     {
-        private readonly IMediator _mediator;
+        /// <summary>
+        /// The <see cref="IMediator"/> instance to use for custom methods.
+        /// </summary>
+#pragma warning disable SA1401 // Fields should be private
+        protected readonly IMediator Mediator;
+#pragma warning restore SA1401 // Fields should be private
+
+        private readonly string _errorAction;
+
+        private readonly string _errorController;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BaseMediatController"/> class.
+        /// Initializes a new instance of the <see cref="BaseMediatMvcController"/> class.
         /// </summary>
-        /// <param name="mediator">An instance of the Mediator object.</param>
-        protected BaseMediatController(IMediator mediator)
+        /// <param name="mediator">An instance of the <see cref="IMediator"/> interface.</param>
+        /// <param name="errorAction">The default name of the error view action.</param>
+        /// <param name="errorController">The default name of the error view controller.</param>
+        protected BaseMediatMvcController(IMediator mediator, string errorAction = "Index", string errorController = "Error")
         {
-            _mediator = mediator;
+            Mediator = mediator;
+            _errorAction = errorAction;
+            _errorController = errorController;
         }
 
         /// <summary>
@@ -36,20 +48,20 @@ namespace NMediatController.ASPNET
             var validationResult = ObjectVerification.Validate(request);
             if (validationResult.Failed)
             {
-                return BadRequest(validationResult.Errors);
+                return View();
             }
 
             try
             {
-                var result = await _mediator.Send(request);
+                var result = await Mediator.Send(request);
 
                 response = responseFunc.Invoke(result);
             }
             catch (Exception exception)
             {
-                await _mediator.Publish(new GlobalExceptionOccurred(exception));
+                await Mediator.Publish(new GlobalExceptionOccurred(exception));
 
-                return StatusCode(StatusCodes.Status500InternalServerError);
+                return RedirectToAction(_errorAction, _errorController);
             }
 
             return response;

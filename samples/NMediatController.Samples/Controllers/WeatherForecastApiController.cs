@@ -11,15 +11,15 @@ namespace NMediatController.Samples.Controllers
     /// </summary>
     [ApiController]
     [Route("[controller]")]
-    public class WeatherForecastController : BaseMediatController
+    public class WeatherForecastApiController : BaseMediatApiController
     {
         private readonly IMediator _mediator;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WeatherForecastController"/> class.
+        /// Initializes a new instance of the <see cref="WeatherForecastApiController"/> class.
         /// </summary>
         /// <param name="mediator">An instance of Mediator.</param>
-        public WeatherForecastController(IMediator mediator)
+        public WeatherForecastApiController(IMediator mediator)
             : base(mediator)
         {
             _mediator = mediator;

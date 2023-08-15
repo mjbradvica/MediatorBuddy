@@ -11,15 +11,21 @@ namespace NMediatController
         /// <summary>
         /// Initializes a new instance of the <see cref="GlobalExceptionOccurred"/> class.
         /// </summary>
-        /// <param name="exception">The exception that was thrown during a request process.</param>
+        /// <param name="exception">The <see cref="Exception"/> that was thrown during a request process.</param>
         public GlobalExceptionOccurred(Exception exception)
         {
             Exception = exception;
+            DateTime = DateTime.UtcNow;
         }
 
         /// <summary>
         /// Gets the exception that occurred during a request.
         /// </summary>
         public Exception Exception { get; }
+
+        /// <summary>
+        /// Gets a time stamp when the exception occurred.
+        /// </summary>
+        public DateTime DateTime { get; }
     }
 }

@@ -11,13 +11,13 @@ using NMediatController.ASPNET;
 namespace NMediatController.Tests
 {
     /// <summary>
-    /// Tests the <see cref="BaseMediatController"/> class capabilities.
+    /// Tests the <see cref="BaseMediatApiController"/> class capabilities.
     /// </summary>
     [TestClass]
     public class BaseControllerTests
     {
         private readonly Mock<IMediator> _mediator;
-        private TestMediatController _controller;
+        private TestMediatApiController _apiController;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseControllerTests"/> class.
@@ -25,7 +25,7 @@ namespace NMediatController.Tests
         public BaseControllerTests()
         {
             _mediator = new Mock<IMediator>();
-            _controller = new TestMediatController(_mediator.Object);
+            _apiController = new TestMediatApiController(_mediator.Object);
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace NMediatController.Tests
         [TestMethod]
         public async Task ExecuteRequest_OnValidationFailures_ReturnsBadRequest()
         {
-            var result = await _controller.Handle(TestObjectRequest.InValid());
+            var result = await _apiController.Handle(TestObjectRequest.InValid());
 
             Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
         }
@@ -53,9 +53,9 @@ namespace NMediatController.Tests
             _mediator.Setup(x => x.Send(It.IsAny<TestObjectRequest>(), CancellationToken.None))
                 .ReturnsAsync(envelope);
 
-            _controller = new TestMediatController(_mediator.Object);
+            _apiController = new TestMediatApiController(_mediator.Object);
 
-            var result = await _controller.Handle(TestObjectRequest.Valid());
+            var result = await _apiController.Handle(TestObjectRequest.Valid());
 
             Assert.IsInstanceOfType<OkObjectResult>(result);
             Assert.AreEqual(response, (result as OkObjectResult)?.Value);
@@ -71,7 +71,7 @@ namespace NMediatController.Tests
             _mediator.Setup(x => x.Send(It.IsAny<TestObjectRequest>(), CancellationToken.None))
                 .ThrowsAsync(new Exception());
 
-            var result = await _controller.Handle(TestObjectRequest.Valid());
+            var result = await _apiController.Handle(TestObjectRequest.Valid());
 
             Assert.IsInstanceOfType<StatusCodeResult>(result);
             Assert.AreEqual(StatusCodes.Status500InternalServerError, (result as StatusCodeResult)?.StatusCode);

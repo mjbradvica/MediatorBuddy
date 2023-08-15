@@ -29,12 +29,12 @@
         /// <summary>
         /// Gets the StatusCode of the Envelope.
         /// </summary>
-        public int StatusCode { get; private set; }
+        public int StatusCode { get; }
 
         /// <summary>
         /// Gets the Response object from the Envelope.
         /// </summary>
-        public TResponse Response { get; private set; }
+        public TResponse Response { get; }
 
         /// <summary>
         /// Factory function for success Envelope..

@@ -11,13 +11,6 @@ namespace NMediatController.ASPNET
     /// </summary>
     public abstract class BaseMediatPage : PageModel
     {
-        /// <summary>
-        /// The <see cref="IMediator"/> to use in custom methods.
-        /// </summary>
-#pragma warning disable SA1401 // Fields should be private
-        protected readonly IMediator Mediator;
-#pragma warning restore SA1401 // Fields should be private
-
         private readonly string _errorPage;
 
         /// <summary>
@@ -30,6 +23,11 @@ namespace NMediatController.ASPNET
             Mediator = mediator;
             _errorPage = errorPage;
         }
+
+        /// <summary>
+        /// Gets the <see cref="IMediator"/> instance to use for custom methods.
+        /// </summary>
+        protected IMediator Mediator { get; }
 
         /// <summary>
         /// Accepts a request and executes it alongside common tasks used in a web request pipeline.

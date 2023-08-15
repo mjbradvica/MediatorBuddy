@@ -11,16 +11,19 @@ namespace NMediatController.ASPNET
     /// </summary>
     public abstract class BaseMediatApiController : ControllerBase
     {
-        private readonly IMediator _mediator;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseMediatApiController"/> class.
         /// </summary>
         /// <param name="mediator">An instance of the <see cref="IMediator"/> interface.</param>
         protected BaseMediatApiController(IMediator mediator)
         {
-            _mediator = mediator;
+            Mediator = mediator;
         }
+
+        /// <summary>
+        /// Gets the <see cref="IMediator"/> instance to use for custom methods.
+        /// </summary>
+        protected IMediator Mediator { get; }
 
         /// <summary>
         /// Accepts a request and executes it alongside common tasks used in a web request pipeline.
@@ -41,13 +44,13 @@ namespace NMediatController.ASPNET
 
             try
             {
-                var result = await _mediator.Send(request);
+                var result = await Mediator.Send(request);
 
                 response = responseFunc.Invoke(result);
             }
             catch (Exception exception)
             {
-                await _mediator.Publish(new GlobalExceptionOccurred(exception));
+                await Mediator.Publish(new GlobalExceptionOccurred(exception));
 
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }

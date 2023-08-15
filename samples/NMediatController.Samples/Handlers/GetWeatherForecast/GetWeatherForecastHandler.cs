@@ -15,7 +15,7 @@ namespace NMediatController.Samples.Handlers.GetWeatherForecast
         /// <returns>A response object for the request.</returns>
         public Task<Envelope<GetWeatherForecastResponse>> Handle(GetWeatherForecastRequest request, CancellationToken cancellationToken)
         {
-            return Task.FromResult(GetWeatherForecastResponse.Success());
+            return Task.FromResult(Envelope<GetWeatherForecastResponse>.Success(new GetWeatherForecastResponse()));
         }
     }
 }

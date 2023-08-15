@@ -258,5 +258,30 @@ namespace NMediatController.Tests
             Assert.AreEqual(value, asResponse?.RouteValues["Id"]);
             Assert.AreEqual(response.Response, asResponse?.Value);
         }
+
+        /// <summary>
+        /// Ensures the StatusCodeResult has the correct properties.
+        /// </summary>
+        [TestMethod]
+        public void NonAuthoritative_IsCorrect()
+        {
+            var result = ResponseOptions.NonAuthoritativeResponse<TestResponse>()
+                .Invoke(Envelope<TestResponse>.Success(new TestResponse()));
+
+            Assert.IsInstanceOfType<StatusCodeResult>(result);
+            Assert.AreEqual(StatusCodes.Status203NonAuthoritative, (result as StatusCodeResult)?.StatusCode);
+        }
+
+        /// <summary>
+        /// Ensures the NoContentResult has the correct properties.
+        /// </summary>
+        [TestMethod]
+        public void NoContentResult_IsCorrect()
+        {
+            var result = ResponseOptions.NoContent<TestResponse>()
+                .Invoke(Envelope<TestResponse>.Success(new TestResponse()));
+
+            Assert.IsInstanceOfType<NoContentResult>(result);
+        }
     }
 }

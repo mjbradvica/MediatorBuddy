@@ -175,6 +175,26 @@ namespace NMediatController.ASPNET
         }
 
         /// <summary>
+        /// Returns that function that will yield a <see cref="StatusCodeResult"/> of type 203 NonAuthoritative.
+        /// </summary>
+        /// <typeparam name="TResponse">The type of the response object.</typeparam>
+        /// <returns>A function that will return an IActionResult of type StatusCodeResult.</returns>
+        public static Func<IEnvelope<TResponse>, IActionResult> NonAuthoritativeResponse<TResponse>()
+        {
+            return envelope => DetermineResponse(envelope.StatusCode, new StatusCodeResult(StatusCodes.Status203NonAuthoritative));
+        }
+
+        /// <summary>
+        /// Returns a function that will yield a <see cref="NoContentResult"/>.
+        /// </summary>
+        /// <typeparam name="TResponse">The type of the response object.</typeparam>
+        /// <returns>A function that will return an IActionResult of type NoContentResult.</returns>
+        public static Func<IEnvelope<TResponse>, IActionResult> NoContent<TResponse>()
+        {
+            return envelope => DetermineResponse(envelope.StatusCode, new NoContentResult());
+        }
+
+        /// <summary>
         /// A function that accepts a StatusCode and Result object and returns the appropriate response.
         /// </summary>
         /// <param name="statusCode">An application level status code.</param>
@@ -201,7 +221,7 @@ namespace NMediatController.ASPNET
         /// <returns>Func.</returns>
         public static IActionResult Tester()
         {
-            return new AcceptedResult();
+            return new NoContentResult();
         }
     }
 }

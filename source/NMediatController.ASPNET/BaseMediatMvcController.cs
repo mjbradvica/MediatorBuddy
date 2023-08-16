@@ -46,7 +46,7 @@ namespace NMediatController.ASPNET
             var validationResult = ObjectVerification.Validate(request);
             if (validationResult.Failed)
             {
-                return View();
+                return View(request);
             }
 
             try

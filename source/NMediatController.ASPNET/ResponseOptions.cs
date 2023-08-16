@@ -221,6 +221,8 @@ namespace NMediatController.ASPNET
         /// <returns>Func.</returns>
         public static IActionResult Tester()
         {
+            IActionResult result = new RedirectToActionResult();
+
             return new NoContentResult();
         }
     }

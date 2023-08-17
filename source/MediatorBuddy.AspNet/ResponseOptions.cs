@@ -261,7 +261,7 @@ namespace MediatorBuddy.AspNet
         /// <returns>Func.</returns>
         public static IActionResult Tester()
         {
-            IActionResult result = new PartialViewResult();
+            IActionResult result = new NoContentResult();
             int code = StatusCodes.Status206PartialContent;
             return new StatusCodeResult(code);
         }

@@ -1,6 +1,6 @@
-﻿using MediatorBuddy.Samples.Mvc.Models;
+﻿using System.Diagnostics;
+using MediatorBuddy.Samples.Mvc.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 
 namespace MediatorBuddy.Samples.Mvc.Controllers
 {

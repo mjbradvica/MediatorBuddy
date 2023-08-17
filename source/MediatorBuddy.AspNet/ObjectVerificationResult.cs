@@ -1,4 +1,7 @@
-﻿namespace MediatorBuddy.AspNet
+﻿using System.Collections.Generic;
+using System.Linq;
+
+namespace MediatorBuddy.AspNet
 {
     /// <summary>
     /// A object that contains the status of a requests' validation and any errors present.

@@ -1,4 +1,6 @@
-﻿namespace MediatorBuddy.Tests
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace MediatorBuddy.Tests
 {
     /// <summary>
     /// Tests the <see cref="Envelope{T}"/> class capabilities.

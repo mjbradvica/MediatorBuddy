@@ -1,4 +1,5 @@
 ﻿using MediatorBuddy.AspNet;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MediatorBuddy.Tests.ObjectValidation
 {

@@ -1,4 +1,5 @@
-﻿using MediatorBuddy.AspNet;
+﻿using System.Threading.Tasks;
+using MediatorBuddy.AspNet;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

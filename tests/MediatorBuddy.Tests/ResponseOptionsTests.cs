@@ -1,6 +1,8 @@
-﻿using MediatorBuddy.AspNet;
+﻿using System;
+using MediatorBuddy.AspNet;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MediatorBuddy.Tests
 {

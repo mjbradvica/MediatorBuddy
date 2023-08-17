@@ -11,7 +11,7 @@
         public const int Success = 0;
 
         /// <summary>
-        /// The Uses could not be found.
+        /// The User could not be found.
         /// </summary>
         public const int UserDoesNotExist = 10;
 

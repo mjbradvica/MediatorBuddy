@@ -248,9 +248,12 @@ namespace MediatorBuddy.AspNet
                 return additionalOptions.Invoke(statusCode);
             }
 
+            var route = new HttpContextAccessor().HttpContext?.Request.Path.Value ?? string.Empty;
+
             return statusCode switch
             {
                 ApplicationStatus.Success => result,
+                ApplicationStatus.UserNameAlreadyExists => new ConflictObjectResult(new ErrorResponse(new Uri("/errors/auth"), string.Empty, StatusCodes.Status409Conflict, string.Empty, new Uri(route))),
                 _ => new StatusCodeResult(StatusCodes.Status500InternalServerError),
             };
         }

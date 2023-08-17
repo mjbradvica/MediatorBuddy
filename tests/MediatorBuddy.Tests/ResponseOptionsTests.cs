@@ -278,10 +278,62 @@ namespace MediatorBuddy.Tests
         [TestMethod]
         public void NoContentResult_IsCorrect()
         {
-            var result = ResponseOptions.NoContent<TestResponse>()
+            var result = ResponseOptions.NoContentResponse<TestResponse>()
                 .Invoke(Envelope<TestResponse>.Success(new TestResponse()));
 
             Assert.IsInstanceOfType<NoContentResult>(result);
+        }
+
+        /// <summary>
+        /// Ensures the ResetContent result is correct.
+        /// </summary>
+        [TestMethod]
+        public void ResetContent_IsCorrect()
+        {
+            var result = ResponseOptions.ResetContentResponse<TestResponse>()
+                .Invoke(Envelope<TestResponse>.Success(new TestResponse()));
+
+            Assert.IsInstanceOfType<StatusCodeResult>(result);
+            Assert.AreEqual(StatusCodes.Status205ResetContent, (result as StatusCodeResult)?.StatusCode);
+        }
+
+        /// <summary>
+        /// Ensures the PartialContent result is correct.
+        /// </summary>
+        [TestMethod]
+        public void PartialContent_IsCorrect()
+        {
+            var result = ResponseOptions.PartialContentResponse<TestResponse>()
+                .Invoke(Envelope<TestResponse>.Success(new TestResponse()));
+
+            Assert.IsInstanceOfType<StatusCodeResult>(result);
+            Assert.AreEqual(StatusCodes.Status206PartialContent, (result as StatusCodeResult)?.StatusCode);
+        }
+
+        /// <summary>
+        /// Ensures the MultiStatus result is correct.
+        /// </summary>
+        [TestMethod]
+        public void MultiStatus_IsCorrect()
+        {
+            var result = ResponseOptions.MultiStatusResponse<TestResponse>()
+                .Invoke(Envelope<TestResponse>.Success(new TestResponse()));
+
+            Assert.IsInstanceOfType<StatusCodeResult>(result);
+            Assert.AreEqual(StatusCodes.Status207MultiStatus, (result as StatusCodeResult)?.StatusCode);
+        }
+
+        /// <summary>
+        /// Ensures the AlreadyReported result is correct.
+        /// </summary>
+        [TestMethod]
+        public void AlreadyReported_IsCorrect()
+        {
+            var result = ResponseOptions.MultiStatusResponse<TestResponse>()
+                .Invoke(Envelope<TestResponse>.Success(new TestResponse()));
+
+            Assert.IsInstanceOfType<StatusCodeResult>(result);
+            Assert.AreEqual(StatusCodes.Status208AlreadyReported, (result as StatusCodeResult)?.StatusCode);
         }
     }
 }

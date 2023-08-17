@@ -189,9 +189,49 @@ namespace MediatorBuddy.AspNet
         /// </summary>
         /// <typeparam name="TResponse">The type of the response object.</typeparam>
         /// <returns>A function that will return an IActionResult of type NoContentResult.</returns>
-        public static Func<IEnvelope<TResponse>, IActionResult> NoContent<TResponse>()
+        public static Func<IEnvelope<TResponse>, IActionResult> NoContentResponse<TResponse>()
         {
             return envelope => DetermineResponse(envelope.StatusCode, new NoContentResult());
+        }
+
+        /// <summary>
+        /// Returns a function that will yield a <see cref="StatusCodeResult"/> of type 205 ResetContent.
+        /// </summary>
+        /// <typeparam name="TResponse">The type of the response object.</typeparam>
+        /// <returns>A function that will return an IActionResult of type StatusCodeResult.</returns>
+        public static Func<IEnvelope<TResponse>, IActionResult> ResetContentResponse<TResponse>()
+        {
+            return envelope => DetermineResponse(envelope.StatusCode, new StatusCodeResult(StatusCodes.Status205ResetContent));
+        }
+
+        /// <summary>
+        /// Returns a function that will yield a <see cref="StatusCodeResult"/> of type 206 PartialContent.
+        /// </summary>
+        /// <typeparam name="TResponse">The type of the response object.</typeparam>
+        /// <returns>A function that will return an IActionResult of type StatusCodeResult.</returns>
+        public static Func<IEnvelope<TResponse>, IActionResult> PartialContentResponse<TResponse>()
+        {
+            return envelope => DetermineResponse(envelope.StatusCode, new StatusCodeResult(StatusCodes.Status206PartialContent));
+        }
+
+        /// <summary>
+        /// Returns a function that will yield a <see cref="StatusCodeResult"/> of type 207 MultiStatus.
+        /// </summary>
+        /// <typeparam name="TResponse">The type of the response object.</typeparam>
+        /// <returns>A function that will return an IActionResult of type StatusCodeResult.</returns>
+        public static Func<IEnvelope<TResponse>, IActionResult> MultiStatusResponse<TResponse>()
+        {
+            return envelope => DetermineResponse(envelope.StatusCode, new StatusCodeResult(StatusCodes.Status207MultiStatus));
+        }
+
+        /// <summary>
+        /// Returns a function that will yield a <see cref="StatusCodeResult"/> of type 208 AlreadyReported.
+        /// </summary>
+        /// <typeparam name="TResponse">The type of the response object.</typeparam>
+        /// <returns>A function that will return an IActionResult of type StatusCodeResult.</returns>
+        public static Func<IEnvelope<TResponse>, IActionResult> AlreadyReportedResponse<TResponse>()
+        {
+            return envelope => DetermineResponse(envelope.StatusCode, new StatusCodeResult(StatusCodes.Status208AlreadyReported));
         }
 
         /// <summary>
@@ -221,8 +261,9 @@ namespace MediatorBuddy.AspNet
         /// <returns>Func.</returns>
         public static IActionResult Tester()
         {
-            // int code = StatusCodes.Status300MultipleChoices;
-            return new OkResult();
+            IActionResult result = new PartialViewResult();
+            int code = StatusCodes.Status206PartialContent;
+            return new StatusCodeResult(code);
         }
     }
 }

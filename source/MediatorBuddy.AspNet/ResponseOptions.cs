@@ -220,7 +220,8 @@ namespace MediatorBuddy.AspNet
         /// <returns>Func.</returns>
         public static IActionResult Tester()
         {
-            return new NoContentResult();
+            // int code = StatusCodes.Status300MultipleChoices;
+            return new OkResult();
         }
     }
 }

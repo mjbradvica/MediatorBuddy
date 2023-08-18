@@ -12,6 +12,16 @@
         public int StatusCode { get; }
 
         /// <summary>
+        /// Gets a brief description of the error, if one exists.
+        /// </summary>
+        public string Title { get; }
+
+        /// <summary>
+        /// Gets the details of the error, if one exists.
+        /// </summary>
+        public string Detail { get; }
+
+        /// <summary>
         /// Gets a value indicating the Response.
         /// </summary>
         public TResponse Response { get; }

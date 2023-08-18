@@ -18,7 +18,7 @@ namespace MediatorBuddy.Tests
         [TestMethod]
         public void ContinueResult_IsCorrect()
         {
-            var result = ResponseOptions.ContinueResponse<TestResponse>().Invoke(Envelope<TestResponse>.Success(new TestResponse()));
+            var result = ResponseOptions.ContinueResponse<TestResponse>().Invoke(new TestResponse());
 
             Assert.IsInstanceOfType<StatusCodeResult>(result);
             Assert.AreEqual(StatusCodes.Status100Continue, (result as StatusCodeResult)?.StatusCode);
@@ -30,7 +30,7 @@ namespace MediatorBuddy.Tests
         [TestMethod]
         public void SwitchingProtocolsResult_IsCorrect()
         {
-            var result = ResponseOptions.SwitchingProtocolsResponse<TestResponse>().Invoke(Envelope<TestResponse>.Success(new TestResponse()));
+            var result = ResponseOptions.SwitchingProtocolsResponse<TestResponse>().Invoke(new TestResponse());
 
             Assert.IsInstanceOfType<StatusCodeResult>(result);
             Assert.AreEqual(StatusCodes.Status101SwitchingProtocols, (result as StatusCodeResult)?.StatusCode);
@@ -42,7 +42,7 @@ namespace MediatorBuddy.Tests
         [TestMethod]
         public void ProcessingResult_IsCorrect()
         {
-            var result = ResponseOptions.ProcessingResponse<TestResponse>().Invoke(Envelope<TestResponse>.Success(new TestResponse()));
+            var result = ResponseOptions.ProcessingResponse<TestResponse>().Invoke(new TestResponse());
 
             Assert.IsInstanceOfType<StatusCodeResult>(result);
             Assert.AreEqual(StatusCodes.Status102Processing, (result as StatusCodeResult)?.StatusCode);
@@ -54,12 +54,12 @@ namespace MediatorBuddy.Tests
         [TestMethod]
         public void OkObjectResult_IsCorrect()
         {
-            var response = Envelope<TestResponse>.Success(new TestResponse());
+            var response = new TestResponse();
 
             var result = ResponseOptions.OkObjectResponse<TestResponse>().Invoke(response);
 
             Assert.IsInstanceOfType<OkObjectResult>(result);
-            Assert.AreEqual(response.Response, (result as OkObjectResult)?.Value);
+            Assert.AreEqual(response, (result as OkObjectResult)?.Value);
         }
 
         /// <summary>
@@ -68,9 +68,7 @@ namespace MediatorBuddy.Tests
         [TestMethod]
         public void OkResponse_IsCorrect()
         {
-            var response = Envelope<TestResponse>.Success(new TestResponse());
-
-            var result = ResponseOptions.OkResponse<TestResponse>().Invoke(response);
+            var result = ResponseOptions.OkResponse<TestResponse>().Invoke(new TestResponse());
 
             Assert.IsInstanceOfType<OkResult>(result);
         }
@@ -81,13 +79,13 @@ namespace MediatorBuddy.Tests
         [TestMethod]
         public void CreatedUriResult_IsCorrect()
         {
-            var response = Envelope<TestResponse>.Success(new TestResponse());
+            var response = new TestResponse();
             var location = new Uri("https://www.myLocation.com");
 
             var result = ResponseOptions.CreatedResponse<TestResponse>(location).Invoke(response);
 
             Assert.IsInstanceOfType<CreatedResult>(result);
-            Assert.AreEqual(response.Response, (result as CreatedResult)?.Value);
+            Assert.AreEqual(response, (result as CreatedResult)?.Value);
             Assert.AreEqual(location.ToString(), (result as CreatedResult)?.Location);
         }
 
@@ -97,13 +95,13 @@ namespace MediatorBuddy.Tests
         [TestMethod]
         public void CreatedStringResult_IsCorrect()
         {
-            var response = Envelope<TestResponse>.Success(new TestResponse());
+            var response = new TestResponse();
             const string location = "www.myLocation.com";
 
             var result = ResponseOptions.CreatedResponse<TestResponse>(location).Invoke(response);
 
             Assert.IsInstanceOfType<CreatedResult>(result);
-            Assert.AreEqual(response.Response, (result as CreatedResult)?.Value);
+            Assert.AreEqual(response, (result as CreatedResult)?.Value);
             Assert.AreEqual(location, (result as CreatedResult)?.Location);
         }
 
@@ -114,7 +112,7 @@ namespace MediatorBuddy.Tests
         public void CreatedAtAction_IsCorrect()
         {
             const string value = "value";
-            var response = Envelope<TestResponse>.Success(new TestResponse { Value = value });
+            var response = new TestResponse();
             const string action = "action";
             const string controller = "controller";
 
@@ -129,7 +127,7 @@ namespace MediatorBuddy.Tests
             Assert.AreEqual(action, asResponse?.ActionName);
             Assert.AreEqual(controller, asResponse?.ControllerName);
             Assert.AreEqual(value, asResponse?.RouteValues?["Id"]);
-            Assert.AreEqual(response.Response, asResponse?.Value);
+            Assert.AreEqual(response, asResponse?.Value);
         }
 
         /// <summary>
@@ -139,14 +137,14 @@ namespace MediatorBuddy.Tests
         public void CreatedAtRoute_IsCorrect()
         {
             const string value = "value";
-            var response = Envelope<TestResponse>.Success(new TestResponse { Value = value });
+            var response = new TestResponse { Value = value };
 
             var result = ResponseOptions.CreatedAtRouteResponse<TestResponse>(res => new { Id = res.Value }).Invoke(response);
 
             Assert.IsInstanceOfType<CreatedAtRouteResult>(result);
             var asResponse = result as CreatedAtRouteResult;
             Assert.AreEqual(value, asResponse?.RouteValues?["Id"]);
-            Assert.AreEqual(response.Response, asResponse?.Value);
+            Assert.AreEqual(response, asResponse?.Value);
         }
 
         /// <summary>
@@ -156,7 +154,7 @@ namespace MediatorBuddy.Tests
         public void CreatedAtRouteWithRouteName_IsCorrect()
         {
             const string value = "value";
-            var response = Envelope<TestResponse>.Success(new TestResponse { Value = value });
+            var response = new TestResponse { Value = value };
             const string routeName = "routeName";
 
             var result = ResponseOptions.CreatedAtRouteResponse<TestResponse>(routeName, res => new { Id = res.Value }).Invoke(response);
@@ -166,7 +164,7 @@ namespace MediatorBuddy.Tests
             Assert.AreEqual(routeName, asResponse?.RouteName);
 
             Assert.AreEqual(value, asResponse?.RouteValues?["Id"]);
-            Assert.AreEqual(response.Response, asResponse?.Value);
+            Assert.AreEqual(response, asResponse?.Value);
         }
 
         /// <summary>
@@ -175,9 +173,7 @@ namespace MediatorBuddy.Tests
         [TestMethod]
         public void Accepted_IsCorrected()
         {
-            var response = Envelope<TestResponse>.Success(new TestResponse());
-
-            var result = ResponseOptions.AcceptedResponse<TestResponse>().Invoke(response);
+            var result = ResponseOptions.AcceptedResponse<TestResponse>().Invoke(new TestResponse());
 
             Assert.IsInstanceOfType<AcceptedResult>(result);
         }
@@ -188,14 +184,14 @@ namespace MediatorBuddy.Tests
         [TestMethod]
         public void AcceptedUriLocation_IsCorrected()
         {
-            var response = Envelope<TestResponse>.Success(new TestResponse());
+            var response = new TestResponse();
             var uri = new Uri("https://www.mylocation.com");
 
             var result = ResponseOptions.AcceptedResponse<TestResponse>(uri).Invoke(response);
 
             Assert.IsInstanceOfType<AcceptedResult>(result);
             Assert.AreEqual(uri.ToString(), (result as AcceptedResult)?.Location);
-            Assert.AreEqual(response.Response, (result as AcceptedResult)?.Value);
+            Assert.AreEqual(response, (result as AcceptedResult)?.Value);
         }
 
         /// <summary>
@@ -204,14 +200,14 @@ namespace MediatorBuddy.Tests
         [TestMethod]
         public void AcceptedStringLocation_IsCorrected()
         {
-            var response = Envelope<TestResponse>.Success(new TestResponse());
+            var response = new TestResponse();
             const string uri = "https://www.mylocation.com";
 
             var result = ResponseOptions.AcceptedResponse<TestResponse>(uri).Invoke(response);
 
             Assert.IsInstanceOfType<AcceptedResult>(result);
             Assert.AreEqual(uri, (result as AcceptedResult)?.Location);
-            Assert.AreEqual(response.Response, (result as AcceptedResult)?.Value);
+            Assert.AreEqual(response, (result as AcceptedResult)?.Value);
         }
 
         /// <summary>
@@ -221,7 +217,7 @@ namespace MediatorBuddy.Tests
         public void AcceptedAtAction_IsCorrect()
         {
             const string value = "value";
-            var response = Envelope<TestResponse>.Success(new TestResponse { Value = value });
+            var response = new TestResponse { Value = value };
             const string action = "action";
             const string controller = "controller";
 
@@ -236,7 +232,7 @@ namespace MediatorBuddy.Tests
             Assert.AreEqual(action, asResponse?.ActionName);
             Assert.AreEqual(controller, asResponse?.ControllerName);
             Assert.AreEqual(value, asResponse?.RouteValues?["Id"]);
-            Assert.AreEqual(response.Response, asResponse?.Value);
+            Assert.AreEqual(response, asResponse?.Value);
         }
 
         /// <summary>
@@ -246,7 +242,7 @@ namespace MediatorBuddy.Tests
         public void AcceptedAtRouteWithRouteName_IsCorrect()
         {
             const string value = "value";
-            var response = Envelope<TestResponse>.Success(new TestResponse { Value = value });
+            var response = new TestResponse { Value = value };
             const string routeName = "routeName";
 
             var result = ResponseOptions.AcceptedAtRouteResponse<TestResponse>(routeName, res => new { Id = res.Value }).Invoke(response);
@@ -256,7 +252,7 @@ namespace MediatorBuddy.Tests
             Assert.AreEqual(routeName, asResponse?.RouteName);
 
             Assert.AreEqual(value, asResponse?.RouteValues?["Id"]);
-            Assert.AreEqual(response.Response, asResponse?.Value);
+            Assert.AreEqual(response, asResponse?.Value);
         }
 
         /// <summary>
@@ -265,8 +261,7 @@ namespace MediatorBuddy.Tests
         [TestMethod]
         public void NonAuthoritative_IsCorrect()
         {
-            var result = ResponseOptions.NonAuthoritativeResponse<TestResponse>()
-                .Invoke(Envelope<TestResponse>.Success(new TestResponse()));
+            var result = ResponseOptions.NonAuthoritativeResponse<TestResponse>().Invoke(new TestResponse());
 
             Assert.IsInstanceOfType<StatusCodeResult>(result);
             Assert.AreEqual(StatusCodes.Status203NonAuthoritative, (result as StatusCodeResult)?.StatusCode);
@@ -278,8 +273,7 @@ namespace MediatorBuddy.Tests
         [TestMethod]
         public void NoContentResult_IsCorrect()
         {
-            var result = ResponseOptions.NoContentResponse<TestResponse>()
-                .Invoke(Envelope<TestResponse>.Success(new TestResponse()));
+            var result = ResponseOptions.NoContentResponse<TestResponse>().Invoke(new TestResponse());
 
             Assert.IsInstanceOfType<NoContentResult>(result);
         }
@@ -290,8 +284,7 @@ namespace MediatorBuddy.Tests
         [TestMethod]
         public void ResetContent_IsCorrect()
         {
-            var result = ResponseOptions.ResetContentResponse<TestResponse>()
-                .Invoke(Envelope<TestResponse>.Success(new TestResponse()));
+            var result = ResponseOptions.ResetContentResponse<TestResponse>().Invoke(new TestResponse());
 
             Assert.IsInstanceOfType<StatusCodeResult>(result);
             Assert.AreEqual(StatusCodes.Status205ResetContent, (result as StatusCodeResult)?.StatusCode);
@@ -303,8 +296,7 @@ namespace MediatorBuddy.Tests
         [TestMethod]
         public void PartialContent_IsCorrect()
         {
-            var result = ResponseOptions.PartialContentResponse<TestResponse>()
-                .Invoke(Envelope<TestResponse>.Success(new TestResponse()));
+            var result = ResponseOptions.PartialContentResponse<TestResponse>().Invoke(new TestResponse());
 
             Assert.IsInstanceOfType<StatusCodeResult>(result);
             Assert.AreEqual(StatusCodes.Status206PartialContent, (result as StatusCodeResult)?.StatusCode);
@@ -316,8 +308,7 @@ namespace MediatorBuddy.Tests
         [TestMethod]
         public void MultiStatus_IsCorrect()
         {
-            var result = ResponseOptions.MultiStatusResponse<TestResponse>()
-                .Invoke(Envelope<TestResponse>.Success(new TestResponse()));
+            var result = ResponseOptions.MultiStatusResponse<TestResponse>().Invoke(new TestResponse());
 
             Assert.IsInstanceOfType<StatusCodeResult>(result);
             Assert.AreEqual(StatusCodes.Status207MultiStatus, (result as StatusCodeResult)?.StatusCode);
@@ -329,8 +320,7 @@ namespace MediatorBuddy.Tests
         [TestMethod]
         public void AlreadyReported_IsCorrect()
         {
-            var result = ResponseOptions.MultiStatusResponse<TestResponse>()
-                .Invoke(Envelope<TestResponse>.Success(new TestResponse()));
+            var result = ResponseOptions.MultiStatusResponse<TestResponse>().Invoke(new TestResponse());
 
             Assert.IsInstanceOfType<StatusCodeResult>(result);
             Assert.AreEqual(StatusCodes.Status208AlreadyReported, (result as StatusCodeResult)?.StatusCode);

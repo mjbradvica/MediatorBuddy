@@ -1,33 +1,34 @@
+using MediatorBuddy.AspNet;
+using MediatorBuddy.Samples.Api.GetWeather;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MediatorBuddy.Samples.Api.Controllers
 {
+    /// <summary>
+    /// Sample controller.
+    /// </summary>
     [ApiController]
     [Route("[controller]")]
-    public class WeatherForecastController : ControllerBase
+    public class WeatherForecastController : MediatorBuddyApi
     {
-        private static readonly string[] Summaries = new[]
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WeatherForecastController"/> class.
+        /// </summary>
+        /// <param name="mediator">Instance.</param>
+        public WeatherForecastController(IMediator mediator)
+            : base(mediator)
         {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
-
-        private readonly ILogger<WeatherForecastController> _logger;
-
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
-        {
-            _logger = logger;
         }
 
+        /// <summary>
+        /// Sample Action.
+        /// </summary>
+        /// <returns>Result.</returns>
         [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<WeatherForecast> Get()
+        public async Task<IActionResult> Get()
         {
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+            return await ExecuteRequest(new GetWeatherRequest(), ResponseOptions.OkObjectResponse<GetWeatherResponse>());
         }
     }
 }

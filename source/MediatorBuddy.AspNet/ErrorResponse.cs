@@ -48,5 +48,18 @@ namespace MediatorBuddy.AspNet
         /// Gets a Uri that identifies where the error occurred.
         /// </summary>
         public Uri Instance { get; }
+
+        /// <summary>
+        /// Instantiates a instance of an <see cref="ErrorResponse"/>.
+        /// </summary>
+        /// <typeparam name="TResponse">The response type.</typeparam>
+        /// <param name="type">The error type uri.</param>
+        /// <param name="envelope">The response envelope.</param>
+        /// <param name="instance">The action uri.</param>
+        /// <returns>A new ErrorResponse instance.</returns>
+        public static ErrorResponse FromEnvelope<TResponse>(Uri type, IEnvelope<TResponse> envelope, Uri instance)
+        {
+            return new ErrorResponse(type, envelope.Title, envelope.StatusCode, envelope.Detail, instance);
+        }
     }
 }

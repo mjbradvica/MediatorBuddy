@@ -11,13 +11,23 @@ namespace MediatorBuddy.AspNet
     /// </summary>
     public abstract class MediatorBuddyApi : ControllerBase
     {
+        private readonly ErrorTypes _errorTypes;
+        private readonly Func<int, IActionResult>? _extraOptions;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="MediatorBuddyApi"/> class.
         /// </summary>
         /// <param name="mediator">An insTestProject1tance of the <see cref="IMediator"/> interface.</param>
-        protected MediatorBuddyApi(IMediator mediator)
+        /// <param name="errorTypes">An instance of ErrorTypes to overload any defaults.</param>
+        /// <param name="additionalOptions">Extra conditions for the controller to check against.</param>
+        protected MediatorBuddyApi(
+            IMediator mediator,
+            ErrorTypes? errorTypes = null,
+            Func<int, IActionResult>? additionalOptions = null)
         {
             Mediator = mediator;
+            _errorTypes = errorTypes ?? new ErrorTypes();
+            _extraOptions = additionalOptions;
         }
 
         /// <summary>
@@ -31,8 +41,8 @@ namespace MediatorBuddy.AspNet
         /// <typeparam name="TResponse">The response type being returned from the controller action.</typeparam>
         /// <param name="request">The request object being sent to the execution pipeline.</param>
         /// <param name="responseFunc">A function that will accepts a response object and return a web response.</param>
-        /// <returns>An IActionResult representing the end result of the request object.</returns>
-        protected async Task<IActionResult> ExecuteRequest<TResponse>(IRequest<IEnvelope<TResponse>> request, Func<IEnvelope<TResponse>, IActionResult> responseFunc)
+        /// <returns>An IActionResult representing the end successResult of the request object.</returns>
+        protected async Task<IActionResult> ExecuteRequest<TResponse>(IRequest<IEnvelope<TResponse>> request, Func<TResponse, IActionResult> responseFunc)
         {
             IActionResult response;
 
@@ -46,7 +56,7 @@ namespace MediatorBuddy.AspNet
             {
                 var result = await Mediator.Send(request);
 
-                response = responseFunc.Invoke(result);
+                response = DetermineResponse(result, responseFunc.Invoke(result.Response), _extraOptions);
             }
             catch (Exception exception)
             {
@@ -56,6 +66,30 @@ namespace MediatorBuddy.AspNet
             }
 
             return response;
+        }
+
+        /// <summary>
+        /// A function that accepts a StatusCode and Result object and returns the appropriate response.
+        /// </summary>
+        /// <param name="envelope">The resulting envelope from the handler.</param>
+        /// <param name="successResult">The successResult object from a handler.</param>
+        /// <param name="additionalOptions">Any additional response actions that may be required.</param>
+        /// <returns>An IActionResult with the appropriate response.</returns>
+        private IActionResult DetermineResponse<TResponse>(IEnvelope<TResponse> envelope, IActionResult successResult, Func<int, IActionResult>? additionalOptions = null)
+        {
+            if (additionalOptions != null)
+            {
+                return additionalOptions.Invoke(envelope.StatusCode);
+            }
+
+            var currentRoute = new Uri(HttpContext.Request.Path.Value ?? _errorTypes.General.ToString(), UriKind.Relative);
+
+            return envelope.StatusCode switch
+            {
+                ApplicationStatus.Success => successResult,
+                ApplicationStatus.UserNameAlreadyExists => new ConflictObjectResult(ErrorResponse.FromEnvelope(_errorTypes.Auth, envelope, currentRoute)),
+                _ => new StatusCodeResult(StatusCodes.Status500InternalServerError),
+            };
         }
     }
 }

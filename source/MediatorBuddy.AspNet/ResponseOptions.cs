@@ -14,9 +14,9 @@ namespace MediatorBuddy.AspNet
         /// </summary>
         /// <typeparam name="TResponse">The type of the response object.</typeparam>
         /// <returns>A function that will return an IActionResult of type StatusCodeResult.</returns>
-        public static Func<IEnvelope<TResponse>, IActionResult> ContinueResponse<TResponse>()
+        public static Func<TResponse, IActionResult> ContinueResponse<TResponse>()
         {
-            return envelope => DetermineResponse(envelope.StatusCode, new StatusCodeResult(StatusCodes.Status100Continue));
+            return _ => new StatusCodeResult(StatusCodes.Status100Continue);
         }
 
         /// <summary>
@@ -24,9 +24,9 @@ namespace MediatorBuddy.AspNet
         /// </summary>
         /// <typeparam name="TResponse">The type of the response object.</typeparam>
         /// <returns>An function that will return an IActionResult of type StatusCodeResult.</returns>
-        public static Func<IEnvelope<TResponse>, IActionResult> SwitchingProtocolsResponse<TResponse>()
+        public static Func<TResponse, IActionResult> SwitchingProtocolsResponse<TResponse>()
         {
-            return envelope => DetermineResponse(envelope.StatusCode, new StatusCodeResult(StatusCodes.Status101SwitchingProtocols));
+            return _ => new StatusCodeResult(StatusCodes.Status101SwitchingProtocols);
         }
 
         /// <summary>
@@ -34,9 +34,9 @@ namespace MediatorBuddy.AspNet
         /// </summary>
         /// <typeparam name="TResponse">The type of the response object.</typeparam>
         /// <returns>A function that will return an IActionResult of type StatusCodeResult.</returns>
-        public static Func<IEnvelope<TResponse>, IActionResult> ProcessingResponse<TResponse>()
+        public static Func<TResponse, IActionResult> ProcessingResponse<TResponse>()
         {
-            return envelope => DetermineResponse(envelope.StatusCode, new StatusCodeResult(StatusCodes.Status102Processing));
+            return _ => new StatusCodeResult(StatusCodes.Status102Processing);
         }
 
         /// <summary>
@@ -44,9 +44,9 @@ namespace MediatorBuddy.AspNet
         /// </summary>
         /// <typeparam name="TResponse">The type of the response object.</typeparam>
         /// <returns>A function that will return an IActionResult of type OkResponse.</returns>
-        public static Func<IEnvelope<TResponse>, IActionResult> OkResponse<TResponse>()
+        public static Func<TResponse, IActionResult> OkResponse<TResponse>()
         {
-            return envelope => DetermineResponse(envelope.StatusCode, new OkResult());
+            return _ => new OkResult();
         }
 
         /// <summary>
@@ -54,9 +54,9 @@ namespace MediatorBuddy.AspNet
         /// </summary>
         /// <typeparam name="TResponse">The type of the response object.</typeparam>
         /// <returns>A function that will return an IActionResult of type OkObjectResponse.</returns>
-        public static Func<IEnvelope<TResponse>, IActionResult> OkObjectResponse<TResponse>()
+        public static Func<TResponse, IActionResult> OkObjectResponse<TResponse>()
         {
-            return envelope => DetermineResponse(envelope.StatusCode, new OkObjectResult(envelope.Response));
+            return response => new OkObjectResult(response);
         }
 
         /// <summary>
@@ -65,9 +65,9 @@ namespace MediatorBuddy.AspNet
         /// <param name="location">The Uri where the resource can be accessed.</param>
         /// <typeparam name="TResponse">The type of the response object.</typeparam>
         /// <returns>A function that will return an IActionResult of type CreatedResponse.</returns>
-        public static Func<IEnvelope<TResponse>, IActionResult> CreatedResponse<TResponse>(Uri location)
+        public static Func<TResponse, IActionResult> CreatedResponse<TResponse>(Uri location)
         {
-            return envelope => DetermineResponse(envelope.StatusCode, new CreatedResult(location, envelope.Response));
+            return response => new CreatedResult(location, response);
         }
 
         /// <summary>
@@ -76,9 +76,9 @@ namespace MediatorBuddy.AspNet
         /// <param name="location">A string that represents a Uri location of the resource.</param>
         /// <typeparam name="TResponse">The type of the response object.</typeparam>
         /// <returns>A function that will return an IActionResult of type CreatedResult..</returns>
-        public static Func<IEnvelope<TResponse>, IActionResult> CreatedResponse<TResponse>(string location)
+        public static Func<TResponse, IActionResult> CreatedResponse<TResponse>(string location)
         {
-            return envelope => DetermineResponse(envelope.StatusCode, new CreatedResult(location, envelope.Response));
+            return response => new CreatedResult(location, response);
         }
 
         /// <summary>
@@ -89,9 +89,9 @@ namespace MediatorBuddy.AspNet
         /// <param name="routeValuesFunc">A func that will return a routeValues object.</param>
         /// <typeparam name="TResponse">The type of the response object.</typeparam>
         /// <returns>A function that will return an IActionResult of type CreatedAtActionResult.</returns>
-        public static Func<IEnvelope<TResponse>, IActionResult> CreatedAtActionResponse<TResponse>(string actionName, string controllerName, Func<TResponse, object> routeValuesFunc)
+        public static Func<TResponse, IActionResult> CreatedAtActionResponse<TResponse>(string actionName, string controllerName, Func<TResponse, object> routeValuesFunc)
         {
-            return envelope => DetermineResponse(envelope.StatusCode, new CreatedAtActionResult(actionName, controllerName, routeValuesFunc.Invoke(envelope.Response), envelope.Response));
+            return response => new CreatedAtActionResult(actionName, controllerName, routeValuesFunc.Invoke(response), response);
         }
 
         /// <summary>
@@ -100,9 +100,9 @@ namespace MediatorBuddy.AspNet
         /// <typeparam name="TResponse">The type of the response object.</typeparam>
         /// <param name="routeValuesFunc">A func that will return a routeValues object.</param>
         /// <returns>A function that will return an IActionResult of type CreatedAtRouteResult.</returns>
-        public static Func<IEnvelope<TResponse>, IActionResult> CreatedAtRouteResponse<TResponse>(Func<TResponse, object> routeValuesFunc)
+        public static Func<TResponse, IActionResult> CreatedAtRouteResponse<TResponse>(Func<TResponse, object> routeValuesFunc)
         {
-            return envelope => DetermineResponse(envelope.StatusCode, new CreatedAtRouteResult(routeValuesFunc.Invoke(envelope.Response), envelope.Response));
+            return response => new CreatedAtRouteResult(routeValuesFunc.Invoke(response), response);
         }
 
         /// <summary>
@@ -112,9 +112,9 @@ namespace MediatorBuddy.AspNet
         /// <param name="routeName">The name of the route where the response object may be found.</param>
         /// <param name="routeValuesFunc">A func that will return a routeValues object.</param>
         /// <returns>A function that will return an IActionResult of type CreatedAtRouteResult.</returns>
-        public static Func<IEnvelope<TResponse>, IActionResult> CreatedAtRouteResponse<TResponse>(string routeName, Func<TResponse, object> routeValuesFunc)
+        public static Func<TResponse, IActionResult> CreatedAtRouteResponse<TResponse>(string routeName, Func<TResponse, object> routeValuesFunc)
         {
-            return envelope => DetermineResponse(envelope.StatusCode, new CreatedAtRouteResult(routeName, routeValuesFunc.Invoke(envelope.Response), envelope.Response));
+            return response => new CreatedAtRouteResult(routeName, routeValuesFunc.Invoke(response), response);
         }
 
         /// <summary>
@@ -122,9 +122,9 @@ namespace MediatorBuddy.AspNet
         /// </summary>
         /// <typeparam name="TResponse">The type of the response object.</typeparam>
         /// <returns>A function that will return an IActionResult of type AcceptedResult.</returns>
-        public static Func<IEnvelope<TResponse>, IActionResult> AcceptedResponse<TResponse>()
+        public static Func<TResponse, IActionResult> AcceptedResponse<TResponse>()
         {
-            return envelope => DetermineResponse(envelope.StatusCode, new AcceptedResult());
+            return _ => new AcceptedResult();
         }
 
         /// <summary>
@@ -133,9 +133,9 @@ namespace MediatorBuddy.AspNet
         /// <typeparam name="TResponse">The type of the response object.</typeparam>
         /// <param name="location">A <see cref="Uri"/> with the location of the resource.</param>
         /// <returns>A function that will return an IActionResult of type AcceptedResult.</returns>
-        public static Func<IEnvelope<TResponse>, IActionResult> AcceptedResponse<TResponse>(Uri location)
+        public static Func<TResponse, IActionResult> AcceptedResponse<TResponse>(Uri location)
         {
-            return envelope => DetermineResponse(envelope.StatusCode, new AcceptedResult(location, envelope.Response));
+            return response => new AcceptedResult(location, response);
         }
 
         /// <summary>
@@ -144,9 +144,9 @@ namespace MediatorBuddy.AspNet
         /// <typeparam name="TResponse">The type of the response object.</typeparam>
         /// <param name="location">A <see cref="string"/> with the location of the resource.</param>
         /// <returns>A function that will return an IActionResult of type AcceptedResult.</returns>
-        public static Func<IEnvelope<TResponse>, IActionResult> AcceptedResponse<TResponse>(string location)
+        public static Func<TResponse, IActionResult> AcceptedResponse<TResponse>(string location)
         {
-            return envelope => DetermineResponse(envelope.StatusCode, new AcceptedResult(location, envelope.Response));
+            return response => new AcceptedResult(location, response);
         }
 
         /// <summary>
@@ -157,9 +157,9 @@ namespace MediatorBuddy.AspNet
         /// <param name="routeValuesFunc">A func that will return a routeValues object.</param>
         /// <typeparam name="TResponse">The type of the response object.</typeparam>
         /// <returns>A function that will return an IActionResult of type AcceptedAtActionResult.</returns>
-        public static Func<IEnvelope<TResponse>, IActionResult> AcceptedAtActionResponse<TResponse>(string actionName, string controllerName, Func<TResponse, object> routeValuesFunc)
+        public static Func<TResponse, IActionResult> AcceptedAtActionResponse<TResponse>(string actionName, string controllerName, Func<TResponse, object> routeValuesFunc)
         {
-            return envelope => DetermineResponse(envelope.StatusCode, new AcceptedAtActionResult(actionName, controllerName, routeValuesFunc.Invoke(envelope.Response), envelope.Response));
+            return response => new AcceptedAtActionResult(actionName, controllerName, routeValuesFunc.Invoke(response), response);
         }
 
         /// <summary>
@@ -169,9 +169,9 @@ namespace MediatorBuddy.AspNet
         /// <param name="routeName">The name of the route where the response object may be found.</param>
         /// <param name="routeValuesFunc">A func that will return a routeValues object.</param>
         /// <returns>A function that will return an IActionResult of type AcceptedAtRouteResult.</returns>
-        public static Func<IEnvelope<TResponse>, IActionResult> AcceptedAtRouteResponse<TResponse>(string routeName, Func<TResponse, object> routeValuesFunc)
+        public static Func<TResponse, IActionResult> AcceptedAtRouteResponse<TResponse>(string routeName, Func<TResponse, object> routeValuesFunc)
         {
-            return envelope => DetermineResponse(envelope.StatusCode, new AcceptedAtRouteResult(routeName, routeValuesFunc.Invoke(envelope.Response), envelope.Response));
+            return response => new AcceptedAtRouteResult(routeName, routeValuesFunc.Invoke(response), response);
         }
 
         /// <summary>
@@ -179,9 +179,9 @@ namespace MediatorBuddy.AspNet
         /// </summary>
         /// <typeparam name="TResponse">The type of the response object.</typeparam>
         /// <returns>A function that will return an IActionResult of type StatusCodeResult.</returns>
-        public static Func<IEnvelope<TResponse>, IActionResult> NonAuthoritativeResponse<TResponse>()
+        public static Func<TResponse, IActionResult> NonAuthoritativeResponse<TResponse>()
         {
-            return envelope => DetermineResponse(envelope.StatusCode, new StatusCodeResult(StatusCodes.Status203NonAuthoritative));
+            return _ => new StatusCodeResult(StatusCodes.Status203NonAuthoritative);
         }
 
         /// <summary>
@@ -189,9 +189,9 @@ namespace MediatorBuddy.AspNet
         /// </summary>
         /// <typeparam name="TResponse">The type of the response object.</typeparam>
         /// <returns>A function that will return an IActionResult of type NoContentResult.</returns>
-        public static Func<IEnvelope<TResponse>, IActionResult> NoContentResponse<TResponse>()
+        public static Func<TResponse, IActionResult> NoContentResponse<TResponse>()
         {
-            return envelope => DetermineResponse(envelope.StatusCode, new NoContentResult());
+            return _ => new NoContentResult();
         }
 
         /// <summary>
@@ -199,9 +199,9 @@ namespace MediatorBuddy.AspNet
         /// </summary>
         /// <typeparam name="TResponse">The type of the response object.</typeparam>
         /// <returns>A function that will return an IActionResult of type StatusCodeResult.</returns>
-        public static Func<IEnvelope<TResponse>, IActionResult> ResetContentResponse<TResponse>()
+        public static Func<TResponse, IActionResult> ResetContentResponse<TResponse>()
         {
-            return envelope => DetermineResponse(envelope.StatusCode, new StatusCodeResult(StatusCodes.Status205ResetContent));
+            return _ => new StatusCodeResult(StatusCodes.Status205ResetContent);
         }
 
         /// <summary>
@@ -209,9 +209,9 @@ namespace MediatorBuddy.AspNet
         /// </summary>
         /// <typeparam name="TResponse">The type of the response object.</typeparam>
         /// <returns>A function that will return an IActionResult of type StatusCodeResult.</returns>
-        public static Func<IEnvelope<TResponse>, IActionResult> PartialContentResponse<TResponse>()
+        public static Func<TResponse, IActionResult> PartialContentResponse<TResponse>()
         {
-            return envelope => DetermineResponse(envelope.StatusCode, new StatusCodeResult(StatusCodes.Status206PartialContent));
+            return _ => new StatusCodeResult(StatusCodes.Status206PartialContent);
         }
 
         /// <summary>
@@ -219,9 +219,9 @@ namespace MediatorBuddy.AspNet
         /// </summary>
         /// <typeparam name="TResponse">The type of the response object.</typeparam>
         /// <returns>A function that will return an IActionResult of type StatusCodeResult.</returns>
-        public static Func<IEnvelope<TResponse>, IActionResult> MultiStatusResponse<TResponse>()
+        public static Func<TResponse, IActionResult> MultiStatusResponse<TResponse>()
         {
-            return envelope => DetermineResponse(envelope.StatusCode, new StatusCodeResult(StatusCodes.Status207MultiStatus));
+            return _ => new StatusCodeResult(StatusCodes.Status207MultiStatus);
         }
 
         /// <summary>
@@ -229,44 +229,9 @@ namespace MediatorBuddy.AspNet
         /// </summary>
         /// <typeparam name="TResponse">The type of the response object.</typeparam>
         /// <returns>A function that will return an IActionResult of type StatusCodeResult.</returns>
-        public static Func<IEnvelope<TResponse>, IActionResult> AlreadyReportedResponse<TResponse>()
+        public static Func<TResponse, IActionResult> AlreadyReportedResponse<TResponse>()
         {
-            return envelope => DetermineResponse(envelope.StatusCode, new StatusCodeResult(StatusCodes.Status208AlreadyReported));
-        }
-
-        /// <summary>
-        /// A function that accepts a StatusCode and Result object and returns the appropriate response.
-        /// </summary>
-        /// <param name="statusCode">An application level status code.</param>
-        /// <param name="result">The result object from a handler.</param>
-        /// <param name="additionalOptions">Any additional response actions that may be required.</param>
-        /// <returns>An IActionResult with the appropriate response.</returns>
-        public static IActionResult DetermineResponse(int statusCode, IActionResult result, Func<int, IActionResult>? additionalOptions = null)
-        {
-            if (additionalOptions != null)
-            {
-                return additionalOptions.Invoke(statusCode);
-            }
-
-            var route = new HttpContextAccessor().HttpContext?.Request.Path.Value ?? string.Empty;
-
-            return statusCode switch
-            {
-                ApplicationStatus.Success => result,
-                ApplicationStatus.UserNameAlreadyExists => new ConflictObjectResult(new ErrorResponse(new Uri("/errors/auth"), string.Empty, StatusCodes.Status409Conflict, string.Empty, new Uri(route))),
-                _ => new StatusCodeResult(StatusCodes.Status500InternalServerError),
-            };
-        }
-
-        /// <summary>
-        /// Tester func.
-        /// </summary>
-        /// <returns>Func.</returns>
-        public static IActionResult Tester()
-        {
-            IActionResult result = new NoContentResult();
-            int code = StatusCodes.Status206PartialContent;
-            return new StatusCodeResult(code);
+            return _ => new StatusCodeResult(StatusCodes.Status208AlreadyReported);
         }
     }
 }

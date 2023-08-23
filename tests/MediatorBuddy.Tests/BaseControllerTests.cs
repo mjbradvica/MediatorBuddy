@@ -17,7 +17,7 @@ namespace MediatorBuddy.Tests
     public class BaseControllerTests
     {
         private readonly Mock<IMediator> _mediator;
-        private TestMediatApiController _apiController;
+        private readonly TestMediatApiController _apiController;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseControllerTests"/> class.

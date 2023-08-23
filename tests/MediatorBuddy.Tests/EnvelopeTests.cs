@@ -14,9 +14,14 @@ namespace MediatorBuddy.Tests
         [TestMethod]
         public void DefaultConstructor_HasCorrectProperties()
         {
-            var response = Envelope<TestResponse>.Success(new TestResponse());
+            var response = new TestResponse();
 
-            Assert.AreEqual(ApplicationStatus.Success, response.StatusCode);
+            var envelope = Envelope<TestResponse>.Success(response);
+
+            Assert.AreEqual(ApplicationStatus.Success, envelope.StatusCode);
+            Assert.AreEqual(string.Empty, envelope.Title);
+            Assert.AreEqual(string.Empty, envelope.Detail);
+            Assert.AreEqual(response, envelope.Response);
         }
 
         /// <summary>
@@ -26,10 +31,33 @@ namespace MediatorBuddy.Tests
         public void StatusCodeConstructor_HasCorrectProperties()
         {
             const int statusCode = 201;
+            const string title = "error";
+            const string detail = "an error occurred";
 
-            var response = Envelope<TestResponse>.Failure(statusCode);
+            var envelope = Envelope<TestResponse>.Failure(statusCode, title, detail);
 
-            Assert.AreEqual(statusCode, response.StatusCode);
+            Assert.AreEqual(statusCode, envelope.StatusCode);
+            Assert.IsNull(envelope.Response);
+            Assert.AreEqual(title, envelope.Title);
+            Assert.AreEqual(detail, envelope.Detail);
+        }
+
+        /// <summary>
+        /// Ensures the default failure method has the correct properties.
+        /// </summary>
+        [TestMethod]
+        public void StatusCodeConstructor_HasCorrectDefaultProperties()
+        {
+            const int statusCode = 201;
+            const string title = "A failure occurred.";
+            const string detail = "No details are available for the failure.";
+
+            var envelope = Envelope<TestResponse>.Failure(statusCode);
+
+            Assert.AreEqual(statusCode, envelope.StatusCode);
+            Assert.IsNull(envelope.Response);
+            Assert.AreEqual(title, envelope.Title);
+            Assert.AreEqual(detail, envelope.Detail);
         }
     }
 }

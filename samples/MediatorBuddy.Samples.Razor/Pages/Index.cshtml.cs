@@ -1,20 +1,19 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace MediatorBuddy.Samples.Razor.Pages
 {
+    /// <summary>
+    /// Page for Index View.
+    /// </summary>
+#pragma warning disable SA1649 // File name should match first type name
     public class IndexModel : PageModel
+#pragma warning restore SA1649 // File name should match first type name
     {
-        private readonly ILogger<IndexModel> _logger;
-
-        public IndexModel(ILogger<IndexModel> logger)
-        {
-            _logger = logger;
-        }
-
+        /// <summary>
+        /// Action for http get.
+        /// </summary>
         public void OnGet()
         {
-
         }
     }
 }

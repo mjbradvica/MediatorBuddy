@@ -1,5 +1,6 @@
 using MediatorBuddy.AspNet;
 using MediatorBuddy.Samples.Api.GetWeather;
+using MediatorBuddy.Samples.Api.UpdateWeather;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -29,6 +30,17 @@ namespace MediatorBuddy.Samples.Api.Controllers
         public async Task<IActionResult> Get()
         {
             return await ExecuteRequest(new GetWeatherRequest(), ResponseOptions.OkObjectResponse<GetWeatherResponse>());
+        }
+
+        /// <summary>
+        /// Posts an updated weather.
+        /// </summary>
+        /// <param name="request">Request object.</param>
+        /// <returns>IActionResult.</returns>
+        [HttpPost]
+        public async Task<IActionResult> Post(UpdateWeatherRequest request)
+        {
+            return await ExecuteRequest(request, ResponseOptions.CreatedResponse<UpdateWeatherResponse>(string.Empty));
         }
     }
 }

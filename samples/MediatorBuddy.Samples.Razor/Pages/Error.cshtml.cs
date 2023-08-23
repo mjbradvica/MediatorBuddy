@@ -4,21 +4,28 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace MediatorBuddy.Samples.Razor.Pages
 {
+    /// <summary>
+    /// Error page.
+    /// </summary>
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     [IgnoreAntiforgeryToken]
+#pragma warning disable SA1649 // File name should match first type name
     public class ErrorModel : PageModel
+#pragma warning restore SA1649 // File name should match first type name
     {
+        /// <summary>
+        /// Gets or sets the request identifier.
+        /// </summary>
         public string? RequestId { get; set; }
 
+        /// <summary>
+        /// Gets a value indicating whether the request id should be shown.
+        /// </summary>
         public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
 
-        private readonly ILogger<ErrorModel> _logger;
-
-        public ErrorModel(ILogger<ErrorModel> logger)
-        {
-            _logger = logger;
-        }
-
+        /// <summary>
+        /// Action for http get.
+        /// </summary>
         public void OnGet()
         {
             RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;

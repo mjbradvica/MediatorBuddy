@@ -19,15 +19,15 @@ namespace MediatorBuddy.AspNet
         /// </summary>
         /// <param name="mediator">An insTestProject1tance of the <see cref="IMediator"/> interface.</param>
         /// <param name="errorTypes">An instance of ErrorTypes to overload any defaults.</param>
-        /// <param name="additionalOptions">Extra conditions for the controller to check against.</param>
+        /// <param name="extraOptions">Extra conditions for the controller to check against.</param>
         protected MediatorBuddyApi(
             IMediator mediator,
             ErrorTypes? errorTypes = null,
-            Func<int, IActionResult>? additionalOptions = null)
+            Func<int, IActionResult>? extraOptions = null)
         {
             Mediator = mediator;
             _errorTypes = errorTypes ?? new ErrorTypes();
-            _extraOptions = additionalOptions;
+            _extraOptions = extraOptions;
         }
 
         /// <summary>
@@ -46,12 +46,11 @@ namespace MediatorBuddy.AspNet
         {
             IActionResult response;
 
-            var validationResult = ObjectVerification.Validate(request);
-            if (validationResult.Failed)
-            {
-                return BadRequest(validationResult.Errors);
-            }
-
+            // var validationResult = ObjectVerification.Validate(request);
+            // if (validationResult.Failed)
+            // {
+            //    return BadRequest(validationResult.Errors);
+            // }
             try
             {
                 var result = await Mediator.Send(request);

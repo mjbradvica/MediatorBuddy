@@ -4,25 +4,33 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MediatorBuddy.Samples.Mvc.Controllers
 {
+    /// <summary>
+    /// Home controller.
+    /// </summary>
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
-
+        /// <summary>
+        /// Index action.
+        /// </summary>
+        /// <returns>The Index view.</returns>
         public IActionResult Index()
         {
             return View();
         }
 
+        /// <summary>
+        /// Privacy action.
+        /// </summary>
+        /// <returns>The Privacy view.</returns>
         public IActionResult Privacy()
         {
             return View();
         }
 
+        /// <summary>
+        /// Error action.
+        /// </summary>
+        /// <returns>Returns the Error view.</returns>
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

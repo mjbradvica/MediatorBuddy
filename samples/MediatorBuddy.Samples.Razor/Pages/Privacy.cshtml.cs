@@ -1,17 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace MediatorBuddy.Samples.Razor.Pages
 {
+    /// <summary>
+    /// Privacy Page.
+    /// </summary>
+#pragma warning disable SA1649 // File name should match first type name
     public class PrivacyModel : PageModel
+#pragma warning restore SA1649 // File name should match first type name
     {
-        private readonly ILogger<PrivacyModel> _logger;
-
-        public PrivacyModel(ILogger<PrivacyModel> logger)
-        {
-            _logger = logger;
-        }
-
+        /// <summary>
+        /// Action for http get.
+        /// </summary>
         public void OnGet()
         {
         }

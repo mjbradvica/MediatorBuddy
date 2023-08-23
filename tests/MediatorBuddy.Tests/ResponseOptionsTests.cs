@@ -112,7 +112,7 @@ namespace MediatorBuddy.Tests
         public void CreatedAtAction_IsCorrect()
         {
             const string value = "value";
-            var response = new TestResponse();
+            var response = new TestResponse { Value = value };
             const string action = "action";
             const string controller = "controller";
 
@@ -320,7 +320,7 @@ namespace MediatorBuddy.Tests
         [TestMethod]
         public void AlreadyReported_IsCorrect()
         {
-            var result = ResponseOptions.MultiStatusResponse<TestResponse>().Invoke(new TestResponse());
+            var result = ResponseOptions.AlreadyReportedResponse<TestResponse>().Invoke(new TestResponse());
 
             Assert.IsInstanceOfType<StatusCodeResult>(result);
             Assert.AreEqual(StatusCodes.Status208AlreadyReported, (result as StatusCodeResult)?.StatusCode);

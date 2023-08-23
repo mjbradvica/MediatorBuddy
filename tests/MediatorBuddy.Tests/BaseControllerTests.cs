@@ -25,7 +25,13 @@ namespace MediatorBuddy.Tests
         public BaseControllerTests()
         {
             _mediator = new Mock<IMediator>();
-            _apiController = new TestMediatApiController(_mediator.Object);
+            _apiController = new TestMediatApiController(_mediator.Object)
+            {
+                ControllerContext = new ControllerContext
+                {
+                    HttpContext = new DefaultHttpContext(),
+                },
+            };
         }
 
         /// <summary>
@@ -52,8 +58,6 @@ namespace MediatorBuddy.Tests
 
             _mediator.Setup(x => x.Send(It.IsAny<TestObjectRequest>(), CancellationToken.None))
                 .ReturnsAsync(envelope);
-
-            _apiController = new TestMediatApiController(_mediator.Object);
 
             var result = await _apiController.Handle(TestObjectRequest.Valid());
 

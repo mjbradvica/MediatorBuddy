@@ -46,11 +46,12 @@ namespace MediatorBuddy.AspNet
         {
             IActionResult response;
 
-            // var validationResult = ObjectVerification.Validate(request);
-            // if (validationResult.Failed)
-            // {
-            //    return BadRequest(validationResult.Errors);
-            // }
+            var validationResult = ObjectVerification.Validate(request);
+            if (validationResult.Failed)
+            {
+                return BadRequest(validationResult.Errors);
+            }
+
             try
             {
                 var result = await Mediator.Send(request);

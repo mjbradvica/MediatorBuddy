@@ -93,12 +93,44 @@ namespace MediatorBuddy.Tests
         /// Ensures the Created Result has the correct properties.
         /// </summary>
         [TestMethod]
+        public void CreatedUriFuncResult_IsCorrect()
+        {
+            var response = new TestResponse { Value = "123" };
+            var location = new Uri($"https://www.myLocation.com/{response.Value}");
+
+            var result = ResponseOptions.CreatedResponse<TestResponse>(_ => location).Invoke(response);
+
+            Assert.IsInstanceOfType<CreatedResult>(result);
+            Assert.AreEqual(response, (result as CreatedResult)?.Value);
+            Assert.AreEqual(location.ToString(), (result as CreatedResult)?.Location);
+        }
+
+        /// <summary>
+        /// Ensures the Created Result has the correct properties.
+        /// </summary>
+        [TestMethod]
         public void CreatedStringResult_IsCorrect()
         {
             var response = new TestResponse();
             const string location = "www.myLocation.com";
 
             var result = ResponseOptions.CreatedResponse<TestResponse>(location).Invoke(response);
+
+            Assert.IsInstanceOfType<CreatedResult>(result);
+            Assert.AreEqual(response, (result as CreatedResult)?.Value);
+            Assert.AreEqual(location, (result as CreatedResult)?.Location);
+        }
+
+        /// <summary>
+        /// Ensures the Created Result has the correct properties.
+        /// </summary>
+        [TestMethod]
+        public void CreatedStringFuncResult_IsCorrect()
+        {
+            var response = new TestResponse { Value = "123" };
+            var location = $"www.myLocation.com/{response.Value}";
+
+            var result = ResponseOptions.CreatedResponse<TestResponse>(_ => location).Invoke(response);
 
             Assert.IsInstanceOfType<CreatedResult>(result);
             Assert.AreEqual(response, (result as CreatedResult)?.Value);

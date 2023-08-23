@@ -73,12 +73,34 @@ namespace MediatorBuddy.AspNet
         /// <summary>
         /// Returns a function that will yield a <see cref="CreatedResult"/>.
         /// </summary>
+        /// <param name="locationFunc">The Uri where the resource can be accessed.</param>
+        /// <typeparam name="TResponse">The type of the response object.</typeparam>
+        /// <returns>A function that will return an IActionResult of type CreatedResponse.</returns>
+        public static Func<TResponse, IActionResult> CreatedResponse<TResponse>(Func<TResponse, Uri> locationFunc)
+        {
+            return response => new CreatedResult(locationFunc.Invoke(response), response);
+        }
+
+        /// <summary>
+        /// Returns a function that will yield a <see cref="CreatedResult"/>.
+        /// </summary>
         /// <param name="location">A string that represents a Uri location of the resource.</param>
         /// <typeparam name="TResponse">The type of the response object.</typeparam>
         /// <returns>A function that will return an IActionResult of type CreatedResult..</returns>
         public static Func<TResponse, IActionResult> CreatedResponse<TResponse>(string location)
         {
             return response => new CreatedResult(location, response);
+        }
+
+        /// <summary>
+        /// Returns a function that will yield a <see cref="CreatedResult"/>.
+        /// </summary>
+        /// <param name="locationFunc">A string that represents a Uri location of the resource.</param>
+        /// <typeparam name="TResponse">The type of the response object.</typeparam>
+        /// <returns>A function that will return an IActionResult of type CreatedResult..</returns>
+        public static Func<TResponse, IActionResult> CreatedResponse<TResponse>(Func<TResponse, string> locationFunc)
+        {
+            return response => new CreatedResult(locationFunc.Invoke(response), response);
         }
 
         /// <summary>

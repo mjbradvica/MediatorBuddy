@@ -1,4 +1,8 @@
-﻿using MediatR;
+﻿// <copyright file="GetWeatherForecastHandler.cs" company="Michael Bradvica LLC">
+// Copyright (c) Michael Bradvica LLC. All rights reserved.
+// </copyright>
+
+using MediatR;
 
 namespace NMediatController.Samples.Handlers.GetWeatherForecast
 {

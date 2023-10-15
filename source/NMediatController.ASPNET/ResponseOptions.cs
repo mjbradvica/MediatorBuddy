@@ -1,4 +1,8 @@
-﻿using System;
+﻿// <copyright file="ResponseOptions.cs" company="Michael Bradvica LLC">
+// Copyright (c) Michael Bradvica LLC. All rights reserved.
+// </copyright>
+
+using System;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -221,7 +225,7 @@ namespace NMediatController.ASPNET
         /// <returns>Func.</returns>
         public static IActionResult Tester()
         {
-            IActionResult result = new RedirectToActionResult();
+            IActionResult result = new RedirectToActionResult(string.Empty, string.Empty, string.Empty);
 
             return new NoContentResult();
         }

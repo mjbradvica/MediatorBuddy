@@ -1,4 +1,8 @@
-﻿namespace NMediatController.Samples.Handlers.GetCurrentTime
+﻿// <copyright file="GetTimeHandler.cs" company="Michael Bradvica LLC">
+// Copyright (c) Michael Bradvica LLC. All rights reserved.
+// </copyright>
+
+namespace NMediatController.Samples.Handlers.GetCurrentTime
 {
     /// <summary>
     /// Handles a <see cref="GetTimeRequest"/>.

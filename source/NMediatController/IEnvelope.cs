@@ -1,4 +1,8 @@
-﻿namespace NMediatController
+﻿// <copyright file="IEnvelope.cs" company="Michael Bradvica LLC">
+// Copyright (c) Michael Bradvica LLC. All rights reserved.
+// </copyright>
+
+namespace NMediatController
 {
     /// <summary>
     /// Base interface for all application responses.

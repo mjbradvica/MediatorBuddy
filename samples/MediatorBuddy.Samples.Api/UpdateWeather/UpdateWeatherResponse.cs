@@ -1,4 +1,8 @@
-﻿namespace MediatorBuddy.Samples.Api.UpdateWeather
+﻿// <copyright file="UpdateWeatherResponse.cs" company="Michael Bradvica LLC">
+// Copyright (c) Michael Bradvica LLC. All rights reserved.
+// </copyright>
+
+namespace MediatorBuddy.Samples.Api.UpdateWeather
 {
     /// <summary>
     /// Sample response.

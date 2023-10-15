@@ -1,4 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿// <copyright file="UpdateWeatherRequest.cs" company="Michael Bradvica LLC">
+// Copyright (c) Michael Bradvica LLC. All rights reserved.
+// </copyright>
+
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace MediatorBuddy.Samples.Api.UpdateWeather

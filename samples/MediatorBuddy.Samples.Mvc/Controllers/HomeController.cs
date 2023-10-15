@@ -1,4 +1,8 @@
-﻿using System.Diagnostics;
+﻿// <copyright file="HomeController.cs" company="Michael Bradvica LLC">
+// Copyright (c) Michael Bradvica LLC. All rights reserved.
+// </copyright>
+
+using System.Diagnostics;
 using MediatorBuddy.Samples.Mvc.Models;
 using Microsoft.AspNetCore.Mvc;
 

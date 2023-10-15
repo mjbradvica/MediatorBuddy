@@ -1,4 +1,8 @@
-﻿using MediatorBuddy.AspNet;
+﻿// <copyright file="ObjectVerificationTests.cs" company="Michael Bradvica LLC">
+// Copyright (c) Michael Bradvica LLC. All rights reserved.
+// </copyright>
+
+using MediatorBuddy.AspNet;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MediatorBuddy.Tests.ObjectValidation

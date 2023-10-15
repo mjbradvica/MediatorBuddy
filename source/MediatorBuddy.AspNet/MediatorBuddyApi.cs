@@ -1,4 +1,8 @@
-﻿using System;
+﻿// <copyright file="MediatorBuddyApi.cs" company="Michael Bradvica LLC">
+// Copyright (c) Michael Bradvica LLC. All rights reserved.
+// </copyright>
+
+using System;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Http;

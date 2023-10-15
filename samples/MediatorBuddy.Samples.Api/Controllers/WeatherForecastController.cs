@@ -1,3 +1,7 @@
+// <copyright file="WeatherForecastController.cs" company="Michael Bradvica LLC">
+// Copyright (c) Michael Bradvica LLC. All rights reserved.
+// </copyright>
+
 using MediatorBuddy.AspNet;
 using MediatorBuddy.Samples.Api.GetWeather;
 using MediatorBuddy.Samples.Api.UpdateWeather;

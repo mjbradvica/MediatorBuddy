@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿// <copyright file="Privacy.cshtml.cs" company="Michael Bradvica LLC">
+// Copyright (c) Michael Bradvica LLC. All rights reserved.
+// </copyright>
+
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace MediatorBuddy.Samples.Razor.Pages
 {

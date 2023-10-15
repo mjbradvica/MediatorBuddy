@@ -1,4 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿// <copyright file="ObjectVerificationTest.cs" company="Michael Bradvica LLC">
+// Copyright (c) Michael Bradvica LLC. All rights reserved.
+// </copyright>
+
+using System.ComponentModel.DataAnnotations;
 
 namespace MediatorBuddy.Tests.ObjectValidation
 {

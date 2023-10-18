@@ -21,7 +21,7 @@ namespace MediatorBuddy.AspNet
         /// <summary>
         /// Initializes a new instance of the <see cref="MediatorBuddyApi"/> class.
         /// </summary>
-        /// <param name="mediator">An insTestProject1tance of the <see cref="IMediator"/> interface.</param>
+        /// <param name="mediator">An instance of the <see cref="IMediator"/> interface.</param>
         /// <param name="errorTypes">An instance of ErrorTypes to overload any defaults.</param>
         /// <param name="extraOptions">Extra conditions for the controller to check against.</param>
         protected MediatorBuddyApi(

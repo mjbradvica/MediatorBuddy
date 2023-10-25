@@ -46,27 +46,30 @@ namespace MediatorBuddy.AspNet
         /// <param name="request">The request object being sent to the execution pipeline.</param>
         /// <param name="responseFunc">A function that will accepts a response object and return a web response.</param>
         /// <returns>An IActionResult representing the end successResult of the request object.</returns>
+        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
         protected async Task<IActionResult> ExecuteRequest<TResponse>(IRequest<IEnvelope<TResponse>> request, Func<TResponse, IActionResult> responseFunc)
         {
             IActionResult response;
 
+            var currentRoute = new Uri(HttpContext.Request.Path.Value ?? _errorTypes.General.ToString(), UriKind.Relative);
+
             var validationResult = ObjectVerification.Validate(request);
             if (validationResult.Failed)
             {
-                return BadRequest(validationResult.Errors);
+                return BadRequest(ErrorResponse.ValidationError(_errorTypes.General, validationResult.Errors, currentRoute));
             }
 
             try
             {
                 var result = await Mediator.Send(request);
 
-                response = DetermineResponse(result, responseFunc.Invoke(result.Response), _extraOptions);
+                response = DetermineResponse(result, responseFunc.Invoke(result.Response), currentRoute, _extraOptions);
             }
             catch (Exception exception)
             {
                 await Mediator.Publish(new GlobalExceptionOccurred(exception));
 
-                return StatusCode(StatusCodes.Status500InternalServerError);
+                return StatusCode(StatusCodes.Status500InternalServerError, ErrorResponse.InternalError(_errorTypes.General, currentRoute));
             }
 
             return response;
@@ -77,16 +80,15 @@ namespace MediatorBuddy.AspNet
         /// </summary>
         /// <param name="envelope">The resulting envelope from the handler.</param>
         /// <param name="successResult">The successResult object from a handler.</param>
+        /// <param name="currentRoute">The current route as Uri or link to general errors.</param>
         /// <param name="additionalOptions">Any additional response actions that may be required.</param>
         /// <returns>An IActionResult with the appropriate response.</returns>
-        private IActionResult DetermineResponse<TResponse>(IEnvelope<TResponse> envelope, IActionResult successResult, Func<int, IActionResult>? additionalOptions = null)
+        private IActionResult DetermineResponse<TResponse>(IEnvelope<TResponse> envelope, IActionResult successResult, Uri currentRoute, Func<int, IActionResult>? additionalOptions = null)
         {
             if (additionalOptions != null)
             {
                 return additionalOptions.Invoke(envelope.StatusCode);
             }
-
-            var currentRoute = new Uri(HttpContext.Request.Path.Value ?? _errorTypes.General.ToString(), UriKind.Relative);
 
             return envelope.StatusCode switch
             {

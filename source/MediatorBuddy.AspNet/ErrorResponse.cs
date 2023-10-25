@@ -3,6 +3,9 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.AspNetCore.Http;
 
 namespace MediatorBuddy.AspNet
 {
@@ -54,7 +57,7 @@ namespace MediatorBuddy.AspNet
         public Uri Instance { get; }
 
         /// <summary>
-        /// Instantiates a instance of an <see cref="ErrorResponse"/>.
+        /// Instantiates an instance of the <see cref="ErrorResponse"/> class or a specified error.
         /// </summary>
         /// <typeparam name="TResponse">The response type.</typeparam>
         /// <param name="type">The error type uri.</param>
@@ -64,6 +67,39 @@ namespace MediatorBuddy.AspNet
         public static ErrorResponse FromEnvelope<TResponse>(Uri type, IEnvelope<TResponse> envelope, Uri instance)
         {
             return new ErrorResponse(type, envelope.Title, envelope.StatusCode, envelope.Detail, instance);
+        }
+
+        /// <summary>
+        /// Instantiates an instance of the <see cref="ErrorResponse"/> class for a validation error.
+        /// </summary>
+        /// <param name="type">The error type uri.</param>
+        /// <param name="errors">A list of validation errors.</param>
+        /// <param name="instance">The action uri.</param>
+        /// <returns>A new ErrorResponse instance.</returns>
+        public static ErrorResponse ValidationError(Uri type, IEnumerable<string> errors, Uri instance)
+        {
+            return new ErrorResponse(
+                type,
+                "Validation Error",
+                StatusCodes.Status400BadRequest,
+                $"The follow errors were present: {errors.Aggregate(string.Empty, (final, next) => $"{final}  ${next}")}",
+                instance);
+        }
+
+        /// <summary>
+        /// Instantiates an instance of the <see cref="ErrorResponse"/> for an internal error.
+        /// </summary>
+        /// <param name="type">The error type uri.</param>
+        /// <param name="instance">The action uri.</param>
+        /// <returns>A new Error Response instance.</returns>
+        public static ErrorResponse InternalError(Uri type, Uri instance)
+        {
+            return new ErrorResponse(
+                type,
+                "An internal error occurred",
+                StatusCodes.Status500InternalServerError,
+                "An error occurred during the operation. It's not you, it's me.",
+                instance);
         }
     }
 }

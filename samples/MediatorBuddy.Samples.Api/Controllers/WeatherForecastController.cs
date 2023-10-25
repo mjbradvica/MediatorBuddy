@@ -3,6 +3,7 @@
 // </copyright>
 
 using MediatorBuddy.AspNet;
+using MediatorBuddy.AspNet.Attributes;
 using MediatorBuddy.Samples.Api.GetWeather;
 using MediatorBuddy.Samples.Api.UpdateWeather;
 using MediatR;
@@ -15,6 +16,8 @@ namespace MediatorBuddy.Samples.Api.Controllers
     /// </summary>
     [ApiController]
     [Route("[controller]")]
+    [MediatorBuddyError]
+    [MediatorBuddyValidation]
     public class WeatherForecastController : MediatorBuddyApi
     {
         /// <summary>

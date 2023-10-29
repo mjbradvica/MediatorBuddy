@@ -22,7 +22,7 @@ namespace MediatorBuddy.Tests
 
             var envelope = Envelope<TestResponse>.Success(response);
 
-            Assert.AreEqual(ApplicationStatus.Success, envelope.StatusCode);
+            Assert.AreEqual(ApplicationStatus.Success, envelope.Status);
             Assert.AreEqual(string.Empty, envelope.Title);
             Assert.AreEqual(string.Empty, envelope.Detail);
             Assert.AreEqual(response, envelope.Response);
@@ -40,7 +40,7 @@ namespace MediatorBuddy.Tests
 
             var envelope = Envelope<TestResponse>.Failure(statusCode, title, detail);
 
-            Assert.AreEqual(statusCode, envelope.StatusCode);
+            Assert.AreEqual(statusCode, envelope.Status);
             Assert.IsNull(envelope.Response);
             Assert.AreEqual(title, envelope.Title);
             Assert.AreEqual(detail, envelope.Detail);
@@ -58,7 +58,7 @@ namespace MediatorBuddy.Tests
 
             var envelope = Envelope<TestResponse>.Failure(statusCode);
 
-            Assert.AreEqual(statusCode, envelope.StatusCode);
+            Assert.AreEqual(statusCode, envelope.Status);
             Assert.IsNull(envelope.Response);
             Assert.AreEqual(title, envelope.Title);
             Assert.AreEqual(detail, envelope.Detail);

@@ -48,8 +48,7 @@ namespace MediatorBuddy.AspNet
         {
             IActionResult response;
 
-            var validationResult = ObjectVerification.Validate(request);
-            if (validationResult.Failed)
+            if (!ModelState.IsValid)
             {
                 return Page();
             }

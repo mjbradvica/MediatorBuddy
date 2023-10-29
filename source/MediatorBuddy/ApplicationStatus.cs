@@ -15,6 +15,43 @@ namespace MediatorBuddy
         public const int Success = 0;
 
         /// <summary>
+        /// Indicates a non descriptive error.
+        /// </summary>
+        public const int GeneralError = 1;
+
+        /// <summary>
+        /// The operation could not completed at this time.
+        /// </summary>
+        public const int OperationCouldNotBeCompleted = 2;
+
+        /// <summary>
+        /// The Entity in question was not found.
+        /// </summary>
+        public const int EntityWasNotFound = 4;
+
+        /// <summary>
+        /// Indicates a conflict was found with another resource.
+        /// </summary>
+        public const int ConflictWithOtherResource = 5;
+
+        /// <summary>
+        /// A validation constraint was not met.
+        /// </summary>
+        public const int ValidationConstraintNotMet = 3;
+
+        /// <summary>
+        /// Indicates a pre-condition constraint failed.
+        /// </summary>
+        public const int PreConditionNotMet = 6;
+
+        /// <summary>
+        /// Indicates a post-condition constraint failed.
+        /// </summary>
+        public const int PostConditionNotMet = 7;
+
+        // Authentication
+
+        /// <summary>
         /// The User could not be found.
         /// </summary>
         public const int UserDoesNotExist = 10;
@@ -68,20 +105,5 @@ namespace MediatorBuddy
         /// The given two-factor code was incorrect.
         /// </summary>
         public const int TwoFactorCodeIncorrect = 17;
-
-        /// <summary>
-        /// A validation constraint was not met.
-        /// </summary>
-        public const int ValidationConstraintNotMet = 30;
-
-        /// <summary>
-        /// The Entity in question was not found.
-        /// </summary>
-        public const int EntityWasNotFound = 31;
-
-        /// <summary>
-        /// The operation could not complete at this time.
-        /// </summary>
-        public const int OperationCouldNotBeCompleted = 32;
     }
 }

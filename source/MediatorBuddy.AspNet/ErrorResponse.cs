@@ -66,7 +66,7 @@ namespace MediatorBuddy.AspNet
         /// <returns>A new ErrorResponse instance.</returns>
         public static ErrorResponse FromEnvelope<TResponse>(Uri type, IEnvelope<TResponse> envelope, Uri instance)
         {
-            return new ErrorResponse(type, envelope.Title, envelope.StatusCode, envelope.Detail, instance);
+            return new ErrorResponse(type, envelope.Title, envelope.Status, envelope.Detail, instance);
         }
 
         /// <summary>

@@ -52,11 +52,6 @@ namespace MediatorBuddy.AspNet
                 return View(request);
             }
 
-            // var validationResult = ObjectVerification.Validate(request);
-            // if (validationResult.Failed)
-            // {
-            //    return View(request);
-            // }
             try
             {
                 var result = await Mediator.Send(request);

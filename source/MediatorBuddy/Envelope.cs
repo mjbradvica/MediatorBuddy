@@ -17,7 +17,7 @@ namespace MediatorBuddy
         public Envelope(TResponse response)
         {
             Response = response;
-            StatusCode = ApplicationStatus.Success;
+            Status = ApplicationStatus.Success;
             Title = string.Empty;
             Detail = string.Empty;
         }
@@ -30,14 +30,14 @@ namespace MediatorBuddy
         /// <param name="detail">The detail of the failure.</param>
         public Envelope(int statusCode, string title, string detail)
         {
-            StatusCode = statusCode;
+            Status = statusCode;
             Response = default!;
             Title = title;
             Detail = detail;
         }
 
         /// <inheritdoc/>
-        public int StatusCode { get; }
+        public int Status { get; }
 
         /// <inheritdoc/>
         public string Title { get; }

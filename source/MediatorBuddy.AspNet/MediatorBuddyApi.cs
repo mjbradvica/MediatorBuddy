@@ -76,7 +76,7 @@ namespace MediatorBuddy.AspNet
         }
 
         /// <summary>
-        /// A function that accepts a StatusCode and Result object and returns the appropriate response.
+        /// A function that accepts a Status and Result object and returns the appropriate response.
         /// </summary>
         /// <param name="envelope">The resulting envelope from the handler.</param>
         /// <param name="successResult">The successResult object from a handler.</param>
@@ -87,10 +87,12 @@ namespace MediatorBuddy.AspNet
         {
             if (additionalOptions != null)
             {
-                return additionalOptions.Invoke(envelope.StatusCode);
+                return additionalOptions.Invoke(envelope.Status);
             }
 
-            return envelope.StatusCode switch
+            var currentRoute = new Uri(HttpContext.Request.Path.Value ?? _errorTypes.General.ToString(), UriKind.Relative);
+
+            return envelope.Status switch
             {
                 ApplicationStatus.Success => successResult,
                 ApplicationStatus.UserNameAlreadyExists => new ConflictObjectResult(ErrorResponse.FromEnvelope(_errorTypes.Auth, envelope, currentRoute)),

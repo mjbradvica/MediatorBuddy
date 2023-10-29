@@ -47,7 +47,7 @@ namespace MediatorBuddy.Samples.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(UpdateWeatherRequest request)
         {
-            return await ExecuteRequest(request, ResponseOptions.CreatedResponse<UpdateWeatherResponse>(string.Empty));
+            return await ExecuteRequest(request, ResponseOptions.CreatedResponse<UpdateWeatherResponse>(response => new Uri($"WeatherForecast/{response.Id}", UriKind.Relative)));
         }
     }
 }

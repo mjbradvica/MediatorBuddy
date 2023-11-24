@@ -90,8 +90,6 @@ namespace MediatorBuddy.AspNet
                 return additionalOptions.Invoke(envelope.Status);
             }
 
-            var currentRoute = new Uri(HttpContext.Request.Path.Value ?? _errorTypes.General.ToString(), UriKind.Relative);
-
             return envelope.Status switch
             {
                 ApplicationStatus.Success => successResult,

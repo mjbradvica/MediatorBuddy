@@ -153,6 +153,17 @@ namespace MediatorBuddy.Tests
         }
 
         /// <summary>
+        /// Ensures a user could not be created has the correct status.
+        /// </summary>
+        [TestMethod]
+        public void UserCouldNotBeCreated_HasCorrectProperties()
+        {
+            var result = Envelope<TestResponse>.UserCouldNotBeCreated();
+
+            Assert.AreEqual(ApplicationStatus.UserCouldNotBeCreated, result.Status);
+        }
+
+        /// <summary>
         /// Ensures a user name already exists has the correct status.
         /// </summary>
         [TestMethod]

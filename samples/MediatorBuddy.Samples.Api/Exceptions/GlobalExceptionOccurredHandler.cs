@@ -17,7 +17,7 @@ namespace MediatorBuddy.Samples.Api.Exceptions
         /// Initializes a new instance of the <see cref="GlobalExceptionOccurredHandler"/> class.
         /// </summary>
         /// <param name="logger">An instance of the <see cref="ILogger"/> interface.</param>
-        public GlobalExceptionOccurredHandler(ILogger logger)
+        public GlobalExceptionOccurredHandler(ILogger<GlobalExceptionOccurredHandler> logger)
         {
             _logger = logger;
         }

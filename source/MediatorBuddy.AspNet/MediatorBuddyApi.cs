@@ -13,6 +13,8 @@ namespace MediatorBuddy.AspNet
     /// <summary>
     /// A base class to use in for API controllers.
     /// </summary>
+    [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status500InternalServerError)]
     public abstract class MediatorBuddyApi : ControllerBase
     {
         private readonly ErrorTypes _errorTypes;
@@ -46,7 +48,6 @@ namespace MediatorBuddy.AspNet
         /// <param name="request">The request object being sent to the execution pipeline.</param>
         /// <param name="responseFunc">A function that will accepts a response object and return a web response.</param>
         /// <returns>An IActionResult representing the end successResult of the request object.</returns>
-        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
         protected async Task<IActionResult> ExecuteRequest<TResponse>(IRequest<IEnvelope<TResponse>> request, Func<TResponse, IActionResult> responseFunc)
         {
             IActionResult response;

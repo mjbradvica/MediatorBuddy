@@ -34,7 +34,7 @@ namespace MediatorBuddy.Tests
         [TestMethod]
         public void StatusCodeConstructor_HasCorrectProperties()
         {
-            const int statusCode = 201;
+            const int statusCode = 1;
             const string title = "error";
             const string detail = "an error occurred";
 
@@ -52,7 +52,7 @@ namespace MediatorBuddy.Tests
         [TestMethod]
         public void StatusCodeConstructor_HasCorrectDefaultProperties()
         {
-            const int statusCode = 201;
+            const int statusCode = 1;
             const string title = "A failure occurred.";
             const string detail = "No details are available for the failure.";
 

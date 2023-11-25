@@ -74,7 +74,7 @@ namespace MediatorBuddy
         /// <summary>
         /// The password given was incorrect.
         /// </summary>
-        public const int PasswordIsNotCorrect = 11;
+        public const int PasswordIsIncorrect = 11;
 
         /// <summary>
         /// The password does not meet all the requirements.

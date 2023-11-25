@@ -160,5 +160,148 @@ namespace MediatorBuddy
         {
             return new Envelope<TResponse>(ApplicationStatus.PostConditionNotMet, title, detail);
         }
+
+        /// <summary>
+        /// Function to return a user does not error.
+        /// </summary>
+        /// <param name="title">The title of the failure.</param>
+        /// <param name="detail">The detail of the failure.</param>
+        /// <returns>A new response Envelope.</returns>
+        public static IEnvelope<TResponse> UserDoesNotExist(
+            string title = "User does not exist.",
+            string detail = "The user given the current information could not be found.")
+        {
+            return new Envelope<TResponse>(ApplicationStatus.UserDoesNotExist, title, detail);
+        }
+
+        /// <summary>
+        /// Function to return user could not be created error.
+        /// </summary>
+        /// <param name="title">The title of the failure.</param>
+        /// <param name="detail">The detail of the failure.</param>
+        /// <returns>A new response Envelope.</returns>
+        public static IEnvelope<TResponse> UserCouldNotBeCreated(
+            string title = "User could not be created.",
+            string detail = "A user could not be created given the current information.")
+        {
+            return new Envelope<TResponse>(ApplicationStatus.UserCouldNotBeCreated, title, detail);
+        }
+
+        /// <summary>
+        /// Function to return UserName already exists error.
+        /// </summary>
+        /// <param name="title">The title of the failure.</param>
+        /// <param name="detail">The detail of the failure.</param>
+        /// <returns>A new response Envelope.</returns>
+        public static IEnvelope<TResponse> UserNameAlreadyExists(
+            string title = "UserName already exists.",
+            string detail = "That username is already in use and may not be duplicated.")
+        {
+            return new Envelope<TResponse>(ApplicationStatus.UserNameAlreadyExists, title, detail);
+        }
+
+        /// <summary>
+        /// Function to return email is already used error.
+        /// </summary>
+        /// <param name="title">The title of the failure.</param>
+        /// <param name="detail">The detail of the failure.</param>
+        /// <returns>A new response Envelope.</returns>
+        public static IEnvelope<TResponse> EmailIsAlreadyUsed(
+            string title = "Email is already used.",
+            string detail = "The email given is already being used by an existing user.")
+        {
+            return new Envelope<TResponse>(ApplicationStatus.EmailIsAlreadyUsed, title, detail);
+        }
+
+        /// <summary>
+        /// Function to return password is incorrect error.
+        /// </summary>
+        /// <param name="title">The title of the failure.</param>
+        /// <param name="detail">The detail of the failure.</param>
+        /// <returns>A new response Envelope.</returns>
+        public static IEnvelope<TResponse> PasswordIsIncorrect(
+            string title = "Password is not correct.",
+            string detail = "The password given is incorrect for the specified user.")
+        {
+            return new Envelope<TResponse>(ApplicationStatus.PasswordIsIncorrect, title, detail);
+        }
+
+        /// <summary>
+        /// Function to return password does not meet requirements error.
+        /// </summary>
+        /// <param name="title">The title of the failure.</param>
+        /// <param name="detail">The detail of the failure.</param>
+        /// <returns>A new response Envelope.</returns>
+        public static IEnvelope<TResponse> PasswordDoesNotMeetRequirements(
+            string title = "Password does not make requirements.",
+            string detail = "The password does not have the correct number of strength modifiers.")
+        {
+            return new Envelope<TResponse>(ApplicationStatus.PasswordDoesNotMeetRequirements, title, detail);
+        }
+
+        /// <summary>
+        /// Function to return too many recent attempts error.
+        /// </summary>
+        /// <param name="title">The title of the failure.</param>
+        /// <param name="detail">The detail of the failure.</param>
+        /// <returns>A new response Envelope.</returns>
+        public static IEnvelope<TResponse> TooManyRecentAttempts(
+            string title = "Too many recent attempts.",
+            string detail = "User has attempted too many login attempts recently.")
+        {
+            return new Envelope<TResponse>(ApplicationStatus.TooManyRecentAttempts, title, detail);
+        }
+
+        /// <summary>
+        /// Function to return account is locked out error.
+        /// </summary>
+        /// <param name="title">The title of the failure.</param>
+        /// <param name="detail">The detail of the failure.</param>
+        /// <returns>A new response Envelope.</returns>
+        public static IEnvelope<TResponse> AccountIsLockedOut(
+            string title = "Account is locked out.",
+            string detail = "The account is currently locked out due to suspicious activity.")
+        {
+            return new Envelope<TResponse>(ApplicationStatus.AccountIsLockedOut, title, detail);
+        }
+
+        /// <summary>
+        /// Function to return account has not been verified error.
+        /// </summary>
+        /// <param name="title">The title of the failure.</param>
+        /// <param name="detail">The detail of the failure.</param>
+        /// <returns>A new response Envelope.</returns>
+        public static IEnvelope<TResponse> AccountHasNotBeenVerified(
+            string title = "Account has not been verified.",
+            string detail = "The account has not been verified and has reduced capabilities.")
+        {
+            return new Envelope<TResponse>(ApplicationStatus.AccountHasNotBeenVerified, title, detail);
+        }
+
+        /// <summary>
+        /// Function to return email has not been verified error.
+        /// </summary>
+        /// <param name="title">The title of the failure.</param>
+        /// <param name="detail">The detail of the failure.</param>
+        /// <returns>A new response Envelope.</returns>
+        public static IEnvelope<TResponse> EmailHasNotBeenVerified(
+            string title = "Email has not been verified.",
+            string detail = "The email has not been verified, reducing the account capabilities.")
+        {
+            return new Envelope<TResponse>(ApplicationStatus.EmailHasNotBeenVerified, title, detail);
+        }
+
+        /// <summary>
+        /// Function to return two factor code is incorrect error.
+        /// </summary>
+        /// <param name="title">The title of the failure.</param>
+        /// <param name="detail">The detail of the failure.</param>
+        /// <returns>A new response Envelope.</returns>
+        public static IEnvelope<TResponse> TwoFactorCodeIsIncorrect(
+            string title = "Two factor code is incorrect.",
+            string detail = "The two factor code did not match what was expected.")
+        {
+            return new Envelope<TResponse>(ApplicationStatus.TwoFactorCodeIncorrect, title, detail);
+        }
     }
 }

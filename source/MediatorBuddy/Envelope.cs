@@ -303,5 +303,31 @@ namespace MediatorBuddy
         {
             return new Envelope<TResponse>(ApplicationStatus.TwoFactorCodeIncorrect, title, detail);
         }
+
+        /// <summary>
+        /// Function to return an unauthorized user error.
+        /// </summary>
+        /// <param name="title">The title of the failure.</param>
+        /// <param name="detail">The detail of the failure.</param>
+        /// <returns>A new response Envelope.</returns>
+        public static IEnvelope<TResponse> UnauthorizedUser(
+            string title = "The current user in question is unauthorized.",
+            string detail = "The user must first provide credentials before they may access specific content.")
+        {
+            return new Envelope<TResponse>(ApplicationStatus.UnauthorizedUser, title, detail);
+        }
+
+        /// <summary>
+        /// Function to return a content is forbidden error.
+        /// </summary>
+        /// <param name="title">The title of the failure.</param>
+        /// <param name="detail">The detail of the failure.</param>
+        /// <returns>A new response Envelope.</returns>
+        public static IEnvelope<TResponse> ContentIsForbidden(
+            string title = "The content is forbidden.",
+            string detail = "The current user does not have the proper credentials to access the content.")
+        {
+            return new Envelope<TResponse>(ApplicationStatus.ContentIsForbidden, title, detail);
+        }
     }
 }

@@ -261,5 +261,27 @@ namespace MediatorBuddy.Tests
 
             Assert.AreEqual(ApplicationStatus.TwoFactorCodeIncorrect, result.Status);
         }
+
+        /// <summary>
+        /// Ensures a unauthorized user code has the correct properties.
+        /// </summary>
+        [TestMethod]
+        public void UnauthorizedUser_HasCorrectProperties()
+        {
+            var result = Envelope<TestResponse>.UnauthorizedUser();
+
+            Assert.AreEqual(ApplicationStatus.UnauthorizedUser, result.Status);
+        }
+
+        /// <summary>
+        /// Ensures a content is forbidden code has the correct properties.
+        /// </summary>
+        [TestMethod]
+        public void ContentIsForbidden_HasCorrectProperties()
+        {
+            var result = Envelope<TestResponse>.ContentIsForbidden();
+
+            Assert.AreEqual(ApplicationStatus.ContentIsForbidden, result.Status);
+        }
     }
 }

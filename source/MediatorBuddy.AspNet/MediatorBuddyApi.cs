@@ -94,8 +94,9 @@ namespace MediatorBuddy.AspNet
             return envelope.Status switch
             {
                 ApplicationStatus.Success => successResult,
-                ApplicationStatus.UserNameAlreadyExists => new ConflictObjectResult(ErrorResponse.FromEnvelope(_errorTypes.Auth, envelope, currentRoute)),
-                _ => new ObjectResult(ErrorResponse.InternalError(_errorTypes.General, currentRoute)),
+                ApplicationStatus.GeneralError => StatusCode(StatusCodes.Status500InternalServerError, ErrorResponse.FromEnvelope(_errorTypes.General, StatusCodes.Status500InternalServerError, envelope, currentRoute)),
+                ApplicationStatus.UserNameAlreadyExists => Conflict(ErrorResponse.FromEnvelope(_errorTypes.Auth, StatusCodes.Status409Conflict, envelope, currentRoute)),
+                _ => StatusCode(StatusCodes.Status500InternalServerError, ErrorResponse.InternalError(_errorTypes.General, currentRoute)),
             };
         }
     }

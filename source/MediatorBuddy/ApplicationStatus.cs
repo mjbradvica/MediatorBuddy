@@ -54,56 +54,66 @@ namespace MediatorBuddy
         /// <summary>
         /// The User could not be found.
         /// </summary>
-        public const int UserDoesNotExist = 10;
+        public const int UserDoesNotExist = 30;
 
         /// <summary>
         /// The User was unable to be created.
         /// </summary>
-        public const int UserCouldNotBeCreated = 11;
+        public const int UserCouldNotBeCreated = 31;
 
         /// <summary>
         /// The User name already exists.
         /// </summary>
-        public const int UserNameAlreadyExists = 12;
+        public const int UserNameAlreadyExists = 32;
 
         /// <summary>
         /// The email is already in use.
         /// </summary>
-        public const int EmailIsAlreadyUsed = 13;
+        public const int EmailIsAlreadyUsed = 33;
 
         /// <summary>
         /// The password given was incorrect.
         /// </summary>
-        public const int PasswordIsNotCorrect = 11;
+        public const int PasswordIsIncorrect = 34;
 
         /// <summary>
         /// The password does not meet all the requirements.
         /// </summary>
-        public const int PasswordDoesNotMeetRequirements = 12;
+        public const int PasswordDoesNotMeetRequirements = 35;
 
         /// <summary>
         /// The User has attempted too may attempts recently.
         /// </summary>
-        public const int TooManyRecentAttempts = 13;
+        public const int TooManyRecentAttempts = 36;
 
         /// <summary>
         /// The User is currently locked out of their account.
         /// </summary>
-        public const int AccountIsLockedOut = 14;
+        public const int AccountIsLockedOut = 37;
 
         /// <summary>
         /// The account has yet to be verified.
         /// </summary>
-        public const int AccountHasNotBeenVerified = 15;
+        public const int AccountHasNotBeenVerified = 38;
 
         /// <summary>
         /// The Email has yet to be verified.
         /// </summary>
-        public const int EmailHasNotBeenVerified = 16;
+        public const int EmailHasNotBeenVerified = 39;
 
         /// <summary>
         /// The given two-factor code was incorrect.
         /// </summary>
-        public const int TwoFactorCodeIncorrect = 17;
+        public const int TwoFactorCodeIncorrect = 40;
+
+        /// <summary>
+        /// The user is not authorized against the server.
+        /// </summary>
+        public const int UnauthorizedUser = 41;
+
+        /// <summary>
+        /// The content in question is forbidden to the user.
+        /// </summary>
+        public const int ContentIsForbidden = 42;
     }
 }

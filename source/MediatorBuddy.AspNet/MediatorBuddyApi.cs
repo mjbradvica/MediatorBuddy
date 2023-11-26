@@ -13,6 +13,8 @@ namespace MediatorBuddy.AspNet
     /// <summary>
     /// A base class to use in for API controllers.
     /// </summary>
+    [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status500InternalServerError)]
     public abstract class MediatorBuddyApi : ControllerBase
     {
         private readonly ErrorTypes _errorTypes;
@@ -46,7 +48,6 @@ namespace MediatorBuddy.AspNet
         /// <param name="request">The request object being sent to the execution pipeline.</param>
         /// <param name="responseFunc">A function that will accepts a response object and return a web response.</param>
         /// <returns>An IActionResult representing the end successResult of the request object.</returns>
-        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
         protected async Task<IActionResult> ExecuteRequest<TResponse>(IRequest<IEnvelope<TResponse>> request, Func<TResponse, IActionResult> responseFunc)
         {
             IActionResult response;
@@ -90,13 +91,30 @@ namespace MediatorBuddy.AspNet
                 return additionalOptions.Invoke(envelope.Status);
             }
 
-            var currentRoute = new Uri(HttpContext.Request.Path.Value ?? _errorTypes.General.ToString(), UriKind.Relative);
-
             return envelope.Status switch
             {
                 ApplicationStatus.Success => successResult,
-                ApplicationStatus.UserNameAlreadyExists => new ConflictObjectResult(ErrorResponse.FromEnvelope(_errorTypes.Auth, envelope, currentRoute)),
-                _ => new StatusCodeResult(StatusCodes.Status500InternalServerError),
+                ApplicationStatus.GeneralError => StatusCode(StatusCodes.Status500InternalServerError, ErrorResponse.FromEnvelope(_errorTypes.General, StatusCodes.Status500InternalServerError, envelope, currentRoute)),
+                ApplicationStatus.OperationCouldNotBeCompleted => StatusCode(StatusCodes.Status500InternalServerError, ErrorResponse.FromEnvelope(_errorTypes.General, StatusCodes.Status500InternalServerError, envelope, currentRoute)),
+                ApplicationStatus.EntityWasNotFound => NotFound(ErrorResponse.FromEnvelope(_errorTypes.General, StatusCodes.Status404NotFound, envelope, currentRoute)),
+                ApplicationStatus.ConflictWithOtherResource => Conflict(ErrorResponse.FromEnvelope(_errorTypes.General, StatusCodes.Status409Conflict, envelope, currentRoute)),
+                ApplicationStatus.ValidationConstraintNotMet => BadRequest(ErrorResponse.FromEnvelope(_errorTypes.General, StatusCodes.Status400BadRequest, envelope, currentRoute)),
+                ApplicationStatus.PreConditionNotMet => BadRequest(ErrorResponse.FromEnvelope(_errorTypes.General, StatusCodes.Status400BadRequest, envelope, currentRoute)),
+                ApplicationStatus.PostConditionNotMet => BadRequest(ErrorResponse.FromEnvelope(_errorTypes.General, StatusCodes.Status400BadRequest, envelope, currentRoute)),
+                ApplicationStatus.UserDoesNotExist => NotFound(ErrorResponse.FromEnvelope(_errorTypes.Auth, StatusCodes.Status404NotFound, envelope, currentRoute)),
+                ApplicationStatus.UserCouldNotBeCreated => StatusCode(StatusCodes.Status500InternalServerError, ErrorResponse.FromEnvelope(_errorTypes.Auth, StatusCodes.Status500InternalServerError, envelope, currentRoute)),
+                ApplicationStatus.UserNameAlreadyExists => Conflict(ErrorResponse.FromEnvelope(_errorTypes.Auth, StatusCodes.Status409Conflict, envelope, currentRoute)),
+                ApplicationStatus.EmailIsAlreadyUsed => Conflict(ErrorResponse.FromEnvelope(_errorTypes.Auth, StatusCodes.Status409Conflict, envelope, currentRoute)),
+                ApplicationStatus.PasswordIsIncorrect => BadRequest(ErrorResponse.FromEnvelope(_errorTypes.Auth, StatusCodes.Status400BadRequest, envelope, currentRoute)),
+                ApplicationStatus.PasswordDoesNotMeetRequirements => BadRequest(ErrorResponse.FromEnvelope(_errorTypes.Auth, StatusCodes.Status400BadRequest, envelope, currentRoute)),
+                ApplicationStatus.TooManyRecentAttempts => StatusCode(StatusCodes.Status429TooManyRequests, ErrorResponse.FromEnvelope(_errorTypes.Auth, StatusCodes.Status429TooManyRequests, envelope, currentRoute)),
+                ApplicationStatus.AccountIsLockedOut => StatusCode(StatusCodes.Status423Locked, ErrorResponse.FromEnvelope(_errorTypes.Auth, StatusCodes.Status423Locked, envelope, currentRoute)),
+                ApplicationStatus.AccountHasNotBeenVerified => StatusCode(StatusCodes.Status403Forbidden, ErrorResponse.FromEnvelope(_errorTypes.Auth, StatusCodes.Status403Forbidden, envelope, currentRoute)),
+                ApplicationStatus.EmailHasNotBeenVerified => StatusCode(StatusCodes.Status403Forbidden, ErrorResponse.FromEnvelope(_errorTypes.Auth, StatusCodes.Status403Forbidden, envelope, currentRoute)),
+                ApplicationStatus.TwoFactorCodeIncorrect => BadRequest(ErrorResponse.FromEnvelope(_errorTypes.Auth, StatusCodes.Status400BadRequest, envelope, currentRoute)),
+                ApplicationStatus.UnauthorizedUser => Unauthorized(ErrorResponse.FromEnvelope(_errorTypes.Auth, StatusCodes.Status401Unauthorized, envelope, currentRoute)),
+                ApplicationStatus.ContentIsForbidden => StatusCode(StatusCodes.Status403Forbidden, ErrorResponse.FromEnvelope(_errorTypes.Auth, StatusCodes.Status403Forbidden, envelope, currentRoute)),
+                _ => StatusCode(StatusCodes.Status500InternalServerError, ErrorResponse.InternalError(_errorTypes.General, currentRoute)),
             };
         }
     }

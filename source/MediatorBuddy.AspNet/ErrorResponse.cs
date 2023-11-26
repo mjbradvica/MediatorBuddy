@@ -61,12 +61,13 @@ namespace MediatorBuddy.AspNet
         /// </summary>
         /// <typeparam name="TResponse">The response type.</typeparam>
         /// <param name="type">The error type uri.</param>
+        /// <param name="statusCode">The http status code.</param>
         /// <param name="envelope">The response envelope.</param>
         /// <param name="instance">The action uri.</param>
         /// <returns>A new ErrorResponse instance.</returns>
-        public static ErrorResponse FromEnvelope<TResponse>(Uri type, IEnvelope<TResponse> envelope, Uri instance)
+        public static ErrorResponse FromEnvelope<TResponse>(Uri type, int statusCode, IEnvelope<TResponse> envelope, Uri instance)
         {
-            return new ErrorResponse(type, envelope.Title, envelope.Status, envelope.Detail, instance);
+            return new ErrorResponse(type, envelope.Title, statusCode, envelope.Detail, instance);
         }
 
         /// <summary>

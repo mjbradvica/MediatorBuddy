@@ -47,7 +47,7 @@ namespace MediatorBuddy.Tests
             const string detail = "an error occurred";
             var instance = new Uri("/people", UriKind.Relative);
 
-            var errorResponse = ErrorResponse.FromEnvelope(type, Envelope<TestResponse>.Failure(status, title, detail), instance);
+            var errorResponse = ErrorResponse.FromEnvelope(type, status, Envelope<TestResponse>.Failure(status, title, detail), instance);
 
             Assert.AreEqual(type, errorResponse.Type);
             Assert.AreEqual(title, errorResponse.Title);

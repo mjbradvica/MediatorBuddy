@@ -13,7 +13,7 @@ namespace MediatorBuddy
         /// <summary>
         /// Gets a value indicating what status code is present.
         /// </summary>
-        public int StatusCode { get; }
+        public int Status { get; }
 
         /// <summary>
         /// Gets a brief description of the error, if one exists.

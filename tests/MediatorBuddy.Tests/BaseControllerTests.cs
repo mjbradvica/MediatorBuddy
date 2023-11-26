@@ -81,8 +81,8 @@ namespace MediatorBuddy.Tests
 
             var result = await _apiController.Handle(TestObjectRequest.Valid());
 
-            Assert.IsInstanceOfType<StatusCodeResult>(result);
-            Assert.AreEqual(StatusCodes.Status500InternalServerError, (result as StatusCodeResult)?.StatusCode);
+            Assert.IsInstanceOfType<ObjectResult>(result);
+            Assert.AreEqual(StatusCodes.Status500InternalServerError, (result as ObjectResult)?.StatusCode);
         }
     }
 }

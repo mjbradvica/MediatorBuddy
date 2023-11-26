@@ -22,6 +22,7 @@ namespace MediatorBuddy.Samples.Api
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddLogging();
             builder.Services.AddMediatR(x => x.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
             var app = builder.Build();

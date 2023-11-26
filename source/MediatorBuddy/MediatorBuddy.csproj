@@ -3,7 +3,27 @@
   <PropertyGroup>
 	  <TargetFrameworks>netstandard2.1;net6.0;net7.0;net8.0</TargetFrameworks>
     <Nullable>enable</Nullable>
+    <Title>MediatorBuddy</Title>
+    <Authors>Michael Bradvica</Authors>
+    <Company>Michael Bradvica LLC.</Company>
+    <Description>An opinionated implementation of the MediatR library.</Description>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <Copyright>Copyright 2024. All rights reserved.</Copyright>
+    <PackageProjectUrl>https://github.com/mjbradvica/MediatorBuddy</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/mjbradvica/MediatorBuddy</RepositoryUrl>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="MediatR" Version="12.2.0" />

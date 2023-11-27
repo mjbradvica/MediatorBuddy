@@ -4,15 +4,32 @@
 
 An opinionated implementation for the [MediatR](https://github.com/jbogard/MediatR) library.
 
+## Table of Contents
+
+[Overview](#overview)
+[Dependencies](#dependencies)
+[Installation](#installation)
+[Explanation](#what-is-implied-by-opinionated-library)
+[Background](#background-story)
+[Setup](#setup)
+[Quick Start](#quick-start)
+[In Depth](#in-depth)
+[FAQ](#faq)
+
 ## Overview
 
-What does Mediator buddy give you?
+What does MediatorBuddy give you?
 
 - A consistent interface for communication between your presentation and application layer.
 - An implementation of the [RFC 9457](https://www.rfc-editor.org/rfc/rfc9457.txt) spec for consistent and user friendly API error responses.
 - A base controller that handles generic boilerplate for you. You may find that you no longer need to unit-test anything in your presentation layer.
 - Extendability-you can define custom application status states and return a specific status code.
 - Modifiable-override a status return code, title, or detail message.
+
+## Dependencies
+
+MediatorBuddy has a dependency on [MediatR](https://www.nuget.org/packages/MediatR) in the base package.
+MediatorBuddy.AspNet uses the [Microsoft.AspNetCore.App](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/metapackage-app?view=aspnetcore-7.0) meta-package.
 
 ## Installation
 
@@ -36,6 +53,10 @@ If you are familiar with the [Prettier](https://prettier.io/) formatter for fron
 
 MediatorBuddy has a very specific way to handling requests and responses. The advantage you gain is up to 100% less unit testing in your presentation layer alongside a consistent way to handling failures.
 
+MediatorBuddy also assumes that you prefer to use the built-in [validation attributes](https://learn.microsoft.com/en-us/aspnet/core/mvc/models/validation?view=aspnetcore-7.0#validation-attributes) that Microsoft provides out of the box. Attribute validators is highly recommended, especially if you are utilizing Swagger.
+
+You may use a separate library such as [FluentValidation](https://www.nuget.org/packages/FluentValidation)-however you will need to validate request objects in your handlers.
+
 ## Background Story
 
 MediatorBuddy is the third version of a small pattern I found myself constantly implementing on multiple projects. It started with not wanting to write the same unit test for API endpoints over and over again. It has since morphed into the formal version you see in this library.
@@ -45,6 +66,24 @@ MediatorBuddy's greatest strength is that it puts guardrails on your developers.
 ## Setup
 
 > This documentation assumes you are already familiar with how [MediatR](https://github.com/jbogard/MediatR) works.
+
+While MediatorBuddy has nothing it needs to register with the dependency injection framework-its needs to turn off the default model state filter.
+
+For convenance pass your MediatR configuration setup and MediatorBuddy will setup MediatR in the same call.
+
+```csharp
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        var builder = WebApplication.CreateBuilder(args);
+
+        builder.Services.AddMediatorBuddy(x => x.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+
+        // Continue setup below
+    }
+}
+```
 
 ## Quick Start
 
@@ -74,7 +113,7 @@ public class MyHandler : IEnvelopeHandler<MyRequest, MyResponse>
     {
         var data = await _repository.GetData();
 
-        if(data == null)
+        if (data == null)
         {
             return Envelope<MyResponse>.EntityNotFound();
         }
@@ -316,6 +355,8 @@ The [ResponseOptions](https://github.com/mjbradvica/MediatorBuddy/blob/master/so
 
 ResponseOptions has every response for any status code in the 100's or 200's.
 
+> You will need to provide a custom callback for any 300 response.
+
 #### Detailed Response
 
 Some ResponseOptions allow you to pass another callback. Such in the case of a 201 Created response.
@@ -365,5 +406,40 @@ public class GlobalExceptionOccurredHandler : INotificationHandler<GlobalExcepti
 
 > Even if you choose to ignore exceptions. You must define a handler or else MediatR will throw an exception.
 
-https://www.rfc-editor.org/rfc/rfc7807
-https://www.rfc-editor.org/rfc/rfc9457.txt
+## FAQ
+
+### What is MediatorBuddy?
+
+MediatorBuddy is an opinionated implementation of the MediatR library.
+
+It gives you a specific way to handle errors and responses from handlers and controllers. In certain situations, you may not need to unit test controllers at all.
+
+### What is implied by an 80/20 library?
+
+MediatorBuddy is only concerned with a subset of all available faults and responses that are the most common. There are situations where you may have return a response that isn't provided by default.
+
+### How does MediatorBuddy handle errors?
+
+MediatorBuddy forces you to return an Envelope on every request no matter what. This gives your application consistency when handling errors.
+
+You must implement a handler for the GlobalExceptionOccurred notification. This event is raised every time an uncaught exception bubbles up to a controller.
+
+Reminder: Throwing exceptions in your application is another form of a goto statement-especially when you can predict the execution path.
+
+### What if I really need to throw an exception?
+
+If you need to throw, throw. Just make sure you handle the exception gracefully in your global exception handler.
+
+### Do I need to use the existing Envelope implementation?
+
+No, you may implement your own from the IEnvelope interface. However using the default implementation is required.
+
+### What is the difference between the ApplicationStatus and a HTTP status?
+
+An application status is an abstract way of declaring the current state of your application. It makes zero assumptions of your presentation layer. This allows MediatorBuddy to be used with an API, MVC, Razor, Blazor, gPRC, or GraphQL application. Even if it doesn't provide a specific implementation.
+
+HTTP status codes are an implementation detail and should not be allowed to leak in your application or domain layer.
+
+### Can I only use MediatorBuddy for an API?
+
+No, API, Razor Pages, and MVC will be supported on initial release. There are plans to add support for gRPC and GraphQL at later dates.

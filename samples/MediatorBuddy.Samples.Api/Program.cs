@@ -3,6 +3,7 @@
 // </copyright>
 
 using System.Reflection;
+using MediatorBuddy.AspNet.Registration;
 
 namespace MediatorBuddy.Samples.Api
 {
@@ -23,7 +24,7 @@ namespace MediatorBuddy.Samples.Api
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddLogging();
-            builder.Services.AddMediatR(x => x.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+            builder.Services.AddMediatorBuddy(x => x.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
             var app = builder.Build();
 

@@ -19,7 +19,7 @@ namespace MediatorBuddy.AspNet.Registration
         /// <param name="services">An instance of the <see cref="IServiceCollection"/> interface.</param>
         /// <param name="configuration">An instance of the configuration for the Mediator library.</param>
         /// <returns>The ServiceCollection object to continue with.</returns>
-        public static IServiceCollection AddMediatorBuddy(IServiceCollection services, MediatRServiceConfiguration configuration)
+        public static IServiceCollection AddMediatorBuddy(this IServiceCollection services, MediatRServiceConfiguration configuration)
         {
             services.Configure<ApiBehaviorOptions>(options => options.SuppressModelStateInvalidFilter = true);
 
@@ -34,7 +34,7 @@ namespace MediatorBuddy.AspNet.Registration
         /// <param name="services">An instance of the <see cref="IServiceCollection"/> interface.</param>
         /// <param name="configuration">An action that returns a configuration for the Mediator library.</param>
         /// <returns>The ServiceCollection object to continue with.</returns>
-        public static IServiceCollection AddMediatorBuddy(IServiceCollection services, Action<MediatRServiceConfiguration> configuration)
+        public static IServiceCollection AddMediatorBuddy(this IServiceCollection services, Action<MediatRServiceConfiguration> configuration)
         {
             services.Configure<ApiBehaviorOptions>(options => options.SuppressModelStateInvalidFilter = true);
 

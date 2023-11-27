@@ -6,15 +6,15 @@ An opinionated implementation for the [MediatR](https://github.com/jbogard/Media
 
 ## Table of Contents
 
-[Overview](#overview)
-[Dependencies](#dependencies)
-[Installation](#installation)
-[Explanation](#what-is-implied-by-opinionated-library)
-[Background](#background-story)
-[Setup](#setup)
-[Quick Start](#quick-start)
-[In Depth](#in-depth)
-[FAQ](#faq)
+- [Overview](#overview)
+- [Dependencies](#dependencies)
+- [Installation](#installation)
+- [Explanation](#what-is-implied-by-opinionated-library)
+- [Background](#background-story)
+- [Setup](#setup)
+- [Quick Start](#quick-start)
+- [In Depth](#in-depth)
+- [FAQ](#faq)
 
 ## Overview
 

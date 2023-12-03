@@ -30,8 +30,8 @@ What does MediatorBuddy give you?
 
 ## Dependencies
 
-MediatorBuddy has a dependency on [MediatR](https://www.nuget.org/packages/MediatR) in the base package.
-MediatorBuddy.AspNet uses the [Microsoft.AspNetCore.App](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/metapackage-app?view=aspnetcore-7.0) meta-package.
+- MediatorBuddy has a dependency on [MediatR](https://www.nuget.org/packages/MediatR) in the base package.
+- MediatorBuddy.AspNet uses the [Microsoft.AspNetCore.App](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/metapackage-app?view=aspnetcore-7.0) meta-package.
 
 ## Installation
 

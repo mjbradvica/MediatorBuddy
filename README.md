@@ -1,8 +1,20 @@
 # MediatorBuddy
 
+An opinionated implementation for the [MediatR](https://github.com/jbogard/MediatR) library.
+
+![TempBuddy](./images/tempBuddy.jpg)
+
 ![build-status](https://github.com/mjbradvica/MediatorBuddy/workflows/main/badge.svg) ![downloads](https://img.shields.io/nuget/dt/MediatorBuddy) ![downloads](https://img.shields.io/nuget/v/MediatorBuddy) ![activity](https://img.shields.io/github/last-commit/mjbradvica/MediatorBuddy/master)
 
-An opinionated implementation for the [MediatR](https://github.com/jbogard/MediatR) library.
+## Overview
+
+What does MediatorBuddy give you?
+
+- :telephone: A consistent interface for communication between your presentation and application layer.
+- :clipboard: An implementation of the [RFC 9457](https://www.rfc-editor.org/rfc/rfc9457.txt) spec for consistent and user friendly API error responses.
+- :construction_worker: A base controller that handles generic boilerplate for you. You may find that you no longer need to unit-test anything in your presentation layer.
+- :hammer: Extendable: You can define custom application status states and return a specific status code.
+- :currency_exchange: Modifiable: Override a status return code, title, or detail message.
 
 ## Table of Contents
 
@@ -16,16 +28,6 @@ An opinionated implementation for the [MediatR](https://github.com/jbogard/Media
 - [In Depth](#in-depth)
 - [FAQ](#faq)
 
-## Overview
-
-What does MediatorBuddy give you?
-
-- A consistent interface for communication between your presentation and application layer.
-- An implementation of the [RFC 9457](https://www.rfc-editor.org/rfc/rfc9457.txt) spec for consistent and user friendly API error responses.
-- A base controller that handles generic boilerplate for you. You may find that you no longer need to unit-test anything in your presentation layer.
-- Extendability-you can define custom application status states and return a specific status code.
-- Modifiable-override a status return code, title, or detail message.
-
 ## Dependencies
 
 MediatorBuddy has a dependency on [MediatR](https://www.nuget.org/packages/MediatR) in the base package.
@@ -33,7 +35,7 @@ MediatorBuddy.AspNet uses the [Microsoft.AspNetCore.App](https://learn.microsoft
 
 ## Installation
 
-The easier way to get start is to: [Install with NuGet](https://www.nuget.org/).
+The easiest way to get start is to: [Install with NuGet](https://www.nuget.org/).
 
 In your application layer:
 

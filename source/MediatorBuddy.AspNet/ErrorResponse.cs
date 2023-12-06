@@ -37,7 +37,7 @@ namespace MediatorBuddy.AspNet
         public Uri Type { get; }
 
         /// <summary>
-        /// Gets a human readable message about the error.
+        /// Gets a human read-able message about the error.
         /// </summary>
         public string Title { get; }
 
@@ -83,7 +83,7 @@ namespace MediatorBuddy.AspNet
                 type,
                 "Validation Error",
                 StatusCodes.Status400BadRequest,
-                $"The follow errors were present: {errors.Aggregate(string.Empty, (final, next) => $"{final}  ${next}")}",
+                $"The follow errors were present: {errors.Aggregate(string.Empty, (final, next) => $"{final} ${next}")}",
                 instance);
         }
 

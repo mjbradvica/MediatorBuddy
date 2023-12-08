@@ -20,7 +20,7 @@ namespace MediatorBuddy
         public const int GeneralError = 1;
 
         /// <summary>
-        /// The operation could not completed at this time.
+        /// The operation could not be completed at this time.
         /// </summary>
         public const int OperationCouldNotBeCompleted = 2;
 
@@ -62,7 +62,7 @@ namespace MediatorBuddy
         public const int UserCouldNotBeCreated = 31;
 
         /// <summary>
-        /// The User name already exists.
+        /// The username already exists.
         /// </summary>
         public const int UserNameAlreadyExists = 32;
 
@@ -82,7 +82,7 @@ namespace MediatorBuddy
         public const int PasswordDoesNotMeetRequirements = 35;
 
         /// <summary>
-        /// The User has attempted too may attempts recently.
+        /// The User has made too many attempts recently.
         /// </summary>
         public const int TooManyRecentAttempts = 36;
 

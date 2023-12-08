@@ -292,7 +292,7 @@ namespace MediatorBuddy
         }
 
         /// <summary>
-        /// Function to return two factor code is incorrect error.
+        /// Function to return two-factor code is incorrect error.
         /// </summary>
         /// <param name="title">The title of the failure.</param>
         /// <param name="detail">The detail of the failure.</param>

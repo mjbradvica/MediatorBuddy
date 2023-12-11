@@ -49,7 +49,7 @@ namespace MediatorBuddy
         public TResponse Response { get; }
 
         /// <summary>
-        /// Factory function for success Envelope..
+        /// Factory function for success Envelope.
         /// </summary>
         /// <param name="response">The response object.</param>
         /// <returns>A new response Envelope.</returns>

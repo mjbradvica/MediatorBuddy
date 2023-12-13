@@ -53,7 +53,7 @@ namespace MediatorBuddy
         /// </summary>
         /// <param name="response">The response object.</param>
         /// <returns>A new response Envelope.</returns>
-        public static Envelope<TResponse> Success(TResponse response)
+        public static IEnvelope<TResponse> Success(TResponse response)
         {
             return new Envelope<TResponse>(response);
         }
@@ -65,7 +65,7 @@ namespace MediatorBuddy
         /// <param name="title">The title of the failure.</param>
         /// <param name="detail">The detail of the failure.</param>
         /// <returns>A new response Envelope.</returns>
-        public static Envelope<TResponse> Failure(int statusCode, string title = "A failure occurred.", string detail = "No details are available for the failure.")
+        public static IEnvelope<TResponse> Failure(int statusCode, string title = "A failure occurred.", string detail = "No details are available for the failure.")
         {
             return new Envelope<TResponse>(statusCode, title, detail);
         }
@@ -193,11 +193,11 @@ namespace MediatorBuddy
         /// <param name="title">The title of the failure.</param>
         /// <param name="detail">The detail of the failure.</param>
         /// <returns>A new response Envelope.</returns>
-        public static IEnvelope<TResponse> UserNameAlreadyExists(
+        public static IEnvelope<TResponse> UsernameAlreadyExists(
             string title = "UserName already exists.",
             string detail = "That username is already in use and may not be duplicated.")
         {
-            return new Envelope<TResponse>(ApplicationStatus.UserNameAlreadyExists, title, detail);
+            return new Envelope<TResponse>(ApplicationStatus.UsernameAlreadyExists, title, detail);
         }
 
         /// <summary>
@@ -328,6 +328,19 @@ namespace MediatorBuddy
             string detail = "The current user does not have the proper credentials to access the content.")
         {
             return new Envelope<TResponse>(ApplicationStatus.ContentIsForbidden, title, detail);
+        }
+
+        /// <summary>
+        /// Function to return a general auth error.
+        /// </summary>
+        /// <param name="title">The title of the failure.</param>
+        /// <param name="detail">The detail of the failure.</param>
+        /// <returns>A new response Envelope.</returns>
+        public static IEnvelope<TResponse> GeneralAuthError(
+            string title = "General auth error.",
+            string detail = "A non-descriptive error related to the auth process occurred.")
+        {
+            return new Envelope<TResponse>(ApplicationStatus.GeneralAuthError, title, detail);
         }
     }
 }

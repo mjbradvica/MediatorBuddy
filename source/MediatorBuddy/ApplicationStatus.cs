@@ -64,7 +64,7 @@ namespace MediatorBuddy
         /// <summary>
         /// The username already exists.
         /// </summary>
-        public const int UserNameAlreadyExists = 32;
+        public const int UsernameAlreadyExists = 32;
 
         /// <summary>
         /// The email is already in use.
@@ -115,5 +115,10 @@ namespace MediatorBuddy
         /// The content in question is forbidden to the user.
         /// </summary>
         public const int ContentIsForbidden = 42;
+
+        /// <summary>
+        /// Indicates a non-descriptive general error related to auth.
+        /// </summary>
+        public const int GeneralAuthError = 43;
     }
 }

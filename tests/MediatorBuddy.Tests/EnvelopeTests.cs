@@ -164,14 +164,14 @@ namespace MediatorBuddy.Tests
         }
 
         /// <summary>
-        /// Ensures a user name already exists has the correct status.
+        /// Ensures a username already exists has the correct status.
         /// </summary>
         [TestMethod]
-        public void UserNameAlreadyExists_HasCorrectProperties()
+        public void UsernameAlreadyExists_HasCorrectProperties()
         {
-            var result = Envelope<TestResponse>.UserNameAlreadyExists();
+            var result = Envelope<TestResponse>.UsernameAlreadyExists();
 
-            Assert.AreEqual(ApplicationStatus.UserNameAlreadyExists, result.Status);
+            Assert.AreEqual(ApplicationStatus.UsernameAlreadyExists, result.Status);
         }
 
         /// <summary>
@@ -252,7 +252,7 @@ namespace MediatorBuddy.Tests
         }
 
         /// <summary>
-        /// Ensures a two factor code is incorrect has the correct properties.
+        /// Ensures a two-factor code is incorrect has the correct properties.
         /// </summary>
         [TestMethod]
         public void TwoFactorCodeIsIncorrect_HasCorrectProperties()
@@ -263,7 +263,7 @@ namespace MediatorBuddy.Tests
         }
 
         /// <summary>
-        /// Ensures a unauthorized user code has the correct properties.
+        /// Ensures an unauthorized user code has the correct properties.
         /// </summary>
         [TestMethod]
         public void UnauthorizedUser_HasCorrectProperties()
@@ -282,6 +282,17 @@ namespace MediatorBuddy.Tests
             var result = Envelope<TestResponse>.ContentIsForbidden();
 
             Assert.AreEqual(ApplicationStatus.ContentIsForbidden, result.Status);
+        }
+
+        /// <summary>
+        /// Ensures a general auth error code has the correct properties.
+        /// </summary>
+        [TestMethod]
+        public void GeneralAuthError_HasCorrectProperties()
+        {
+            var result = Envelope<TestResponse>.GeneralAuthError();
+
+            Assert.AreEqual(ApplicationStatus.GeneralAuthError, result.Status);
         }
     }
 }

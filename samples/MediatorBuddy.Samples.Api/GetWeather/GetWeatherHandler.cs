@@ -17,7 +17,7 @@ namespace MediatorBuddy.Samples.Api.GetWeather
         /// <returns>Envelope response.</returns>
         public Task<IEnvelope<GetWeatherResponse>> Handle(GetWeatherRequest request, CancellationToken cancellationToken)
         {
-            return Task.FromResult(Envelope<GetWeatherResponse>.Failure(ApplicationStatus.UserNameAlreadyExists) as IEnvelope<GetWeatherResponse>);
+            return Task.FromResult(Envelope<GetWeatherResponse>.UsernameAlreadyExists());
         }
     }
 }

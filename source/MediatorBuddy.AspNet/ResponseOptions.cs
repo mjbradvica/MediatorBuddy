@@ -27,7 +27,7 @@ namespace MediatorBuddy.AspNet
         /// Returns a function that will yield a <see cref="StatusCodeResult"/> of type 101 Switching Protocols.
         /// </summary>
         /// <typeparam name="TResponse">The type of the response object.</typeparam>
-        /// <returns>An function that will return an IActionResult of type StatusCodeResult.</returns>
+        /// <returns>A function that will return an IActionResult of type StatusCodeResult.</returns>
         public static Func<TResponse, IActionResult> SwitchingProtocolsResponse<TResponse>()
         {
             return _ => new StatusCodeResult(StatusCodes.Status101SwitchingProtocols);
@@ -90,7 +90,7 @@ namespace MediatorBuddy.AspNet
         /// </summary>
         /// <param name="location">A string that represents a Uri location of the resource.</param>
         /// <typeparam name="TResponse">The type of the response object.</typeparam>
-        /// <returns>A function that will return an IActionResult of type CreatedResult..</returns>
+        /// <returns>A function that will return an IActionResult of type CreatedResult.</returns>
         public static Func<TResponse, IActionResult> CreatedResponse<TResponse>(string location)
         {
             return response => new CreatedResult(location, response);
@@ -101,7 +101,7 @@ namespace MediatorBuddy.AspNet
         /// </summary>
         /// <param name="locationFunc">A string that represents a Uri location of the resource.</param>
         /// <typeparam name="TResponse">The type of the response object.</typeparam>
-        /// <returns>A function that will return an IActionResult of type CreatedResult..</returns>
+        /// <returns>A function that will return an IActionResult of type CreatedResult.</returns>
         public static Func<TResponse, IActionResult> CreatedResponse<TResponse>(Func<TResponse, string> locationFunc)
         {
             return response => new CreatedResult(locationFunc.Invoke(response), response);

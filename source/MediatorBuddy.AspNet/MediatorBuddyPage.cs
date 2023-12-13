@@ -25,7 +25,7 @@ namespace MediatorBuddy.AspNet
         /// <param name="mediator">An instance of the <see cref="IMediator"/> interface.</param>
         /// <param name="extraOptions">Additional error handling options.</param>
         /// <param name="errorPage">The name of the Page to redirect to on exception. Defaults to "Error".</param>
-        protected MediatorBuddyPage(IMediator mediator, Func<int, IActionResult>? extraOptions = null,  string errorPage = "/Error")
+        protected MediatorBuddyPage(IMediator mediator, Func<int, IActionResult>? extraOptions = null, string errorPage = "/Error")
         {
             Mediator = mediator;
             _extraOptions = extraOptions;

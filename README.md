@@ -16,15 +16,26 @@ What does MediatorBuddy give you?
 - :hammer: Extendable: You can define custom application status states and return a specific status code.
 - :currency_exchange: Modifiable: Override a status return code, title, or detail message.
 
+## Framework Support
+
+| Framework      | Supported |
+| -------------- | --------- |
+| .NET API       | Yes       |
+| .NET MVC       | Soon      |
+| Razor Pages    | Soon      |
+| gRPC           | Planned   |
+| graphQL        | Planned   |
+
 ## Table of Contents
 
 - [Overview](#overview)
+- [Framework Support](#framework-support)
 - [Dependencies](#dependencies)
 - [Installation](#installation)
 - [Explanation](#what-is-implied-by-an-opinionated-library)
 - [Background](#background-story)
 - [Setup](#setup)
-- [Quick Start](#quick-start)
+- [Quick Start API](#quick-start-api)
 - [In-Depth](#in-depth)
   - [Default Responses](#default-responses)
 - [FAQ](#faq)
@@ -88,7 +99,7 @@ public class Program
 }
 ```
 
-## Quick Start
+## Quick Start API
 
 All requests inherit from the [IEnvelopeRequest](https://github.com/mjbradvica/MediatorBuddy/blob/master/source/MediatorBuddy/IEnvelopeRequest.cs) interface.
 
@@ -159,6 +170,16 @@ Implement a handler to account for global exceptions.
          return Task.CompletedTask;
      }
  }
+```
+
+Create a concrete class for error endpoints. I suggest using the default base error controller class-then gradually overriding what you need.
+
+```csharp
+[ApiController]
+[Route("[controller]")]
+public class ErrorController : BaseErrorController
+{
+}
 ```
 
 That's 90% of how MediatorBuddy works!
@@ -413,30 +434,31 @@ public class GlobalExceptionOccurredHandler : INotificationHandler<GlobalExcepti
 
 When using MediatorBuddy for an API project, here are the default responses for each application status.
 
-| Status                              | HTTP Code   |
-| ----------------------------------- | ----------- |
-| Success                             | User Chosen |
-| General Failure                     | 500         |
-| Operation Could Not Be Completed    | 500         |
-| Entity Was Not Found                | 404         |
-| Conflict With Other Resource        | 409         |
-| Validation Constraint Not Met       | 400         |
-| Pre-Condition Not Met               | 400         |
-| Post-Condition Not Met              | 400         |
-| User Does Not Exist                 | 404         |
-| User Could Not Be Created           | 500         |
-| User Name Already Exists            | 409         |
-| Email Is Already Used               | 409         |
-| Password Is Incorrect               | 400         |
-| Password Does Not Meet Requirements | 400         |
-| Too Many Recent Attempts            | 429         |
-| Account Is Locked Out               | 423         |
-| Account Has Not Been Verified       | 403         |
-| Email Has Not Been Verified         | 403         |
-| Two-Factor Code Incorrect           | 400         |
-| Unauthorized User                   | 401         |
-| Content Is Forbidden                | 403         |
-| Global Exception                    | 500         |
+| Status                              | HTTP Code   | Default Type Uri (Relative) |
+| ----------------------------------- | ----------- | ---------------- |
+| Success                             | User Chosen | None             |
+| General Failure                     | 500         | Error/General    |
+| Operation Could Not Be Completed    | 500         | Error/OperationCouldNotBeCompleted |
+| Entity Was Not Found                | 404         | Error/EntityWasNotFound |
+| Conflict With Other Resource        | 409         | Error/ConflictWithOtherResource |
+| Validation Constraint Not Met       | 400         | Error/ValidationConstraintNotMet |
+| Pre-Condition Not Met               | 400         | Error/PreConditionNotMet |
+| Post-Condition Not Met              | 400         | Error/PostConditionNotMet |
+| User Does Not Exist                 | 404         | Error/UserDoesNotExist |
+| User Could Not Be Created           | 500         | Error/UserCouldNotBeCreated |
+| User Name Already Exists            | 409         | Error/UsernameAlreadyExists |
+| Email Is Already Used               | 409         | Error/EmailIsAlreadyUsed |
+| Password Is Incorrect               | 400         | Error/PasswordIsIncorrect
+| Password Does Not Meet Requirements | 400         | Error/PasswordDoesNotMeetRequirements |
+| Too Many Recent Attempts            | 429         | Error/TooManyRecentAttempts |
+| Account Is Locked Out               | 423         | Error/AccountIsLockedOut |
+| Account Has Not Been Verified       | 403         | Error/AccountHasNotBeenVerified |
+| Email Has Not Been Verified         | 403         | Error/EmailHasNotBeenVerified |
+| Two-Factor Code Incorrect           | 400         | Error/TwoFactorCodeIncorrect |
+| Unauthorized User                   | 401         | Error/UnauthorizedUser |
+| Content Is Forbidden                | 403         | Error/ContentIsForbidden |
+| General Auth                        | 401         | Error/GeneralAuthError |
+| Global Exception                    | 500         | Error/General |
 
 ## FAQ
 

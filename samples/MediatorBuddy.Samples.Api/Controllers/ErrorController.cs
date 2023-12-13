@@ -1,4 +1,4 @@
-﻿// <copyright file="CustomErrorController.cs" company="Michael Bradvica LLC">
+﻿// <copyright file="ErrorController.cs" company="Michael Bradvica LLC">
 // Copyright (c) Michael Bradvica LLC. All rights reserved.
 // </copyright>
 
@@ -10,7 +10,9 @@ namespace MediatorBuddy.Samples.Api.Controllers
     /// <summary>
     /// Override for errors.
     /// </summary>
-    public class CustomErrorController : ErrorController
+    [ApiController]
+    [Route("[controller]")]
+    public class ErrorController : BaseErrorController
     {
     }
 }

@@ -25,6 +25,7 @@ What does MediatorBuddy give you?
 | Razor Pages    | Soon      |
 | gRPC           | Planned   |
 | graphQL        | Planned   |
+| Blazor         | Planned   |
 
 ## Table of Contents
 
@@ -172,7 +173,7 @@ Implement a handler to account for global exceptions.
  }
 ```
 
-Create a concrete class for error endpoints. I suggest using the default base error controller class-then gradually overriding what you need.
+Create a concrete class for error endpoints. I suggest using the default base error controller class, then gradually overriding what you need.
 
 ```csharp
 [ApiController]
@@ -186,7 +187,7 @@ That's 90% of how MediatorBuddy works!
 
 I hope the potential of what the library can do for you and your development team is apparent.
 
-## In Depth
+## In-Depth
 
 ### Requests
 
@@ -486,14 +487,14 @@ If you need to throw, throw. Just make sure you handle the exception gracefully 
 
 ### Do I need to use the existing Envelope implementation?
 
-No, you may implement your own from the IEnvelope interface. However, using the default implementation is required.
+No, you may implement your own from the IEnvelope interface. However, using the default implementation is recommended to start with.
 
 ### What is the difference between the ApplicationStatus and an HTTP status?
 
-An application status is an abstract way of declaring the current state of your application. It makes zero assumptions of your presentation layer. This allows MediatorBuddy to be used with an API, MVC, Razor, Blazor, gPRC, or GraphQL application. Even if it doesn't provide a specific implementation.
+An application status is an abstract way of declaring the current state of your application. It makes zero assumptions about your presentation layer. This allows MediatorBuddy to be used with an API, MVC, Razor, Blazor, gPRC, or GraphQL application. Even if it doesn't provide a specific implementation.
 
 HTTP status codes are an implementation detail and should not be allowed to leak in your application or domain layer.
 
 ### Can I only use MediatorBuddy for an API?
 
-No, API, Razor Pages, and MVC projects will be supported on the initial release. There are plans to add support for gRPC and GraphQL at later dates.
+API projects will be fully supported, while Razor Pages and MVC projects will be partially supported on the initial release. There are plans to add support for gRPC and GraphQL at later dates.

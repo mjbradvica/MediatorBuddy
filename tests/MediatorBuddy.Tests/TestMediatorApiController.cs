@@ -1,7 +1,8 @@
-﻿// <copyright file="TestMediatApiController.cs" company="Michael Bradvica LLC">
+﻿// <copyright file="TestMediatorApiController.cs" company="Michael Bradvica LLC">
 // Copyright (c) Michael Bradvica LLC. All rights reserved.
 // </copyright>
 
+using System;
 using System.Threading.Tasks;
 using MediatorBuddy.AspNet;
 using MediatR;
@@ -12,14 +13,15 @@ namespace MediatorBuddy.Tests
     /// <summary>
     /// A test controller used for unit testing.
     /// </summary>
-    public class TestMediatApiController : MediatorBuddyApi
+    public class TestMediatorApiController : MediatorBuddyApi
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="TestMediatApiController"/> class.
+        /// Initializes a new instance of the <see cref="TestMediatorApiController"/> class.
         /// </summary>
         /// <param name="mediator">An instance of the Mediator object.</param>
-        public TestMediatApiController(IMediator mediator)
-            : base(mediator)
+        /// <param name="extraOptions">Extra response options.</param>
+        public TestMediatorApiController(IMediator mediator, Func<int, IActionResult>? extraOptions = null)
+            : base(mediator, null, extraOptions)
         {
         }
 

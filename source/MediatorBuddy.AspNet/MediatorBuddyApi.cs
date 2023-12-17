@@ -42,6 +42,15 @@ namespace MediatorBuddy.AspNet
         protected IMediator Mediator { get; }
 
         /// <summary>
+        /// Stuff.
+        /// </summary>
+        /// <returns>IActionResult.</returns>
+        public IActionResult Stuff()
+        {
+            return Accepted(new { });
+        }
+
+        /// <summary>
         /// Accepts a request and executes it alongside common tasks used in a web request pipeline.
         /// </summary>
         /// <typeparam name="TResponse">The response type being returned from the controller action.</typeparam>

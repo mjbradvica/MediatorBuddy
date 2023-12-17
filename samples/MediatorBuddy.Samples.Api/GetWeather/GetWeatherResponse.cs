@@ -10,8 +10,8 @@ namespace MediatorBuddy.Samples.Api.GetWeather
     public class GetWeatherResponse
     {
         /// <summary>
-        /// Gets the weather value.
+        /// Gets or sets the weather value.
         /// </summary>
-        public string Value { get; } = "Windy, rainy, and hot.";
+        public string Value { get; set; } = "Windy, rainy, and hot.";
     }
 }

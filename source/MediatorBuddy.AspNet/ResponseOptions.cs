@@ -14,6 +14,147 @@ namespace MediatorBuddy.AspNet
     public static class ResponseOptions
     {
         /// <summary>
+        /// Yields an empty <see cref="AcceptedResult"/>.
+        /// </summary>
+        /// <typeparam name="TResponse">The response type.</typeparam>
+        /// <returns>A <see cref="IActionResult"/> of type <see cref="AcceptedResult"/>.</returns>
+        public static Func<TResponse, IActionResult> AcceptedEmpty<TResponse>()
+        {
+            return _ => new AcceptedResult();
+        }
+
+        /// <summary>
+        /// Yields a <see cref="AcceptedResult"/> with the response as the value and a null location.
+        /// </summary>
+        /// <typeparam name="TResponse">The response type.</typeparam>
+        /// <returns>A <see cref="IActionResult"/> of type <see cref="AcceptedResult"/>.</returns>
+        public static Func<TResponse, IActionResult> AcceptedResponse<TResponse>()
+        {
+            return response => new AcceptedResult(null as string, response);
+        }
+
+        /// <summary>
+        /// Yields a <see cref="AcceptedResult"/> with a static object as the value and a null location.
+        /// </summary>
+        /// <typeparam name="TResponse">The response type.</typeparam>
+        /// <param name="response">A static response object.</param>
+        /// <returns>A <see cref="IActionResult"/> of type <see cref="AcceptedResult"/>.</returns>
+        public static Func<TResponse, IActionResult> AcceptedResponse<TResponse>(object response)
+        {
+            return _ => new AcceptedResult(null as string, response);
+        }
+
+        /// <summary>
+        /// Yields a <see cref="AcceptedResult"/> using a response Func as the value and a null location.
+        /// </summary>
+        /// <typeparam name="TResponse">The response type.</typeparam>
+        /// <param name="responseFunc">A func that will yield a response object.</param>
+        /// <returns>A <see cref="IActionResult"/> of type <see cref="AcceptedResult"/>.</returns>
+        public static Func<TResponse, IActionResult> AcceptedResponse<TResponse>(Func<TResponse, object> responseFunc)
+        {
+            return response => new AcceptedResult(null as string, responseFunc.Invoke(response));
+        }
+
+        /// <summary>
+        /// Yields an empty <see cref="AcceptedResult"/> with a null value and string location.
+        /// </summary>
+        /// <typeparam name="TResponse">The response type.</typeparam>
+        /// <param name="location">The <see cref="string"/> with the location of the resource.</param>
+        /// <returns>A <see cref="IActionResult"/> of type <see cref="AcceptedResult"/>.</returns>
+        public static Func<TResponse, IActionResult> AcceptedEmpty<TResponse>(string location)
+        {
+            return _ => new AcceptedResult(location, null);
+        }
+
+        // TODO: Here
+
+        /// <summary>
+        /// Returns a function that will yield at <see cref="AcceptedResult"/>.
+        /// </summary>
+        /// <typeparam name="TResponse">The type of the response object.</typeparam>
+        /// <param name="location">A <see cref="string"/> with the location of the resource.</param>
+        /// <returns>A function that will return an IActionResult of type AcceptedResult.</returns>
+        public static Func<TResponse, IActionResult> AcceptedResponse<TResponse>(string location)
+        {
+            return response => new AcceptedResult(location, response);
+        }
+
+        /// <summary>
+        /// Returns a function that will yield at <see cref="AcceptedResult"/>.
+        /// </summary>
+        /// <typeparam name="TResponse">The type of the response object.</typeparam>
+        /// <param name="locationFunc">A func that will yield the location of the resource.</param>
+        /// <returns>A function that will return an IActionResult of type AcceptedResult.</returns>
+        public static Func<TResponse, IActionResult> AcceptedResponse<TResponse>(Func<TResponse, string> locationFunc)
+        {
+            return response => new AcceptedResult(locationFunc.Invoke(response), null);
+        }
+
+        /// <summary>
+        /// Returns a function that will yield at <see cref="AcceptedResult"/>.
+        /// </summary>
+        /// <typeparam name="TResponse">The type of the response object.</typeparam>
+        /// <param name="location">A <see cref="string"/> with the location of the resource.</param>
+        /// <param name="response">A static response object.</param>
+        /// <returns>A function that will return an IActionResult of type AcceptedResult.</returns>
+        public static Func<TResponse, IActionResult> AcceptedResponse<TResponse>(string location, object response)
+        {
+            return _ => new AcceptedResult(location, response);
+        }
+
+        /// <summary>
+        /// Returns a function that will yield at <see cref="AcceptedResult"/>.
+        /// </summary>
+        /// <typeparam name="TResponse">The type of the response object.</typeparam>
+        /// <param name="responseFunc">A func that will yield a tuple with a location string and object.</param>
+        /// <returns>A function that will return an IActionResult of type AcceptedResult.</returns>
+        public static Func<TResponse, IActionResult> AcceptedResponse<TResponse>(Func<TResponse, (string Location, object Result)> responseFunc)
+        {
+            return response =>
+            {
+                var (location, result) = responseFunc.Invoke(response);
+
+                return new AcceptedResult(location, result);
+            };
+        }
+
+        /// <summary>
+        /// Returns a function that will yield at <see cref="AcceptedResult"/>.
+        /// </summary>
+        /// <typeparam name="TResponse">The type of the response object.</typeparam>
+        /// <param name="location">A <see cref="Uri"/> with the location of the resource.</param>
+        /// <returns>A function that will return an IActionResult of type AcceptedResult.</returns>
+        public static Func<TResponse, IActionResult> AcceptedResponse<TResponse>(Uri location)
+        {
+            return response => new AcceptedResult(location, response);
+        }
+
+        /// <summary>
+        /// Returns a function that will yield a <see cref="AcceptedAtActionResult"/>.
+        /// </summary>
+        /// <param name="actionName">The name of the controller action.</param>
+        /// <param name="controllerName">The name of the controller.</param>
+        /// <param name="routeValuesFunc">A func that will return a routeValues object.</param>
+        /// <typeparam name="TResponse">The type of the response object.</typeparam>
+        /// <returns>A function that will return an IActionResult of type AcceptedAtActionResult.</returns>
+        public static Func<TResponse, IActionResult> AcceptedAtActionResponse<TResponse>(string actionName, string controllerName, Func<TResponse, object> routeValuesFunc)
+        {
+            return response => new AcceptedAtActionResult(actionName, controllerName, routeValuesFunc.Invoke(response), response);
+        }
+
+        /// <summary>
+        /// Returns a function that will yield a <see cref="AcceptedAtRouteResult"/>.
+        /// </summary>
+        /// <typeparam name="TResponse">The type of the response object.</typeparam>
+        /// <param name="routeName">The name of the route where the response object may be found.</param>
+        /// <param name="routeValuesFunc">A func that will return a routeValues object.</param>
+        /// <returns>A function that will return an IActionResult of type AcceptedAtRouteResult.</returns>
+        public static Func<TResponse, IActionResult> AcceptedAtRouteResponse<TResponse>(string routeName, Func<TResponse, object> routeValuesFunc)
+        {
+            return response => new AcceptedAtRouteResult(routeName, routeValuesFunc.Invoke(response), response);
+        }
+
+        /// <summary>
         /// Returns a function that will yield a <see cref="StatusCodeResult"/> of type 100 Continue.
         /// </summary>
         /// <typeparam name="TResponse">The type of the response object.</typeparam>
@@ -141,63 +282,6 @@ namespace MediatorBuddy.AspNet
         public static Func<TResponse, IActionResult> CreatedAtRouteResponse<TResponse>(string routeName, Func<TResponse, object> routeValuesFunc)
         {
             return response => new CreatedAtRouteResult(routeName, routeValuesFunc.Invoke(response), response);
-        }
-
-        /// <summary>
-        /// Returns a function that will yield at <see cref="AcceptedResult"/>.
-        /// </summary>
-        /// <typeparam name="TResponse">The type of the response object.</typeparam>
-        /// <returns>A function that will return an IActionResult of type AcceptedResult.</returns>
-        public static Func<TResponse, IActionResult> AcceptedResponse<TResponse>()
-        {
-            return _ => new AcceptedResult();
-        }
-
-        /// <summary>
-        /// Returns a function that will yield at <see cref="AcceptedResult"/>.
-        /// </summary>
-        /// <typeparam name="TResponse">The type of the response object.</typeparam>
-        /// <param name="location">A <see cref="Uri"/> with the location of the resource.</param>
-        /// <returns>A function that will return an IActionResult of type AcceptedResult.</returns>
-        public static Func<TResponse, IActionResult> AcceptedResponse<TResponse>(Uri location)
-        {
-            return response => new AcceptedResult(location, response);
-        }
-
-        /// <summary>
-        /// Returns a function that will yield at <see cref="AcceptedResult"/>.
-        /// </summary>
-        /// <typeparam name="TResponse">The type of the response object.</typeparam>
-        /// <param name="location">A <see cref="string"/> with the location of the resource.</param>
-        /// <returns>A function that will return an IActionResult of type AcceptedResult.</returns>
-        public static Func<TResponse, IActionResult> AcceptedResponse<TResponse>(string location)
-        {
-            return response => new AcceptedResult(location, response);
-        }
-
-        /// <summary>
-        /// Returns a function that will yield a <see cref="AcceptedAtActionResult"/>.
-        /// </summary>
-        /// <param name="actionName">The name of the controller action.</param>
-        /// <param name="controllerName">The name of the controller.</param>
-        /// <param name="routeValuesFunc">A func that will return a routeValues object.</param>
-        /// <typeparam name="TResponse">The type of the response object.</typeparam>
-        /// <returns>A function that will return an IActionResult of type AcceptedAtActionResult.</returns>
-        public static Func<TResponse, IActionResult> AcceptedAtActionResponse<TResponse>(string actionName, string controllerName, Func<TResponse, object> routeValuesFunc)
-        {
-            return response => new AcceptedAtActionResult(actionName, controllerName, routeValuesFunc.Invoke(response), response);
-        }
-
-        /// <summary>
-        /// Returns a function that will yield a <see cref="AcceptedAtRouteResult"/>.
-        /// </summary>
-        /// <typeparam name="TResponse">The type of the response object.</typeparam>
-        /// <param name="routeName">The name of the route where the response object may be found.</param>
-        /// <param name="routeValuesFunc">A func that will return a routeValues object.</param>
-        /// <returns>A function that will return an IActionResult of type AcceptedAtRouteResult.</returns>
-        public static Func<TResponse, IActionResult> AcceptedAtRouteResponse<TResponse>(string routeName, Func<TResponse, object> routeValuesFunc)
-        {
-            return response => new AcceptedAtRouteResult(routeName, routeValuesFunc.Invoke(response), response);
         }
 
         /// <summary>

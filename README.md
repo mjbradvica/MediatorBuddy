@@ -27,6 +27,15 @@ What does MediatorBuddy give you?
 | graphQL        | Planned   |
 | Blazor         | Planned   |
 
+## Built-In Http Status Code Support
+
+MediatorBuddy has built into support for most, but not all HTTP status codes.
+
+| Codes | Supported |
+| ----- | --------- |
+| 100s  | 100 - 102 |
+| 200s  | 200 - 208 |
+
 ## Table of Contents
 
 - [Overview](#overview)
@@ -498,3 +507,16 @@ HTTP status codes are an implementation detail and should not be allowed to leak
 ### Can I only use MediatorBuddy for an API?
 
 API projects will be fully supported, while Razor Pages and MVC projects will be partially supported on the initial release. There are plans to add support for gRPC and GraphQL at later dates.
+
+Response Flow:
+
+XXXEmpty - Nothing (no value object in response)
+AcceptedResponse - TResponse
+AcceptedResponse - static object
+AcceptedResponse - Func TResponse, object  responseFunc
+
+Flow:
+
+Nothing -> Empty
+Non-object -> Standard + Func
+Object -> Standard, response as object, response func

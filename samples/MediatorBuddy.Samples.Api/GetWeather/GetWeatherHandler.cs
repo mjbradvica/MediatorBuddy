@@ -17,7 +17,18 @@ namespace MediatorBuddy.Samples.Api.GetWeather
         /// <returns>Envelope response.</returns>
         public Task<IEnvelope<GetWeatherResponse>> Handle(GetWeatherRequest request, CancellationToken cancellationToken)
         {
-            return Task.FromResult(Envelope<GetWeatherResponse>.UsernameAlreadyExists());
+            var weather = new List<string> { "rainy", "windy", "calm" };
+
+            var random = new Random();
+
+            var data = weather[random.Next(0, 2)];
+
+            if (data == null)
+            {
+                return Task.FromResult(Envelope<GetWeatherResponse>.EntityWasNotFound());
+            }
+
+            return Task.FromResult(Envelope<GetWeatherResponse>.Success(new GetWeatherResponse { Value = data }));
         }
     }
 }

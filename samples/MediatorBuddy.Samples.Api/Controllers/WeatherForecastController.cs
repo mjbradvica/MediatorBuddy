@@ -3,6 +3,7 @@
 // </copyright>
 
 using MediatorBuddy.AspNet;
+using MediatorBuddy.AspNet.Responses;
 using MediatorBuddy.Samples.Api.GetWeather;
 using MediatorBuddy.Samples.Api.UpdateWeather;
 using MediatR;

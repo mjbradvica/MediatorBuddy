@@ -47,7 +47,7 @@ namespace MediatorBuddy.AspNet
         /// <returns>IActionResult.</returns>
         public IActionResult Stuff()
         {
-            return Accepted(new { });
+            return Challenge();
         }
 
         /// <summary>

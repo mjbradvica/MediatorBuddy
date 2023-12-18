@@ -3,7 +3,7 @@
 // </copyright>
 
 using System;
-using MediatorBuddy.AspNet;
+using MediatorBuddy.AspNet.Responses;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -32,11 +32,11 @@ namespace MediatorBuddy.Tests.Responses
         /// Ensures the AcceptedResult has the correct properties.
         /// </summary>
         [TestMethod]
-        public void AcceptedResponse_Response_IsCorrect()
+        public void AcceptedResponse_Object_IsCorrect()
         {
-            var response = new TestResponse();
+            object response = string.Empty;
 
-            var result = ResponseOptions.AcceptedResponse<TestResponse>().Invoke(response);
+            var result = ResponseOptions.AcceptedResponse<TestResponse>(response).Invoke(new TestResponse());
 
             Assert.IsInstanceOfType<AcceptedResult>(result);
             Assert.IsNull((result as AcceptedResult)?.Location);
@@ -47,11 +47,11 @@ namespace MediatorBuddy.Tests.Responses
         /// Ensures the AcceptedResult has the correct properties.
         /// </summary>
         [TestMethod]
-        public void Accepted_Object_IsCorrect()
+        public void AcceptedResponse_Response_IsCorrect()
         {
-            object response = string.Empty;
+            var response = new TestResponse();
 
-            var result = ResponseOptions.AcceptedResponse<TestResponse>(response).Invoke(new TestResponse());
+            var result = ResponseOptions.AcceptedResponse<TestResponse>().Invoke(response);
 
             Assert.IsInstanceOfType<AcceptedResult>(result);
             Assert.IsNull((result as AcceptedResult)?.Location);
@@ -92,28 +92,12 @@ namespace MediatorBuddy.Tests.Responses
         /// Ensures the AcceptedResult has the correct properties.
         /// </summary>
         [TestMethod]
-        public void Accepted_StringLocation_IsCorrect()
+        public void AcceptedEmpty_StringLocationFunc_IsCorrect()
         {
             var response = new TestResponse();
             const string uri = "https://www.mylocation.com";
 
-            var result = ResponseOptions.AcceptedResponse<TestResponse>(uri).Invoke(response);
-
-            Assert.IsInstanceOfType<AcceptedResult>(result);
-            Assert.AreEqual(uri, (result as AcceptedResult)?.Location);
-            Assert.AreEqual(response, (result as AcceptedResult)?.Value);
-        }
-
-        /// <summary>
-        /// Ensures the AcceptedResult has the correct properties.
-        /// </summary>
-        [TestMethod]
-        public void Accepted_StringLocationFunc_IsCorrect()
-        {
-            var response = new TestResponse();
-            const string uri = "https://www.mylocation.com";
-
-            var result = ResponseOptions.AcceptedResponse<TestResponse>(_ => uri).Invoke(response);
+            var result = ResponseOptions.AcceptedEmpty<TestResponse>(_ => uri).Invoke(response);
 
             Assert.IsInstanceOfType<AcceptedResult>(result);
             Assert.AreEqual(uri, (result as AcceptedResult)?.Location);
@@ -140,7 +124,39 @@ namespace MediatorBuddy.Tests.Responses
         /// Ensures the AcceptedResult has the correct properties.
         /// </summary>
         [TestMethod]
-        public void Accepted_StringLocationObjectFunc_IsCorrect()
+        public void Accepted_StringLocation_IsCorrect()
+        {
+            var response = new TestResponse();
+            const string uri = "https://www.mylocation.com";
+
+            var result = ResponseOptions.AcceptedResponse<TestResponse>(uri).Invoke(response);
+
+            Assert.IsInstanceOfType<AcceptedResult>(result);
+            Assert.AreEqual(uri, (result as AcceptedResult)?.Location);
+            Assert.AreEqual(response, (result as AcceptedResult)?.Value);
+        }
+
+        /// <summary>
+        /// Ensures the AcceptedResult has the correct properties.
+        /// </summary>
+        [TestMethod]
+        public void AcceptedResponse_StringLocationFunc_IsCorrect()
+        {
+            var response = new TestResponse();
+            const string uri = "https://www.mylocation.com";
+
+            var result = ResponseOptions.AcceptedResponse<TestResponse>(_ => uri).Invoke(response);
+
+            Assert.IsInstanceOfType<AcceptedResult>(result);
+            Assert.AreEqual(uri, (result as AcceptedResult)?.Location);
+            Assert.AreEqual(response, (result as AcceptedResult)?.Value);
+        }
+
+        /// <summary>
+        /// Ensures the AcceptedResult has the correct properties.
+        /// </summary>
+        [TestMethod]
+        public void AcceptedResponse_StringLocationObjectFunc_IsCorrect()
         {
             var response = new TestResponse();
             const string uri = "https://www.mylocation.com";
@@ -149,6 +165,52 @@ namespace MediatorBuddy.Tests.Responses
 
             Assert.IsInstanceOfType<AcceptedResult>(result);
             Assert.AreEqual(uri, (result as AcceptedResult)?.Location);
+            Assert.AreEqual(response, (result as AcceptedResult)?.Value);
+        }
+
+        /// <summary>
+        /// Ensures the AcceptedResult has the correct properties.
+        /// </summary>
+        [TestMethod]
+        public void AcceptedEmpty_UriLocation_IsCorrect()
+        {
+            var uri = new Uri("https://www.mylocation.com");
+
+            var result = ResponseOptions.AcceptedEmpty<TestResponse>(uri).Invoke(new TestResponse());
+
+            Assert.IsInstanceOfType<AcceptedResult>(result);
+            Assert.AreEqual(uri.ToString(), (result as AcceptedResult)?.Location);
+            Assert.IsNull((result as AcceptedResult)?.Value);
+        }
+
+        /// <summary>
+        /// Ensures the AcceptedResult has the correct properties.
+        /// </summary>
+        [TestMethod]
+        public void AcceptedEmpty_UriLocationFunc_IsCorrect()
+        {
+            var uri = new Uri("https://www.mylocation.com");
+
+            var result = ResponseOptions.AcceptedEmpty<TestResponse>(_ => uri).Invoke(new TestResponse());
+
+            Assert.IsInstanceOfType<AcceptedResult>(result);
+            Assert.AreEqual(uri.ToString(), (result as AcceptedResult)?.Location);
+            Assert.IsNull((result as AcceptedResult)?.Value);
+        }
+
+        /// <summary>
+        /// Ensures the AcceptedAtActionResult has the correct properties.
+        /// </summary>
+        [TestMethod]
+        public void AcceptedUriLocationStaticObject_IsCorrect()
+        {
+            object response = string.Empty;
+            var uri = new Uri("https://www.mylocation.com");
+
+            var result = ResponseOptions.AcceptedResponse<TestResponse>(uri, response).Invoke(new TestResponse());
+
+            Assert.IsInstanceOfType<AcceptedResult>(result);
+            Assert.AreEqual(uri.ToString(), (result as AcceptedResult)?.Location);
             Assert.AreEqual(response, (result as AcceptedResult)?.Value);
         }
 
@@ -162,6 +224,38 @@ namespace MediatorBuddy.Tests.Responses
             var uri = new Uri("https://www.mylocation.com");
 
             var result = ResponseOptions.AcceptedResponse<TestResponse>(uri).Invoke(response);
+
+            Assert.IsInstanceOfType<AcceptedResult>(result);
+            Assert.AreEqual(uri.ToString(), (result as AcceptedResult)?.Location);
+            Assert.AreEqual(response, (result as AcceptedResult)?.Value);
+        }
+
+        /// <summary>
+        /// Ensures the AcceptedAtActionResult has the correct properties.
+        /// </summary>
+        [TestMethod]
+        public void AcceptedUriLocationFunc_IsCorrect()
+        {
+            var response = new TestResponse();
+            var uri = new Uri("https://www.mylocation.com");
+
+            var result = ResponseOptions.AcceptedResponse<TestResponse>(_ => uri).Invoke(response);
+
+            Assert.IsInstanceOfType<AcceptedResult>(result);
+            Assert.AreEqual(uri.ToString(), (result as AcceptedResult)?.Location);
+            Assert.AreEqual(response, (result as AcceptedResult)?.Value);
+        }
+
+        /// <summary>
+        /// Ensures the AcceptedAtActionResult has the correct properties.
+        /// </summary>
+        [TestMethod]
+        public void AcceptedUriLocationObjectFunc_IsCorrect()
+        {
+            object response = string.Empty;
+            var uri = new Uri("https://www.mylocation.com");
+
+            var result = ResponseOptions.AcceptedResponse<TestResponse>(_ => (uri, response)).Invoke(new TestResponse());
 
             Assert.IsInstanceOfType<AcceptedResult>(result);
             Assert.AreEqual(uri.ToString(), (result as AcceptedResult)?.Location);

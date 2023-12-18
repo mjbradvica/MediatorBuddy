@@ -5,6 +5,7 @@
 using System;
 using System.Threading.Tasks;
 using MediatorBuddy.AspNet;
+using MediatorBuddy.AspNet.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

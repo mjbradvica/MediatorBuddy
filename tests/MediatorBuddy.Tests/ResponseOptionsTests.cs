@@ -3,7 +3,7 @@
 // </copyright>
 
 using System;
-using MediatorBuddy.AspNet;
+using MediatorBuddy.AspNet.Responses;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

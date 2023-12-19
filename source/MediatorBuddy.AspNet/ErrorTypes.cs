@@ -115,5 +115,10 @@ namespace MediatorBuddy.AspNet
         /// Gets or sets the general auth error.
         /// </summary>
         public virtual Uri GeneralAuthError { get; set; } = new Uri("Error/GeneralAuthError", UriKind.Relative);
+
+        /// <summary>
+        /// Gets or sets the authentication challenged error.
+        /// </summary>
+        public virtual Uri AuthenticationChallenged { get; set; } = new Uri("Error/AuthenticationChallenged", UriKind.Relative);
     }
 }

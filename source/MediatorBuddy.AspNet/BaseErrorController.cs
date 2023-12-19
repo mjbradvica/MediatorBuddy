@@ -222,5 +222,15 @@ namespace MediatorBuddy.AspNet
         {
             return Ok("A non-descriptive error related to auth occurred. This error does not have a detailed explanation or may be returned when no other response appears appropriate.");
         }
+
+        /// <summary>
+        /// An explanation for the authentication is challenged error.
+        /// </summary>
+        /// <returns>A <see cref="IActionResult"/>.</returns>
+        [HttpGet("AuthenticationChallenged")]
+        public virtual IActionResult AuthenticationChallenged()
+        {
+            return Ok("The authentication is currently being challenged by the server. When the request was received, the server was unable to verify the user. Please verify the user before proceeding as normal.");
+        }
     }
 }

@@ -3,6 +3,7 @@
 // </copyright>
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NuGet.Frameworks;
 
 namespace MediatorBuddy.Tests
 {
@@ -293,6 +294,17 @@ namespace MediatorBuddy.Tests
             var result = Envelope<TestResponse>.GeneralAuthError();
 
             Assert.AreEqual(ApplicationStatus.GeneralAuthError, result.Status);
+        }
+
+        /// <summary>
+        /// Ensures the authentication challenge code has the correct properties.
+        /// </summary>
+        [TestMethod]
+        public void AuthenticationChallenged_HasCorrectProperties()
+        {
+            var result = Envelope<TestResponse>.AuthenticationChallenged();
+
+            Assert.AreEqual(ApplicationStatus.AuthenticationChallenged, result.Status);
         }
     }
 }

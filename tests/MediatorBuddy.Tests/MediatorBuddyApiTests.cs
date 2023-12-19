@@ -322,6 +322,16 @@ namespace MediatorBuddy.Tests
         }
 
         /// <summary>
+        /// Ensures that authentication challenged errors are correct.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+        [TestMethod]
+        public async Task AuthenticationChallenged_IsCorrect()
+        {
+            await AssertStatusCorrect<UnauthorizedObjectResult>(Envelope<TestResponse>.AuthenticationChallenged());
+        }
+
+        /// <summary>
         /// Ensures that anonymous errors are correct.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>

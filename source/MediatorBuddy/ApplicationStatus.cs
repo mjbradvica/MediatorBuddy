@@ -120,5 +120,10 @@ namespace MediatorBuddy
         /// Indicates a non-descriptive general error related to auth.
         /// </summary>
         public const int GeneralAuthError = 43;
+
+        /// <summary>
+        /// Indicates a challenge by the authentication scheme.
+        /// </summary>
+        public const int AuthenticationChallenged = 44;
     }
 }

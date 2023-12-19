@@ -47,7 +47,7 @@ namespace MediatorBuddy.AspNet
         /// <returns>IActionResult.</returns>
         public IActionResult Stuff()
         {
-            return Challenge();
+            return SignOut();
         }
 
         /// <summary>
@@ -124,6 +124,7 @@ namespace MediatorBuddy.AspNet
                 ApplicationStatus.UnauthorizedUser => Unauthorized(ErrorResponse.FromEnvelope(_errorTypes.UnauthorizedUser, StatusCodes.Status401Unauthorized, envelope, currentRoute)),
                 ApplicationStatus.ContentIsForbidden => StatusCode(StatusCodes.Status403Forbidden, ErrorResponse.FromEnvelope(_errorTypes.ContentIsForbidden, StatusCodes.Status403Forbidden, envelope, currentRoute)),
                 ApplicationStatus.GeneralAuthError => Unauthorized(ErrorResponse.FromEnvelope(_errorTypes.GeneralAuthError, StatusCodes.Status401Unauthorized, envelope, currentRoute)),
+                ApplicationStatus.AuthenticationChallenged => Unauthorized(ErrorResponse.FromEnvelope(_errorTypes.AuthenticationChallenged, StatusCodes.Status401Unauthorized, envelope, currentRoute)),
                 _ => StatusCode(StatusCodes.Status500InternalServerError, ErrorResponse.InternalError(_errorTypes.General, currentRoute)),
             };
         }

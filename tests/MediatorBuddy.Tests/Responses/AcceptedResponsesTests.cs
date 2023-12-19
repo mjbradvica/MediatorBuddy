@@ -1,4 +1,4 @@
-﻿// <copyright file="AcceptedTests.cs" company="Michael Bradvica LLC">
+﻿// <copyright file="AcceptedResponsesTests.cs" company="Michael Bradvica LLC">
 // Copyright (c) Michael Bradvica LLC. All rights reserved.
 // </copyright>
 
@@ -13,7 +13,7 @@ namespace MediatorBuddy.Tests.Responses
     /// Tests for Accepted responses.
     /// </summary>
     [TestClass]
-    public class AcceptedTests
+    public class AcceptedResponsesTests
     {
         /// <summary>
         /// Ensures the AcceptedResult has the correct properties.

@@ -3,7 +3,6 @@
 // </copyright>
 
 using System;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MediatorBuddy.AspNet.Responses
@@ -36,56 +35,6 @@ namespace MediatorBuddy.AspNet.Responses
         public static Func<TResponse, IActionResult> AcceptedAtRouteResponse<TResponse>(string routeName, Func<TResponse, object> routeValuesFunc)
         {
             return response => new AcceptedAtRouteResult(routeName, routeValuesFunc.Invoke(response), response);
-        }
-
-        /// <summary>
-        /// Returns a function that will yield a <see cref="StatusCodeResult"/> of type 100 Continue.
-        /// </summary>
-        /// <typeparam name="TResponse">The type of the response object.</typeparam>
-        /// <returns>A function that will return an IActionResult of type StatusCodeResult.</returns>
-        public static Func<TResponse, IActionResult> ContinueResponse<TResponse>()
-        {
-            return _ => new StatusCodeResult(StatusCodes.Status100Continue);
-        }
-
-        /// <summary>
-        /// Returns a function that will yield a <see cref="StatusCodeResult"/> of type 101 Switching Protocols.
-        /// </summary>
-        /// <typeparam name="TResponse">The type of the response object.</typeparam>
-        /// <returns>A function that will return an IActionResult of type StatusCodeResult.</returns>
-        public static Func<TResponse, IActionResult> SwitchingProtocolsResponse<TResponse>()
-        {
-            return _ => new StatusCodeResult(StatusCodes.Status101SwitchingProtocols);
-        }
-
-        /// <summary>
-        /// Returns a function that will yield a <see cref="StatusCodeResult"/> of type 102 Processing.
-        /// </summary>
-        /// <typeparam name="TResponse">The type of the response object.</typeparam>
-        /// <returns>A function that will return an IActionResult of type StatusCodeResult.</returns>
-        public static Func<TResponse, IActionResult> ProcessingResponse<TResponse>()
-        {
-            return _ => new StatusCodeResult(StatusCodes.Status102Processing);
-        }
-
-        /// <summary>
-        /// Returns a function that will yield a <see cref="OkResult"/>.
-        /// </summary>
-        /// <typeparam name="TResponse">The type of the response object.</typeparam>
-        /// <returns>A function that will return an IActionResult of type OkResponse.</returns>
-        public static Func<TResponse, IActionResult> OkResponse<TResponse>()
-        {
-            return _ => new OkResult();
-        }
-
-        /// <summary>
-        /// Returns a function that will yield a <see cref="OkObjectResult"/>.
-        /// </summary>
-        /// <typeparam name="TResponse">The type of the response object.</typeparam>
-        /// <returns>A function that will return an IActionResult of type OkObjectResponse.</returns>
-        public static Func<TResponse, IActionResult> OkObjectResponse<TResponse>()
-        {
-            return response => new OkObjectResult(response);
         }
 
         /// <summary>
@@ -166,66 +115,6 @@ namespace MediatorBuddy.AspNet.Responses
         public static Func<TResponse, IActionResult> CreatedAtRouteResponse<TResponse>(string routeName, Func<TResponse, object> routeValuesFunc)
         {
             return response => new CreatedAtRouteResult(routeName, routeValuesFunc.Invoke(response), response);
-        }
-
-        /// <summary>
-        /// Returns that function that will yield a <see cref="StatusCodeResult"/> of type 203 NonAuthoritative.
-        /// </summary>
-        /// <typeparam name="TResponse">The type of the response object.</typeparam>
-        /// <returns>A function that will return an IActionResult of type StatusCodeResult.</returns>
-        public static Func<TResponse, IActionResult> NonAuthoritativeResponse<TResponse>()
-        {
-            return _ => new StatusCodeResult(StatusCodes.Status203NonAuthoritative);
-        }
-
-        /// <summary>
-        /// Returns a function that will yield a <see cref="NoContentResult"/>.
-        /// </summary>
-        /// <typeparam name="TResponse">The type of the response object.</typeparam>
-        /// <returns>A function that will return an IActionResult of type NoContentResult.</returns>
-        public static Func<TResponse, IActionResult> NoContentResponse<TResponse>()
-        {
-            return _ => new NoContentResult();
-        }
-
-        /// <summary>
-        /// Returns a function that will yield a <see cref="StatusCodeResult"/> of type 205 ResetContent.
-        /// </summary>
-        /// <typeparam name="TResponse">The type of the response object.</typeparam>
-        /// <returns>A function that will return an IActionResult of type StatusCodeResult.</returns>
-        public static Func<TResponse, IActionResult> ResetContentResponse<TResponse>()
-        {
-            return _ => new StatusCodeResult(StatusCodes.Status205ResetContent);
-        }
-
-        /// <summary>
-        /// Returns a function that will yield a <see cref="StatusCodeResult"/> of type 206 PartialContent.
-        /// </summary>
-        /// <typeparam name="TResponse">The type of the response object.</typeparam>
-        /// <returns>A function that will return an IActionResult of type StatusCodeResult.</returns>
-        public static Func<TResponse, IActionResult> PartialContentResponse<TResponse>()
-        {
-            return _ => new StatusCodeResult(StatusCodes.Status206PartialContent);
-        }
-
-        /// <summary>
-        /// Returns a function that will yield a <see cref="StatusCodeResult"/> of type 207 MultiStatus.
-        /// </summary>
-        /// <typeparam name="TResponse">The type of the response object.</typeparam>
-        /// <returns>A function that will return an IActionResult of type StatusCodeResult.</returns>
-        public static Func<TResponse, IActionResult> MultiStatusResponse<TResponse>()
-        {
-            return _ => new StatusCodeResult(StatusCodes.Status207MultiStatus);
-        }
-
-        /// <summary>
-        /// Returns a function that will yield a <see cref="StatusCodeResult"/> of type 208 AlreadyReported.
-        /// </summary>
-        /// <typeparam name="TResponse">The type of the response object.</typeparam>
-        /// <returns>A function that will return an IActionResult of type StatusCodeResult.</returns>
-        public static Func<TResponse, IActionResult> AlreadyReportedResponse<TResponse>()
-        {
-            return _ => new StatusCodeResult(StatusCodes.Status208AlreadyReported);
         }
     }
 }

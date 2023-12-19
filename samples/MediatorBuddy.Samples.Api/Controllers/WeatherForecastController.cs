@@ -34,7 +34,7 @@ namespace MediatorBuddy.Samples.Api.Controllers
         [HttpGet(Name = "GetWeatherForecast")]
         public async Task<IActionResult> Get()
         {
-            return await ExecuteRequest(new GetWeatherRequest(), ResponseOptions.OkObjectResponse<GetWeatherResponse>());
+            return await ExecuteRequest(new GetWeatherRequest(), ResponseOptions.OkResponse<GetWeatherResponse>());
         }
 
         /// <summary>

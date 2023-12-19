@@ -508,15 +508,18 @@ HTTP status codes are an implementation detail and should not be allowed to leak
 
 API projects will be fully supported, while Razor Pages and MVC projects will be partially supported on the initial release. There are plans to add support for gRPC and GraphQL at later dates.
 
-Response Flow:
-
 XXXEmpty - Nothing (no value object in response)
 AcceptedResponse - TResponse
 AcceptedResponse - static object
-AcceptedResponse - Func TResponse, object  responseFunc
+AcceptedResponse - Func<TResponse, object> responseFunc
 
 Flow:
 
 Nothing -> Empty
 Non-object -> Standard + Func
 Object -> Standard, response as object, response func
+
+Every param needs standard + func Option
+
+Non-object = 2 per param
+Object param = 3 per param

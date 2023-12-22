@@ -2,6 +2,8 @@
 // Copyright (c) Michael Bradvica LLC. All rights reserved.
 // </copyright>
 
+using Microsoft.AspNetCore.SignalR;
+
 namespace MediatorBuddy.Samples.Api.GetWeather
 {
     /// <summary>
@@ -17,7 +19,11 @@ namespace MediatorBuddy.Samples.Api.GetWeather
         /// <returns>Envelope response.</returns>
         public Task<IEnvelope<GetWeatherResponse>> Handle(GetWeatherRequest request, CancellationToken cancellationToken)
         {
-            return Task.FromResult(Envelope<GetWeatherResponse>.UsernameAlreadyExists());
+            var weather = new List<string> { "windy", "rainy", "sunny" };
+
+            var result = weather[new Random().Next(0, 2)];
+
+            return Task.FromResult(Envelope<GetWeatherResponse>.Success(new GetWeatherResponse { Value = result }));
         }
     }
 }

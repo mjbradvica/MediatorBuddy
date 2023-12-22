@@ -19,7 +19,7 @@ namespace MediatorBuddy.Samples.Api.UpdateWeather
         {
             var response = Envelope<UpdateWeatherResponse>.Success(new UpdateWeatherResponse());
 
-            return Task.FromResult(response as IEnvelope<UpdateWeatherResponse>);
+            return Task.FromResult(response);
         }
     }
 }

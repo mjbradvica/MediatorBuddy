@@ -212,6 +212,15 @@ namespace MediatorBuddy.Tests
             AssertCorrect(_errorController.GeneralAuthError());
         }
 
+        /// <summary>
+        /// Ensures AuthenticationChallenged is correct.
+        /// </summary>
+        [TestMethod]
+        public void AuthenticationChallenged_IsCorrectType()
+        {
+            AssertCorrect(_errorController.AuthenticationChallenged());
+        }
+
         private static void AssertCorrect(IActionResult result)
         {
             Assert.IsInstanceOfType<OkObjectResult>(result);

@@ -3,10 +3,12 @@
 // </copyright>
 
 using MediatorBuddy.AspNet;
+using MediatorBuddy.AspNet.Responses;
 using MediatorBuddy.Samples.Api.GetWeather;
 using MediatorBuddy.Samples.Api.UpdateWeather;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Net.Http.Headers;
 
 namespace MediatorBuddy.Samples.Api.Controllers
 {
@@ -33,7 +35,7 @@ namespace MediatorBuddy.Samples.Api.Controllers
         [HttpGet(Name = "GetWeatherForecast")]
         public async Task<IActionResult> Get()
         {
-            return await ExecuteRequest(new GetWeatherRequest(), ResponseOptions.OkObjectResponse<GetWeatherResponse>());
+            return await ExecuteRequest(new GetWeatherRequest(), ResponseOptions.OkResponse<GetWeatherResponse>());
         }
 
         /// <summary>
@@ -45,6 +47,17 @@ namespace MediatorBuddy.Samples.Api.Controllers
         public async Task<IActionResult> Post(UpdateWeatherRequest request)
         {
             return await ExecuteRequest(request, ResponseOptions.CreatedResponse<UpdateWeatherResponse>(response => new Uri($"WeatherForecast/{response.Id}", UriKind.Relative)));
+        }
+
+        /// <summary>
+        /// Test method.
+        /// </summary>
+        /// <returns>Test method stuff.</returns>
+        public IActionResult StuffStuff()
+        {
+            object value = string.Empty;
+
+            return RedirectToPage(string.Empty);
         }
     }
 }

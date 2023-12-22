@@ -5,6 +5,7 @@
 using System;
 using System.Threading.Tasks;
 using MediatorBuddy.AspNet;
+using MediatorBuddy.AspNet.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -33,7 +34,7 @@ namespace MediatorBuddy.Tests
         [HttpPost]
         public async Task<IActionResult> Handle(TestObjectRequest request)
         {
-            return await ExecuteRequest(request, ResponseOptions.OkObjectResponse<TestResponse>());
+            return await ExecuteRequest(request, ResponseOptions.OkResponse<TestResponse>());
         }
     }
 }

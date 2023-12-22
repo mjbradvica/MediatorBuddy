@@ -42,6 +42,15 @@ namespace MediatorBuddy.AspNet
         protected IMediator Mediator { get; }
 
         /// <summary>
+        /// Stuff.
+        /// </summary>
+        /// <returns>IActionResult.</returns>
+        public IActionResult Stuff()
+        {
+            return SignOut();
+        }
+
+        /// <summary>
         /// Accepts a request and executes it alongside common tasks used in a web request pipeline.
         /// </summary>
         /// <typeparam name="TResponse">The response type being returned from the controller action.</typeparam>
@@ -115,6 +124,7 @@ namespace MediatorBuddy.AspNet
                 ApplicationStatus.UnauthorizedUser => Unauthorized(ErrorResponse.FromEnvelope(_errorTypes.UnauthorizedUser, StatusCodes.Status401Unauthorized, envelope, currentRoute)),
                 ApplicationStatus.ContentIsForbidden => StatusCode(StatusCodes.Status403Forbidden, ErrorResponse.FromEnvelope(_errorTypes.ContentIsForbidden, StatusCodes.Status403Forbidden, envelope, currentRoute)),
                 ApplicationStatus.GeneralAuthError => Unauthorized(ErrorResponse.FromEnvelope(_errorTypes.GeneralAuthError, StatusCodes.Status401Unauthorized, envelope, currentRoute)),
+                ApplicationStatus.AuthenticationChallenged => Unauthorized(ErrorResponse.FromEnvelope(_errorTypes.AuthenticationChallenged, StatusCodes.Status401Unauthorized, envelope, currentRoute)),
                 _ => StatusCode(StatusCodes.Status500InternalServerError, ErrorResponse.InternalError(_errorTypes.General, currentRoute)),
             };
         }

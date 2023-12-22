@@ -342,5 +342,18 @@ namespace MediatorBuddy
         {
             return new Envelope<TResponse>(ApplicationStatus.GeneralAuthError, title, detail);
         }
+
+        /// <summary>
+        /// Function to return an authentication challenge.
+        /// </summary>
+        /// <param name="title">The title of the failure.</param>
+        /// <param name="detail">The detail of the failure.</param>
+        /// <returns>A new response Envelope.</returns>
+        public static IEnvelope<TResponse> AuthenticationChallenged(
+            string title = "The authentication scheme was challenged.",
+            string detail = "The authentication is being questioned. The server is unable to verify the identity of the user; please verify the user.")
+        {
+            return new Envelope<TResponse>(ApplicationStatus.AuthenticationChallenged, title, detail);
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿// <copyright file="AcceptedAtRouteResponse.cs" company="Michael Bradvica LLC">
+﻿// <copyright file="AcceptedAtRouteResponses.cs" company="Michael Bradvica LLC">
 // Copyright (c) Michael Bradvica LLC. All rights reserved.
 // </copyright>
 
@@ -42,16 +42,6 @@ namespace MediatorBuddy.AspNet.Responses
 
                 return new AcceptedAtRouteResult(routeName, routeValues, value);
             };
-        }
-
-        /// <summary>
-        /// Yields a <see cref="CreatedResult"/>.
-        /// </summary>
-        /// <typeparam name="TResponse">The type of the response.</typeparam>
-        /// <returns>A <see cref="IActionResult"/> of type <see cref="CreatedResult"/>.</returns>
-        public static Func<TResponse, IActionResult> CreatedEmptyResponse<TResponse>()
-        {
-            return response => new CreatedResult(string.Empty, null);
         }
     }
 }

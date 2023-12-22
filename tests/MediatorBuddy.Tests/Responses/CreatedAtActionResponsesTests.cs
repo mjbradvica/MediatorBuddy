@@ -1,4 +1,4 @@
-﻿// <copyright file="AcceptedAtActionResponsesTests.cs" company="Michael Bradvica LLC">
+﻿// <copyright file="CreatedAtActionResponsesTests.cs" company="Michael Bradvica LLC">
 // Copyright (c) Michael Bradvica LLC. All rights reserved.
 // </copyright>
 
@@ -9,27 +9,27 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace MediatorBuddy.Tests.Responses
 {
     /// <summary>
-    /// Tests for Accepted at action responses.
+    /// Tests for CreatedAtAction responses.
     /// </summary>
     [TestClass]
-    public class AcceptedAtActionResponsesTests
+    public class CreatedAtActionResponsesTests
     {
         /// <summary>
-        /// Ensures the AcceptedAtActionEmpty has the correct properties.
+        /// Ensures the CreatedAtActionResponse properties are correct.
         /// </summary>
         [TestMethod]
-        public void AcceptedAtAction_ResponseValue_IsCorrect()
+        public void CreatedAtActionResponse_ResponseValue_IsCorrect()
         {
             const string actionName = "actionName";
             const string controllerName = "controllerName";
             var routeValues = TestHelpers.RouteValueDictionary();
             var response = new TestResponse();
 
-            var result = ResponseOptions.AcceptedAtActionResponse<TestResponse>(_ => (actionName, controllerName, routeValues)).Invoke(response);
+            var result = ResponseOptions.CreatedAtActionResponse<TestResponse>(_ => (actionName, controllerName, routeValues)).Invoke(response);
 
-            var asResult = result as AcceptedAtActionResult;
+            var asResult = result as CreatedAtActionResult;
 
-            Assert.IsInstanceOfType<AcceptedAtActionResult>(result);
+            Assert.IsInstanceOfType<CreatedAtActionResult>(result);
             Assert.AreEqual(actionName, asResult?.ActionName);
             Assert.AreEqual(controllerName, asResult?.ControllerName);
             Assert.AreEqual(routeValues.Count, asResult?.RouteValues?.Count);
@@ -37,21 +37,21 @@ namespace MediatorBuddy.Tests.Responses
         }
 
         /// <summary>
-        /// Ensures the AcceptedAtActionEmpty has the correct properties.
+        /// Ensures the CreatedAtActionResponse properties are correct.
         /// </summary>
         [TestMethod]
-        public void AcceptedAtAction_ResponseFunc_IsCorrect()
+        public void CreatedAtActionResponse_ResponseFunc_IsCorrect()
         {
             const string actionName = "actionName";
             const string controllerName = "controllerName";
             var routeValues = TestHelpers.RouteValueDictionary();
             var response = new TestResponse();
 
-            var result = ResponseOptions.AcceptedAtActionResponse<TestResponse>(_ => (actionName, controllerName, routeValues, response)).Invoke(response);
+            var result = ResponseOptions.CreatedAtActionResponse<TestResponse>(_ => (actionName, controllerName, routeValues, response)).Invoke(response);
 
-            var asResult = result as AcceptedAtActionResult;
+            var asResult = result as CreatedAtActionResult;
 
-            Assert.IsInstanceOfType<AcceptedAtActionResult>(result);
+            Assert.IsInstanceOfType<CreatedAtActionResult>(result);
             Assert.AreEqual(actionName, asResult?.ActionName);
             Assert.AreEqual(controllerName, asResult?.ControllerName);
             Assert.AreEqual(routeValues.Count, asResult?.RouteValues?.Count);

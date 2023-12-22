@@ -13,29 +13,6 @@ namespace MediatorBuddy.AspNet.Responses
     public static partial class ResponseOptions
     {
         /// <summary>
-        /// Returns a function that will yield a <see cref="CreatedAtRouteResult"/>.
-        /// </summary>
-        /// <typeparam name="TResponse">The type of the response object.</typeparam>
-        /// <param name="routeValuesFunc">A func that will return a routeValues object.</param>
-        /// <returns>A function that will return an IActionResult of type CreatedAtRouteResult.</returns>
-        public static Func<TResponse, IActionResult> CreatedAtRouteResponse<TResponse>(Func<TResponse, object> routeValuesFunc)
-        {
-            return response => new CreatedAtRouteResult(routeValuesFunc.Invoke(response), response);
-        }
-
-        /// <summary>
-        /// Returns a function that will yield a <see cref="CreatedAtRouteResult"/>.
-        /// </summary>
-        /// <typeparam name="TResponse">The type of the response object.</typeparam>
-        /// <param name="routeName">The name of the route where the response object may be found.</param>
-        /// <param name="routeValuesFunc">A func that will return a routeValues object.</param>
-        /// <returns>A function that will return an IActionResult of type CreatedAtRouteResult.</returns>
-        public static Func<TResponse, IActionResult> CreatedAtRouteResponse<TResponse>(string routeName, Func<TResponse, object> routeValuesFunc)
-        {
-            return response => new CreatedAtRouteResult(routeName, routeValuesFunc.Invoke(response), response);
-        }
-
-        /// <summary>
         /// Yields a <see cref="LocalRedirectResult"/> with a 302 status code.
         /// </summary>
         /// <typeparam name="TResponse">The type of the response.</typeparam>

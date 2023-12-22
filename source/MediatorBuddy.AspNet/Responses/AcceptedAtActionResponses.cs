@@ -4,6 +4,7 @@
 
 using System;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 
 namespace MediatorBuddy.AspNet.Responses
 {
@@ -13,12 +14,12 @@ namespace MediatorBuddy.AspNet.Responses
     public static partial class ResponseOptions
     {
         /// <summary>
-        /// Yields an empty <see cref="AcceptedAtActionResult"/>.
+        /// Yields a <see cref="AcceptedAtActionResult"/>.
         /// </summary>
         /// <typeparam name="TResponse">The type of the response.</typeparam>
-        /// <param name="resultFunc">A <see cref="Func{TResult}"/> that will yield an action name, controller name, and route values.</param>
+        /// <param name="resultFunc">A <see cref="Func{TResult}"/> that will yield a <see cref="string"/> action name, <see cref="string"/> controller name, and <see cref="RouteValueDictionary"/> route values.</param>
         /// <returns>A <see cref="IActionResult"/> of type <see cref="AcceptedAtActionResult"/>.</returns>
-        public static Func<TResponse, IActionResult> AcceptedAtActionResponse<TResponse>(Func<TResponse, (string ActionName, string ControllerName, object RouteValues)> resultFunc)
+        public static Func<TResponse, IActionResult> AcceptedAtActionResponse<TResponse>(Func<TResponse, (string ActionName, string ControllerName, RouteValueDictionary RouteValues)> resultFunc)
         {
             return response =>
             {
@@ -29,12 +30,12 @@ namespace MediatorBuddy.AspNet.Responses
         }
 
         /// <summary>
-        /// Yields an empty <see cref="AcceptedAtActionResult"/>.
+        /// Yields a <see cref="AcceptedAtActionResult"/>.
         /// </summary>
         /// <typeparam name="TResponse">The type of the response.</typeparam>
-        /// <param name="resultFunc">A <see cref="Func{TResult}"/> that will yield an action name, controller name, and route values.</param>
+        /// <param name="resultFunc">A <see cref="Func{TResult}"/> that will yield a <see cref="string"/> action name, <see cref="string"/> controller name, <see cref="RouteValueDictionary"/> route values, and <see cref="object"/> value.</param>
         /// <returns>A <see cref="IActionResult"/> of type <see cref="AcceptedAtActionResult"/>.</returns>
-        public static Func<TResponse, IActionResult> AcceptedAtActionResponse<TResponse>(Func<TResponse, (string ActionName, string ControllerName, object RouteValues, object Value)> resultFunc)
+        public static Func<TResponse, IActionResult> AcceptedAtActionResponse<TResponse>(Func<TResponse, (string ActionName, string ControllerName, RouteValueDictionary RouteValues, object Value)> resultFunc)
         {
             return response =>
             {

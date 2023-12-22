@@ -8,6 +8,7 @@ using MediatorBuddy.Samples.Api.GetWeather;
 using MediatorBuddy.Samples.Api.UpdateWeather;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
 
 namespace MediatorBuddy.Samples.Api.Controllers
@@ -55,9 +56,9 @@ namespace MediatorBuddy.Samples.Api.Controllers
         /// <returns>Test method stuff.</returns>
         public IActionResult StuffStuff()
         {
-            object value = string.Empty;
+            var value = string.Empty;
 
-            return RedirectToPage(string.Empty);
+            return File(Array.Empty<byte>(), value);
         }
     }
 }

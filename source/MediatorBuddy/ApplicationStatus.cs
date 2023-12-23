@@ -7,7 +7,7 @@ namespace MediatorBuddy
     /// <summary>
     /// Defines that class that contains status codes used to designate the status of the application.
     /// </summary>
-    public class ApplicationStatus
+    public partial class ApplicationStatus
     {
         /// <summary>
         /// Indicates an operation was successful.
@@ -20,7 +20,7 @@ namespace MediatorBuddy
         public const int GeneralError = 1;
 
         /// <summary>
-        /// The operation could not completed at this time.
+        /// The operation could not be completed at this time.
         /// </summary>
         public const int OperationCouldNotBeCompleted = 2;
 
@@ -62,9 +62,9 @@ namespace MediatorBuddy
         public const int UserCouldNotBeCreated = 31;
 
         /// <summary>
-        /// The User name already exists.
+        /// The username already exists.
         /// </summary>
-        public const int UserNameAlreadyExists = 32;
+        public const int UsernameAlreadyExists = 32;
 
         /// <summary>
         /// The email is already in use.
@@ -82,7 +82,7 @@ namespace MediatorBuddy
         public const int PasswordDoesNotMeetRequirements = 35;
 
         /// <summary>
-        /// The User has attempted too may attempts recently.
+        /// The User has made too many attempts recently.
         /// </summary>
         public const int TooManyRecentAttempts = 36;
 
@@ -115,5 +115,15 @@ namespace MediatorBuddy
         /// The content in question is forbidden to the user.
         /// </summary>
         public const int ContentIsForbidden = 42;
+
+        /// <summary>
+        /// Indicates a non-descriptive general error related to auth.
+        /// </summary>
+        public const int GeneralAuthError = 43;
+
+        /// <summary>
+        /// Indicates a challenge by the authentication scheme.
+        /// </summary>
+        public const int AuthenticationChallenged = 44;
     }
 }

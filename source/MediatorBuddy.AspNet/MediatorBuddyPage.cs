@@ -25,7 +25,7 @@ namespace MediatorBuddy.AspNet
         /// <param name="mediator">An instance of the <see cref="IMediator"/> interface.</param>
         /// <param name="extraOptions">Additional error handling options.</param>
         /// <param name="errorPage">The name of the Page to redirect to on exception. Defaults to "Error".</param>
-        protected MediatorBuddyPage(IMediator mediator, Func<int, IActionResult>? extraOptions = null,  string errorPage = "/Error")
+        protected MediatorBuddyPage(IMediator mediator, Func<int, IActionResult>? extraOptions = null, string errorPage = "/Error")
         {
             Mediator = mediator;
             _extraOptions = extraOptions;
@@ -42,7 +42,7 @@ namespace MediatorBuddy.AspNet
         /// </summary>
         /// <typeparam name="TResponse">The response type being returned from the controller action.</typeparam>
         /// <param name="request">The request object being sent to the execution pipeline.</param>
-        /// <param name="responseFunc">A function that will accepts a response object and return a web response.</param>
+        /// <param name="responseFunc">A function that will accept a response object and return a web response.</param>
         /// <returns>An IActionResult representing the end result of the request object.</returns>
         protected async Task<IActionResult> ExecuteRequest<TResponse>(IRequest<IEnvelope<TResponse>> request, Func<IEnvelope<TResponse>, IActionResult> responseFunc)
         {

@@ -2,7 +2,7 @@
 
 An opinionated implementation for the [MediatR](https://github.com/jbogard/MediatR) library.
 
-![TempBuddy](./images/tempBuddy.jpg)
+![TempBuddy](./images/logo.png)
 
 ![build-status](https://github.com/mjbradvica/MediatorBuddy/workflows/main/badge.svg) ![downloads](https://img.shields.io/nuget/dt/MediatorBuddy) ![downloads](https://img.shields.io/nuget/v/MediatorBuddy) ![activity](https://img.shields.io/github/last-commit/mjbradvica/MediatorBuddy/master)
 
@@ -11,21 +11,43 @@ An opinionated implementation for the [MediatR](https://github.com/jbogard/Media
 What does MediatorBuddy give you?
 
 - :telephone: A consistent interface for communication between your presentation and application layer.
-- :clipboard: An implementation of the [RFC 9457](https://www.rfc-editor.org/rfc/rfc9457.txt) spec for consistent and user friendly API error responses.
+- :clipboard: An implementation of the [RFC 9457](https://www.rfc-editor.org/rfc/rfc9457.txt) spec for consistent and user-friendly API error responses.
 - :construction_worker: A base controller that handles generic boilerplate for you. You may find that you no longer need to unit-test anything in your presentation layer.
 - :hammer: Extendable: You can define custom application status states and return a specific status code.
 - :currency_exchange: Modifiable: Override a status return code, title, or detail message.
 
+## Framework Support
+
+| Framework   | Supported |
+| ----------- | --------- |
+| .NET API    | Yes       |
+| .NET MVC    | Soon      |
+| Razor Pages | Soon      |
+| gRPC        | Planned   |
+| graphQL     | Planned   |
+| Blazor      | Planned   |
+
+## Built-In Http Status Code Support
+
+MediatorBuddy has built-in support for most, but not all HTTP status codes.
+
+| Codes | Supported |
+| ----- | --------- |
+| 100s  | 100 - 102 |
+| 200s  | 200 - 208 |
+
 ## Table of Contents
 
 - [Overview](#overview)
+- [Framework Support](#framework-support)
 - [Dependencies](#dependencies)
 - [Installation](#installation)
-- [Explanation](#what-is-implied-by-opinionated-library)
+- [Explanation](#what-is-implied-by-an-opinionated-library)
 - [Background](#background-story)
 - [Setup](#setup)
-- [Quick Start](#quick-start)
-- [In Depth](#in-depth)
+- [Quick Start API](#quick-start-api)
+- [In-Depth](#in-depth)
+  - [Default Responses](#default-responses)
 - [FAQ](#faq)
 
 ## Dependencies
@@ -35,7 +57,7 @@ What does MediatorBuddy give you?
 
 ## Installation
 
-The easiest way to get start is to: [Install with NuGet](https://www.nuget.org/).
+The easiest way to get started is to: [Install with NuGet](https://www.nuget.org/).
 
 In your application layer:
 
@@ -49,13 +71,13 @@ In your presentation layer:
 Install-Package MediatorBuddy.AspNet
 ```
 
-## What is implied by "opinionated" library?
+## What is implied by an "opinionated" library?
 
-If you are familiar with the [Prettier](https://prettier.io/) formatter for front-end frameworks-then the idea of an "opinionated" library should be familiar.
+If you are familiar with the [Prettier](https://prettier.io/) format library for front-end frameworks-then the idea of an "opinionated" library should be familiar.
 
-MediatorBuddy has a very specific way to handling requests and responses. The advantage you gain is up to 100% less unit testing in your presentation layer alongside a consistent way to handling failures.
+MediatorBuddy has a very specific way of handling requests and responses. The advantage you gain is up to 100% less unit testing in your presentation layer alongside a consistent way of handling failures.
 
-MediatorBuddy also assumes that you prefer to use the built-in [validation attributes](https://learn.microsoft.com/en-us/aspnet/core/mvc/models/validation?view=aspnetcore-7.0#validation-attributes) that Microsoft provides out of the box. Attribute validators is highly recommended, especially if you are utilizing Swagger.
+MediatorBuddy also assumes that you prefer to use the built-in [validation attributes](https://learn.microsoft.com/en-us/aspnet/core/mvc/models/validation?view=aspnetcore-7.0#validation-attributes) that Microsoft provides out of the box. Attribute validators are highly recommended, especially if you are utilizing Swagger.
 
 You may use a separate library such as [FluentValidation](https://www.nuget.org/packages/FluentValidation)-however you will need to validate request objects in your handlers.
 
@@ -71,7 +93,7 @@ MediatorBuddy's greatest strength is that it puts guardrails on your developers.
 
 While MediatorBuddy has nothing it needs to register with the dependency injection framework-its needs to turn off the default model state filter.
 
-For convenance pass your MediatR configuration setup and MediatorBuddy will setup MediatR in the same call.
+For convenience pass your MediatR configuration setup and MediatorBuddy will setup MediatR in the same call.
 
 ```csharp
 public class Program
@@ -87,7 +109,7 @@ public class Program
 }
 ```
 
-## Quick Start
+## Quick Start API
 
 All requests inherit from the [IEnvelopeRequest](https://github.com/mjbradvica/MediatorBuddy/blob/master/source/MediatorBuddy/IEnvelopeRequest.cs) interface.
 
@@ -127,7 +149,7 @@ public class MyHandler : IEnvelopeHandler<MyRequest, MyResponse>
 
 Have your controller inherit from the [MediatorBuddyApi](https://github.com/mjbradvica/MediatorBuddy/blob/master/source/MediatorBuddy.AspNet/MediatorBuddyApi.cs) base class.
 
-Pass your requests the "ExecuteRequest" method and use one of the built-in success callbacks.
+Pass your requests to the "ExecuteRequest" method and use one of the built-in success callbacks.
 
 ```csharp
 [ApiController]
@@ -160,11 +182,21 @@ Implement a handler to account for global exceptions.
  }
 ```
 
+Create a concrete class for error endpoints. I suggest using the default base error controller class, then gradually overriding what you need.
+
+```csharp
+[ApiController]
+[Route("[controller]")]
+public class ErrorController : BaseErrorController
+{
+}
+```
+
 That's 90% of how MediatorBuddy works!
 
-I hope you are able to see the potential of what the library can do for you and your development team.
+I hope the potential of what the library can do for you and your development team is apparent.
 
-## In Depth
+## In-Depth
 
 ### Requests
 
@@ -214,7 +246,7 @@ The class has a static function you can call for each application status.
 
 > You are free to create your own implementation for the [IEnvelope](https://github.com/mjbradvica/MediatorBuddy/blob/master/source/MediatorBuddy/IEnvelope.cs) interface. However, I recommend starting with the built-in class for most projects.
 
-Returning a response is straight forward:
+Returning a response is straightforward:
 
 ```csharp
 public class GetWeatherHandler : IEnvelopeHandler<GetWeatherRequest, GetWeatherResponse>
@@ -235,7 +267,7 @@ public class GetWeatherHandler : IEnvelopeHandler<GetWeatherRequest, GetWeatherR
 }
 ```
 
-Even if an handler returns void, an Envelope is still expected.
+Even if a handler returns void, an Envelope is still expected.
 
 ```csharp
 public class UpdateWeatherHandler : IEnvelopeHandler<UpdateWeatherRequest>
@@ -258,7 +290,7 @@ public class UpdateWeatherHandler : IEnvelopeHandler<UpdateWeatherRequest>
 
 ### Failures
 
-If you application experiences a fault, you are still expected to return an Envelope.
+If your application experiences a fault, you are still expected to return an Envelope.
 
 > Throwing blanket exceptions is another form of a goto statement. If you "expected" something to happen, that does not qualify for an exception.
 
@@ -288,7 +320,7 @@ public class GetWeatherHandler : IEnvelopeHandler<GetWeatherRequest, GetWeatherR
 
 ### Custom Fault Messages
 
-The title and description for failures is generic on purpose. You can enrich a fault by adding a custom title and description.
+The title and description for failures are generic on purpose. You can enrich a fault by adding a custom title and description.
 
 ```csharp
 public class GetWeatherHandler : IEnvelopeHandler<GetWeatherRequest, GetWeatherResponse>
@@ -320,12 +352,12 @@ public class GetWeatherHandler : IEnvelopeHandler<GetWeatherRequest, GetWeatherR
 
 The MediatorBuddy base controller takes care of the normal boring boilerplate you need for each action.
 
-- Validates the request using the [built in validators](https://learn.microsoft.com/en-us/aspnet/core/mvc/models/validation?view=aspnetcore-7.0).
+- Validates the request using the [built-in validators](https://learn.microsoft.com/en-us/aspnet/core/mvc/models/validation?view=aspnetcore-7.0).
 - Wraps every operation in a try/catch for exceptions.
 - Sends the request down the MediatR pipeline to be executed.
 - Handles the response object accordingly.
 
-The biggest benefit of MediatorBuddy is turning your presentation layer into a thin, already tested shield over your application.
+The biggest benefit of MediatorBuddy is turning your presentation layer into a thin, already-tested shield over your application.
 
 Have your controller or page if using Razor pages inherit from the appropriate base class. Pass the "IMediator" interface to the base class.
 
@@ -343,7 +375,7 @@ public class WeatherForecastController : MediatorBuddyApi
 
 #### Simple Response
 
-Starting a request is as easy as calling the [ExecuteRequest](https://github.com/mjbradvica/MediatorBuddy/blob/master/source/MediatorBuddy.AspNet/MediatorBuddyApi.cs) method with your request object and a success callback.
+Starting a request is as easy as calling the [ExecuteRequest](https://github.com/mjbradvica/MediatorBuddy/blob/master/source/MediatorBuddy.AspNet/MediatorBuddyApi.cs) method with your request object and a successful callback.
 
 ```csharp
 [HttpGet(Name = "GetWeatherForecast")]
@@ -353,7 +385,7 @@ public async Task<IActionResult> Get()
 }
 ```
 
-The [ResponseOptions](https://github.com/mjbradvica/MediatorBuddy/blob/master/source/MediatorBuddy.AspNet/ResponseOptions.cs) class is the preferred way of passing a success callback to the method. This is the response that will be used if the status of your envelope is not in a faulted state.
+The [ResponseOptions](https://github.com/mjbradvica/MediatorBuddy/blob/master/source/MediatorBuddy.AspNet/ResponseOptions.cs) class is the preferred way of passing a successful callback to the method. This is the response that will be used if the status of your envelope is not in a faulted state.
 
 ResponseOptions has every response for any status code in the 100's or 200's.
 
@@ -361,7 +393,7 @@ ResponseOptions has every response for any status code in the 100's or 200's.
 
 #### Detailed Response
 
-Some ResponseOptions allow you to pass another callback. Such in the case of a 201 Created response.
+Some ResponseOptions allow you to pass another callback. Such is the case of a 201 Created response.
 
 ```csharp
 [HttpPost(Name = "AddWeatherForecast")]
@@ -408,6 +440,36 @@ public class GlobalExceptionOccurredHandler : INotificationHandler<GlobalExcepti
 
 > Even if you choose to ignore exceptions. You must define a handler or else MediatR will throw an exception.
 
+### Default Responses
+
+When using MediatorBuddy for an API project, here are the default responses for each application status.
+
+| Status                              | HTTP Code   | Default Type Uri (Relative)           |
+| ----------------------------------- | ----------- | ------------------------------------- |
+| Success                             | User Chosen | None                                  |
+| General Failure                     | 500         | Error/General                         |
+| Operation Could Not Be Completed    | 500         | Error/OperationCouldNotBeCompleted    |
+| Entity Was Not Found                | 404         | Error/EntityWasNotFound               |
+| Conflict With Other Resource        | 409         | Error/ConflictWithOtherResource       |
+| Validation Constraint Not Met       | 400         | Error/ValidationConstraintNotMet      |
+| Pre-Condition Not Met               | 400         | Error/PreConditionNotMet              |
+| Post-Condition Not Met              | 400         | Error/PostConditionNotMet             |
+| User Does Not Exist                 | 404         | Error/UserDoesNotExist                |
+| User Could Not Be Created           | 500         | Error/UserCouldNotBeCreated           |
+| User Name Already Exists            | 409         | Error/UsernameAlreadyExists           |
+| Email Is Already Used               | 409         | Error/EmailIsAlreadyUsed              |
+| Password Is Incorrect               | 400         | Error/PasswordIsIncorrect             |
+| Password Does Not Meet Requirements | 400         | Error/PasswordDoesNotMeetRequirements |
+| Too Many Recent Attempts            | 429         | Error/TooManyRecentAttempts           |
+| Account Is Locked Out               | 423         | Error/AccountIsLockedOut              |
+| Account Has Not Been Verified       | 403         | Error/AccountHasNotBeenVerified       |
+| Email Has Not Been Verified         | 403         | Error/EmailHasNotBeenVerified         |
+| Two-Factor Code Incorrect           | 400         | Error/TwoFactorCodeIncorrect          |
+| Unauthorized User                   | 401         | Error/UnauthorizedUser                |
+| Content Is Forbidden                | 403         | Error/ContentIsForbidden              |
+| General Auth                        | 401         | Error/GeneralAuthError                |
+| Global Exception                    | 500         | Error/General                         |
+
 ## FAQ
 
 ### What is MediatorBuddy?
@@ -418,7 +480,7 @@ It gives you a specific way to handle errors and responses from handlers and con
 
 ### What is implied by an 80/20 library?
 
-MediatorBuddy is only concerned with a subset of all available faults and responses that are the most common. There are situations where you may have return a response that isn't provided by default.
+MediatorBuddy is only concerned with a subset of all available faults and responses that are the most common. There are situations where you may have to return a response that isn't provided by default.
 
 ### How does MediatorBuddy handle errors?
 
@@ -426,22 +488,22 @@ MediatorBuddy forces you to return an Envelope on every request no matter what. 
 
 You must implement a handler for the GlobalExceptionOccurred notification. This event is raised every time an uncaught exception bubbles up to a controller.
 
-Reminder: Throwing exceptions in your application is another form of a goto statement-especially when you can predict the execution path.
+Reminder: Throwing exceptions in your application is another form of a goto statement, especially when you can predict the execution path.
 
-### What if I really need to throw an exception?
+### What if I need to throw an exception?
 
 If you need to throw, throw. Just make sure you handle the exception gracefully in your global exception handler.
 
 ### Do I need to use the existing Envelope implementation?
 
-No, you may implement your own from the IEnvelope interface. However using the default implementation is required.
+No, you may implement your own from the IEnvelope interface. However, using the default implementation is recommended to start with.
 
-### What is the difference between the ApplicationStatus and a HTTP status?
+### What is the difference between the ApplicationStatus and an HTTP status?
 
-An application status is an abstract way of declaring the current state of your application. It makes zero assumptions of your presentation layer. This allows MediatorBuddy to be used with an API, MVC, Razor, Blazor, gPRC, or GraphQL application. Even if it doesn't provide a specific implementation.
+An application status is an abstract way of declaring the current state of your application. It makes zero assumptions about your presentation layer. This allows MediatorBuddy to be used with an API, MVC, Razor, Blazor, gPRC, or GraphQL application. Even if it doesn't provide a specific implementation.
 
 HTTP status codes are an implementation detail and should not be allowed to leak in your application or domain layer.
 
 ### Can I only use MediatorBuddy for an API?
 
-No, API, Razor Pages, and MVC will be supported on initial release. There are plans to add support for gRPC and GraphQL at later dates.
+API projects will be fully supported, while Razor Pages and MVC projects will be partially supported on the initial release. There are plans to add support for gRPC and GraphQL at later dates.

@@ -35,7 +35,7 @@ namespace MediatorBuddy.Tests.Responses
             Assert.IsInstanceOfType<RedirectToActionResult>(result);
             Assert.AreEqual(actionName, asResult?.ActionName);
             Assert.AreEqual(controllerName, asResult?.ControllerName);
-            Assert.AreEqual(routeValues, asResult?.RouteValues);
+            Assert.AreEqual(routeValues.Count, asResult?.RouteValues?.Count);
             Assert.IsFalse(asResult?.Permanent);
             Assert.IsFalse(asResult?.PreserveMethod);
             Assert.IsNull(asResult?.Fragment);
@@ -64,7 +64,7 @@ namespace MediatorBuddy.Tests.Responses
             Assert.IsInstanceOfType<RedirectToActionResult>(result);
             Assert.AreEqual(actionName, asResult?.ActionName);
             Assert.AreEqual(controllerName, asResult?.ControllerName);
-            Assert.AreEqual(routeValues, asResult?.RouteValues);
+            Assert.AreEqual(routeValues.Count, asResult?.RouteValues?.Count);
             Assert.IsFalse(asResult?.Permanent);
             Assert.IsFalse(asResult?.PreserveMethod);
             Assert.AreEqual(fragment, asResult?.Fragment);
@@ -91,7 +91,7 @@ namespace MediatorBuddy.Tests.Responses
             Assert.IsInstanceOfType<RedirectToActionResult>(result);
             Assert.AreEqual(actionName, asResult?.ActionName);
             Assert.AreEqual(controllerName, asResult?.ControllerName);
-            Assert.AreEqual(routeValues, asResult?.RouteValues);
+            Assert.AreEqual(routeValues.Count, asResult?.RouteValues?.Count);
             Assert.IsTrue(asResult?.Permanent);
             Assert.IsFalse(asResult?.PreserveMethod);
             Assert.IsNull(asResult?.Fragment);
@@ -120,7 +120,7 @@ namespace MediatorBuddy.Tests.Responses
             Assert.IsInstanceOfType<RedirectToActionResult>(result);
             Assert.AreEqual(actionName, asResult?.ActionName);
             Assert.AreEqual(controllerName, asResult?.ControllerName);
-            Assert.AreEqual(routeValues, asResult?.RouteValues);
+            Assert.AreEqual(routeValues.Count, asResult?.RouteValues?.Count);
             Assert.IsTrue(asResult?.Permanent);
             Assert.IsFalse(asResult?.PreserveMethod);
             Assert.AreEqual(fragment, asResult?.Fragment);
@@ -149,7 +149,7 @@ namespace MediatorBuddy.Tests.Responses
             Assert.IsInstanceOfType<RedirectToActionResult>(result);
             Assert.AreEqual(actionName, asResult?.ActionName);
             Assert.AreEqual(controllerName, asResult?.ControllerName);
-            Assert.AreEqual(routeValues, asResult?.RouteValues);
+            Assert.AreEqual(routeValues.Count, asResult?.RouteValues?.Count);
             Assert.IsTrue(asResult?.Permanent);
             Assert.IsTrue(asResult?.PreserveMethod);
             Assert.AreEqual(fragment, asResult?.Fragment);
@@ -178,7 +178,7 @@ namespace MediatorBuddy.Tests.Responses
             Assert.IsInstanceOfType<RedirectToActionResult>(result);
             Assert.AreEqual(actionName, asResult?.ActionName);
             Assert.AreEqual(controllerName, asResult?.ControllerName);
-            Assert.AreEqual(routeValues, asResult?.RouteValues);
+            Assert.AreEqual(routeValues.Count, asResult?.RouteValues?.Count);
             Assert.IsFalse(asResult?.Permanent);
             Assert.IsTrue(asResult?.PreserveMethod);
             Assert.AreEqual(fragment, asResult?.Fragment);

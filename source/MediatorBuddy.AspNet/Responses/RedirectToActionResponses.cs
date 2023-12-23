@@ -105,7 +105,7 @@ namespace MediatorBuddy.AspNet.Responses
             {
                 var (actionName, controllerName, routeValues, fragment) = resultFunc.Invoke(response);
 
-                return new RedirectToActionResult(actionName, controllerName, routeValues, true, false, fragment);
+                return new RedirectToActionResult(actionName, controllerName, routeValues, false, true, fragment);
             };
         }
     }

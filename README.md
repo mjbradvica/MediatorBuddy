@@ -2,7 +2,7 @@
 
 An opinionated implementation for the [MediatR](https://github.com/jbogard/MediatR) library.
 
-![TempBuddy](./images/tempBuddy.jpg)
+![TempBuddy](./images/logo.png)
 
 ![build-status](https://github.com/mjbradvica/MediatorBuddy/workflows/main/badge.svg) ![downloads](https://img.shields.io/nuget/dt/MediatorBuddy) ![downloads](https://img.shields.io/nuget/v/MediatorBuddy) ![activity](https://img.shields.io/github/last-commit/mjbradvica/MediatorBuddy/master)
 
@@ -18,18 +18,18 @@ What does MediatorBuddy give you?
 
 ## Framework Support
 
-| Framework      | Supported |
-| -------------- | --------- |
-| .NET API       | Yes       |
-| .NET MVC       | Soon      |
-| Razor Pages    | Soon      |
-| gRPC           | Planned   |
-| graphQL        | Planned   |
-| Blazor         | Planned   |
+| Framework   | Supported |
+| ----------- | --------- |
+| .NET API    | Yes       |
+| .NET MVC    | Soon      |
+| Razor Pages | Soon      |
+| gRPC        | Planned   |
+| graphQL     | Planned   |
+| Blazor      | Planned   |
 
 ## Built-In Http Status Code Support
 
-MediatorBuddy has built into support for most, but not all HTTP status codes.
+MediatorBuddy has built-in support for most, but not all HTTP status codes.
 
 | Codes | Supported |
 | ----- | --------- |
@@ -444,31 +444,31 @@ public class GlobalExceptionOccurredHandler : INotificationHandler<GlobalExcepti
 
 When using MediatorBuddy for an API project, here are the default responses for each application status.
 
-| Status                              | HTTP Code   | Default Type Uri (Relative) |
-| ----------------------------------- | ----------- | ---------------- |
-| Success                             | User Chosen | None             |
-| General Failure                     | 500         | Error/General    |
-| Operation Could Not Be Completed    | 500         | Error/OperationCouldNotBeCompleted |
-| Entity Was Not Found                | 404         | Error/EntityWasNotFound |
-| Conflict With Other Resource        | 409         | Error/ConflictWithOtherResource |
-| Validation Constraint Not Met       | 400         | Error/ValidationConstraintNotMet |
-| Pre-Condition Not Met               | 400         | Error/PreConditionNotMet |
-| Post-Condition Not Met              | 400         | Error/PostConditionNotMet |
-| User Does Not Exist                 | 404         | Error/UserDoesNotExist |
-| User Could Not Be Created           | 500         | Error/UserCouldNotBeCreated |
-| User Name Already Exists            | 409         | Error/UsernameAlreadyExists |
-| Email Is Already Used               | 409         | Error/EmailIsAlreadyUsed |
-| Password Is Incorrect               | 400         | Error/PasswordIsIncorrect
+| Status                              | HTTP Code   | Default Type Uri (Relative)           |
+| ----------------------------------- | ----------- | ------------------------------------- |
+| Success                             | User Chosen | None                                  |
+| General Failure                     | 500         | Error/General                         |
+| Operation Could Not Be Completed    | 500         | Error/OperationCouldNotBeCompleted    |
+| Entity Was Not Found                | 404         | Error/EntityWasNotFound               |
+| Conflict With Other Resource        | 409         | Error/ConflictWithOtherResource       |
+| Validation Constraint Not Met       | 400         | Error/ValidationConstraintNotMet      |
+| Pre-Condition Not Met               | 400         | Error/PreConditionNotMet              |
+| Post-Condition Not Met              | 400         | Error/PostConditionNotMet             |
+| User Does Not Exist                 | 404         | Error/UserDoesNotExist                |
+| User Could Not Be Created           | 500         | Error/UserCouldNotBeCreated           |
+| User Name Already Exists            | 409         | Error/UsernameAlreadyExists           |
+| Email Is Already Used               | 409         | Error/EmailIsAlreadyUsed              |
+| Password Is Incorrect               | 400         | Error/PasswordIsIncorrect             |
 | Password Does Not Meet Requirements | 400         | Error/PasswordDoesNotMeetRequirements |
-| Too Many Recent Attempts            | 429         | Error/TooManyRecentAttempts |
-| Account Is Locked Out               | 423         | Error/AccountIsLockedOut |
-| Account Has Not Been Verified       | 403         | Error/AccountHasNotBeenVerified |
-| Email Has Not Been Verified         | 403         | Error/EmailHasNotBeenVerified |
-| Two-Factor Code Incorrect           | 400         | Error/TwoFactorCodeIncorrect |
-| Unauthorized User                   | 401         | Error/UnauthorizedUser |
-| Content Is Forbidden                | 403         | Error/ContentIsForbidden |
-| General Auth                        | 401         | Error/GeneralAuthError |
-| Global Exception                    | 500         | Error/General |
+| Too Many Recent Attempts            | 429         | Error/TooManyRecentAttempts           |
+| Account Is Locked Out               | 423         | Error/AccountIsLockedOut              |
+| Account Has Not Been Verified       | 403         | Error/AccountHasNotBeenVerified       |
+| Email Has Not Been Verified         | 403         | Error/EmailHasNotBeenVerified         |
+| Two-Factor Code Incorrect           | 400         | Error/TwoFactorCodeIncorrect          |
+| Unauthorized User                   | 401         | Error/UnauthorizedUser                |
+| Content Is Forbidden                | 403         | Error/ContentIsForbidden              |
+| General Auth                        | 401         | Error/GeneralAuthError                |
+| Global Exception                    | 500         | Error/General                         |
 
 ## FAQ
 
@@ -507,19 +507,3 @@ HTTP status codes are an implementation detail and should not be allowed to leak
 ### Can I only use MediatorBuddy for an API?
 
 API projects will be fully supported, while Razor Pages and MVC projects will be partially supported on the initial release. There are plans to add support for gRPC and GraphQL at later dates.
-
-XXXEmpty - Nothing (no value object in response)
-AcceptedResponse - TResponse
-AcceptedResponse - static object
-AcceptedResponse - Func<TResponse, object> responseFunc
-
-Flow:
-
-Nothing -> Empty
-Non-object -> Standard + Func
-Object -> Standard, response as object, response func
-
-Every param needs standard + func Option
-
-Non-object = 2 per param
-Object param = 3 per param

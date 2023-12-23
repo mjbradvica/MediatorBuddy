@@ -7,7 +7,7 @@ namespace MediatorBuddy
     /// <summary>
     /// Defines that class that contains status codes used to designate the status of the application.
     /// </summary>
-    public class ApplicationStatus
+    public partial class ApplicationStatus
     {
         /// <summary>
         /// Indicates an operation was successful.

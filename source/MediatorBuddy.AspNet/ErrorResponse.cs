@@ -83,7 +83,7 @@ namespace MediatorBuddy.AspNet
                 type,
                 "Validation Error",
                 StatusCodes.Status400BadRequest,
-                $"The follow errors were present: {errors.Aggregate(string.Empty, (final, next) => $"{final} ${next}")}",
+                $"The follow errors were present: {errors.Aggregate((final, next) => $"{final} {next}")}",
                 instance);
         }
 

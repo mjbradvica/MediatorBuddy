@@ -17,7 +17,7 @@ namespace MediatorBuddy.AspNet.Responses
         /// Yields a <see cref="RedirectToActionResult"/>.
         /// </summary>
         /// <typeparam name="TResponse">The type of the response.</typeparam>
-        /// <param name="resultFunc">A <see cref="Func{TResult}"/> that yields a <see cref="string"/> action name, <see cref="string"/> controller name, and <see cref="object"/> route values.</param>
+        /// <param name="resultFunc">A <see cref="Func{TResult}"/> that yields a <see cref="string"/> action name, <see cref="string"/> controller name, and <see cref="RouteValueDictionary"/> route values.</param>
         /// <returns>A <see cref="IActionResult"/> of type <see cref="RedirectToActionResult"/>.</returns>
         public static Func<TResponse, IActionResult> RedirectToActionResponse<TResponse>(Func<TResponse, (string ActionName, string ControllerName, RouteValueDictionary RouteValues)> resultFunc)
         {
@@ -33,7 +33,7 @@ namespace MediatorBuddy.AspNet.Responses
         /// Yields a <see cref="RedirectToActionResult"/>.
         /// </summary>
         /// <typeparam name="TResponse">The type of the response.</typeparam>
-        /// <param name="resultFunc">A <see cref="Func{TResult}"/> that yields a <see cref="string"/> action name, <see cref="string"/> controller name, <see cref="object"/> route values, and <see cref="string"/> fragment.</param>
+        /// <param name="resultFunc">A <see cref="Func{TResult}"/> that yields a <see cref="string"/> action name, <see cref="string"/> controller name, <see cref="RouteValueDictionary"/> route values, and <see cref="string"/> fragment.</param>
         /// <returns>A <see cref="IActionResult"/> of type <see cref="RedirectToActionResult"/>.</returns>
         public static Func<TResponse, IActionResult> RedirectToActionResponse<TResponse>(Func<TResponse, (string ActionName, string ControllerName, RouteValueDictionary RouteValues, string Fragment)> resultFunc)
         {
@@ -49,7 +49,7 @@ namespace MediatorBuddy.AspNet.Responses
         /// Yields a <see cref="RedirectToActionResult"/>.
         /// </summary>
         /// <typeparam name="TResponse">The type of the response.</typeparam>
-        /// <param name="resultFunc">A <see cref="Func{TResult}"/> that yields a <see cref="string"/> action name, <see cref="string"/> controller name, and <see cref="object"/> route values.</param>
+        /// <param name="resultFunc">A <see cref="Func{TResult}"/> that yields a <see cref="string"/> action name, <see cref="string"/> controller name, and <see cref="RouteValueDictionary"/> route values.</param>
         /// <returns>A <see cref="IActionResult"/> of type <see cref="RedirectToActionResult"/>.</returns>
         public static Func<TResponse, IActionResult> RedirectToActionPermanentResponse<TResponse>(Func<TResponse, (string ActionName, string ControllerName, RouteValueDictionary RouteValues)> resultFunc)
         {
@@ -65,7 +65,7 @@ namespace MediatorBuddy.AspNet.Responses
         /// Yields a <see cref="RedirectToActionResult"/>.
         /// </summary>
         /// <typeparam name="TResponse">The type of the response.</typeparam>
-        /// <param name="resultFunc">A <see cref="Func{TResult}"/> that yields a <see cref="string"/> action name, <see cref="string"/> controller name, <see cref="object"/> route values, and <see cref="string"/> fragment.</param>
+        /// <param name="resultFunc">A <see cref="Func{TResult}"/> that yields a <see cref="string"/> action name, <see cref="string"/> controller name, <see cref="RouteValueDictionary"/> route values, and <see cref="string"/> fragment.</param>
         /// <returns>A <see cref="IActionResult"/> of type <see cref="RedirectToActionResult"/>.</returns>
         public static Func<TResponse, IActionResult> RedirectToActionPermanentResponse<TResponse>(Func<TResponse, (string ActionName, string ControllerName, RouteValueDictionary RouteValues, string Fragment)> resultFunc)
         {
@@ -81,7 +81,7 @@ namespace MediatorBuddy.AspNet.Responses
         /// Yields a <see cref="RedirectToActionResult"/>.
         /// </summary>
         /// <typeparam name="TResponse">The type of the response.</typeparam>
-        /// <param name="resultFunc">A <see cref="Func{TResult}"/> that yields a <see cref="string"/> action name, <see cref="string"/> controller name, <see cref="object"/> route values, and <see cref="string"/> fragment.</param>
+        /// <param name="resultFunc">A <see cref="Func{TResult}"/> that yields a <see cref="string"/> action name, <see cref="string"/> controller name, <see cref="RouteValueDictionary"/> route values, and <see cref="string"/> fragment.</param>
         /// <returns>A <see cref="IActionResult"/> of type <see cref="RedirectToActionResult"/>.</returns>
         public static Func<TResponse, IActionResult> RedirectToActionPermanentPreserveResponse<TResponse>(Func<TResponse, (string ActionName, string ControllerName, RouteValueDictionary RouteValues, string Fragment)> resultFunc)
         {
@@ -97,7 +97,7 @@ namespace MediatorBuddy.AspNet.Responses
         /// Yields a <see cref="RedirectToActionResult"/>.
         /// </summary>
         /// <typeparam name="TResponse">The type of the response.</typeparam>
-        /// <param name="resultFunc">A <see cref="Func{TResult}"/> that yields a <see cref="string"/> action name, <see cref="string"/> controller name, <see cref="object"/> route values, and <see cref="string"/> fragment.</param>
+        /// <param name="resultFunc">A <see cref="Func{TResult}"/> that yields a <see cref="string"/> action name, <see cref="string"/> controller name, <see cref="RouteValueDictionary"/> route values, and <see cref="string"/> fragment.</param>
         /// <returns>A <see cref="IActionResult"/> of type <see cref="RedirectToActionResult"/>.</returns>
         public static Func<TResponse, IActionResult> RedirectToActionPreserveResponse<TResponse>(Func<TResponse, (string ActionName, string ControllerName, RouteValueDictionary RouteValues, string Fragment)> resultFunc)
         {

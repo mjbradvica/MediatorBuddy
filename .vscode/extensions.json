@@ -1,3 +1,10 @@
 {
-    "recommendations": []
+  "recommendations": [
+    "unifiedjs.vscode-mdx",
+    "davidanson.vscode-markdownlint",
+    "znck.grammarly",
+    "editorconfig.editorconfig",
+    "eamodio.gitlens",
+    "streetsidesoftware.code-spell-checker"
+  ]
 }

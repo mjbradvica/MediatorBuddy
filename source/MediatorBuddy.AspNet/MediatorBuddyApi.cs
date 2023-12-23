@@ -42,15 +42,6 @@ namespace MediatorBuddy.AspNet
         protected IMediator Mediator { get; }
 
         /// <summary>
-        /// Stuff.
-        /// </summary>
-        /// <returns>IActionResult.</returns>
-        public IActionResult Stuff()
-        {
-            return SignOut();
-        }
-
-        /// <summary>
         /// Accepts a request and executes it alongside common tasks used in a web request pipeline.
         /// </summary>
         /// <typeparam name="TResponse">The response type being returned from the controller action.</typeparam>
@@ -66,7 +57,7 @@ namespace MediatorBuddy.AspNet
             var validationResult = ObjectVerification.Validate(request);
             if (validationResult.Failed)
             {
-                return BadRequest(ErrorResponse.ValidationError(_errorTypes.General, validationResult.Errors, currentRoute));
+                return BadRequest(ErrorResponse.ValidationError(_errorTypes.ValidationConstraintNotMet, validationResult.Errors, currentRoute));
             }
 
             try

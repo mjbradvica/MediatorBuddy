@@ -4,6 +4,7 @@
 
 using System.Reflection;
 using MediatorBuddy.AspNet.Registration;
+using MediatorBuddy.Samples.Api.Features.Common;
 
 namespace MediatorBuddy.Samples.Api
 {
@@ -25,6 +26,7 @@ namespace MediatorBuddy.Samples.Api
             builder.Services.AddSwaggerGen();
             builder.Services.AddLogging();
             builder.Services.AddMediatorBuddy(x => x.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+            builder.Services.AddSingleton<IWidgetRepository, WidgetRepository>();
 
             var app = builder.Build();
 

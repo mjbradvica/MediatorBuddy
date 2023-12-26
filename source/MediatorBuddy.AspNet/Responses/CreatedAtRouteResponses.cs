@@ -19,7 +19,7 @@ namespace MediatorBuddy.AspNet.Responses
         /// <typeparam name="TResponse">The type of the response object.</typeparam>
         /// <param name="resultFunc">A <see cref="Func{TResult}"/> that yields a <see cref="string"/> route name and <see cref="RouteValueDictionary"/> route values.</param>
         /// <returns>A <see cref="IActionResult"/> of type <see cref="CreatedAtRouteResult"/>.</returns>
-        public static Func<TResponse, IActionResult> CreatedAtRouteResponse<TResponse>(Func<TResponse, (string RouteName, RouteValueDictionary RouteValues)> resultFunc)
+        public static Func<TResponse, IActionResult> CreatedAtRouteResponse<TResponse>(Func<TResponse, (string? RouteName, RouteValueDictionary? RouteValues)> resultFunc)
         {
             return response =>
             {
@@ -35,7 +35,7 @@ namespace MediatorBuddy.AspNet.Responses
         /// <typeparam name="TResponse">The type of the response object.</typeparam>
         /// <param name="resultFunc">A <see cref="Func{TResult}"/> that yields a <see cref="string"/> route name, <see cref="RouteValueDictionary"/> route values, and <see cref="object"/> value.</param>
         /// <returns>A <see cref="IActionResult"/> of type <see cref="CreatedAtRouteResult"/>.</returns>
-        public static Func<TResponse, IActionResult> CreatedAtRouteResponse<TResponse>(Func<TResponse, (string RouteName, RouteValueDictionary RouteValues, object Value)> resultFunc)
+        public static Func<TResponse, IActionResult> CreatedAtRouteResponse<TResponse>(Func<TResponse, (string? RouteName, RouteValueDictionary? RouteValues, object? Value)> resultFunc)
         {
             return response =>
             {

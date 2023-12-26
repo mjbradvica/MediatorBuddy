@@ -142,6 +142,17 @@ namespace MediatorBuddy.Tests
         }
 
         /// <summary>
+        /// Ensures a could not process request has the correct status.
+        /// </summary>
+        [TestMethod]
+        public void CouldNotProcessRequest_HasCorrectProperties()
+        {
+            var result = Envelope<TestResponse>.CouldNotProcessRequest();
+
+            Assert.AreEqual(ApplicationStatus.CouldNotProcessRequest, result.Status);
+        }
+
+        /// <summary>
         /// Ensures a user does not exist has the correct status.
         /// </summary>
         [TestMethod]

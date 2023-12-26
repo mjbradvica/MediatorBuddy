@@ -43,11 +43,12 @@ namespace MediatorBuddy.AspNet
         /// <param name="request">The request object being sent to the execution pipeline.</param>
         /// <param name="responseFunc">A function that will accept a response object and return a web response.</param>
         /// <returns>An IActionResult representing the end result of the request object.</returns>
-        protected async Task<IActionResult> ExecuteRequest<TResponse>(IRequest<IEnvelope<TResponse>> request, Func<IEnvelope<TResponse>, IActionResult> responseFunc)
+        protected async Task<IActionResult> ExecuteRequest<TResponse>(IRequest<IEnvelope<TResponse>> request, Func<TResponse, IActionResult> responseFunc)
         {
             IActionResult response;
 
-            if (!ModelState.IsValid)
+            var validationResult = ObjectVerification.Validate(request);
+            if (validationResult.Failed)
             {
                 return View(request);
             }
@@ -56,7 +57,7 @@ namespace MediatorBuddy.AspNet
             {
                 var result = await Mediator.Send(request);
 
-                response = responseFunc.Invoke(result);
+                response = responseFunc.Invoke(result.Response);
             }
             catch (Exception exception)
             {

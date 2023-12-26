@@ -79,11 +79,13 @@ namespace MediatorBuddy.AspNet
         /// <returns>A new ErrorResponse instance.</returns>
         public static ErrorResponse ValidationError(Uri type, IEnumerable<string> errors, Uri instance)
         {
+            var aggregateErrors = errors.Aggregate((final, next) => $"{final} {next}");
+
             return new ErrorResponse(
                 type,
                 "Validation Error",
                 StatusCodes.Status400BadRequest,
-                $"The follow errors were present: {errors.Aggregate((final, next) => $"{final} {next}")}",
+                $"The following errors were present: {aggregateErrors}",
                 instance);
         }
 

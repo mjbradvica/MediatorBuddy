@@ -102,6 +102,7 @@ namespace MediatorBuddy.AspNet
                 ApplicationStatus.ValidationConstraintNotMet => BadRequest(ErrorResponse.FromEnvelope(_errorTypes.ValidationConstraintNotMet, StatusCodes.Status400BadRequest, envelope, currentRoute)),
                 ApplicationStatus.PreConditionNotMet => BadRequest(ErrorResponse.FromEnvelope(_errorTypes.PreConditionNotMet, StatusCodes.Status400BadRequest, envelope, currentRoute)),
                 ApplicationStatus.PostConditionNotMet => BadRequest(ErrorResponse.FromEnvelope(_errorTypes.PostConditionNotMet, StatusCodes.Status400BadRequest, envelope, currentRoute)),
+                ApplicationStatus.CouldNotProcessRequest => UnprocessableEntity(ErrorResponse.FromEnvelope(_errorTypes.CouldNotProcessRequest, StatusCodes.Status422UnprocessableEntity, envelope, currentRoute)),
                 ApplicationStatus.UserDoesNotExist => NotFound(ErrorResponse.FromEnvelope(_errorTypes.UserDoesNotExist, StatusCodes.Status404NotFound, envelope, currentRoute)),
                 ApplicationStatus.UserCouldNotBeCreated => StatusCode(StatusCodes.Status500InternalServerError, ErrorResponse.FromEnvelope(_errorTypes.UserCouldNotBeCreated, StatusCodes.Status500InternalServerError, envelope, currentRoute)),
                 ApplicationStatus.UsernameAlreadyExists => Conflict(ErrorResponse.FromEnvelope(_errorTypes.UsernameAlreadyExists, StatusCodes.Status409Conflict, envelope, currentRoute)),

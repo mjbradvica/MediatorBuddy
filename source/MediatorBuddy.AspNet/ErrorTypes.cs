@@ -47,6 +47,11 @@ namespace MediatorBuddy.AspNet
         public virtual Uri PostConditionNotMet { get; set; } = new Uri("Error/PostConditionNotMet", UriKind.Relative);
 
         /// <summary>
+        /// Gets or sets the relative uri of the could not process request documentation.
+        /// </summary>
+        public virtual Uri CouldNotProcessRequest { get; set; } = new Uri("Error/CouldNotProcessRequest", UriKind.Relative);
+
+        /// <summary>
         /// Gets or sets the relative uri of user does not exist documentation.
         /// </summary>
         public virtual Uri UserDoesNotExist { get; set; } = new Uri("Error/UserDoesNotExist", UriKind.Relative);

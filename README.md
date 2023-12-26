@@ -34,7 +34,8 @@ MediatorBuddy has built-in support for most, but not all HTTP status codes.
 | Codes | Supported |
 | ----- | --------- |
 | 100s  | 100 - 102 |
-| 200s  | 200 - 208 |
+| 200s  | 200 - 226 |
+| 300s  | 301, 302, 307, 308 |
 
 ## Table of Contents
 

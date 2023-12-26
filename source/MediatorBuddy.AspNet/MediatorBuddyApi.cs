@@ -4,6 +4,7 @@
 
 using System;
 using System.Threading.Tasks;
+using MediatorBuddy.AspNet.Attributes;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,8 +14,8 @@ namespace MediatorBuddy.AspNet
     /// <summary>
     /// A base class to use in for API controllers.
     /// </summary>
-    [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status500InternalServerError)]
+    [MediatorBuddy400ErrorResponse]
+    [MediatorBuddy500ErrorResponse]
     public abstract class MediatorBuddyApi : ControllerBase
     {
         private readonly ErrorTypes _errorTypes;

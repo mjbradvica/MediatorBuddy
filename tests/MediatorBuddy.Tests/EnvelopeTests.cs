@@ -3,7 +3,6 @@
 // </copyright>
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NuGet.Frameworks;
 
 namespace MediatorBuddy.Tests
 {

@@ -6,6 +6,7 @@ using MediatorBuddy.Samples.Api.Features.AddWidget;
 using MediatorBuddy.Samples.Api.Features.GetAll;
 using MediatorBuddy.Samples.Api.Features.GetById;
 using MediatorBuddy.Samples.Api.Features.UpdateWidget;
+using MediatorBuddy.Samples.Api.FluentValidationExample;
 
 namespace MediatorBuddy.Samples.Api.Features.Common
 {
@@ -67,6 +68,16 @@ namespace MediatorBuddy.Samples.Api.Features.Common
         public static UpdateWidgetResponse UpdateResponse(Widget widget)
         {
             return new UpdateWidgetResponse(widget);
+        }
+
+        /// <summary>
+        /// Creates a <see cref="FluentGetByIdResponse"/>.
+        /// </summary>
+        /// <param name="widget">A <see cref="Widget"/>.</param>
+        /// <returns>A new <see cref="FluentGetByIdResponse"/>.</returns>
+        public static FluentGetByIdResponse FluentResponse(Widget widget)
+        {
+            return new FluentGetByIdResponse(widget);
         }
     }
 }

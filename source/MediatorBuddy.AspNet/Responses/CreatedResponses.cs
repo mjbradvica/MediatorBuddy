@@ -19,7 +19,7 @@ namespace MediatorBuddy.AspNet.Responses
         /// <returns>A <see cref="IActionResult"/> of type <see cref="CreatedResult"/>.</returns>
         public static Func<TResponse, IActionResult> CreatedEmptyResponse<TResponse>()
         {
-            return response => new CreatedResult(string.Empty, null);
+            return _ => new CreatedResult(string.Empty, null);
         }
 
         /// <summary>

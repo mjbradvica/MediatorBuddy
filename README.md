@@ -29,12 +29,13 @@ What does MediatorBuddy give you?
 
 ## Built-In Http Status Code Support
 
-MediatorBuddy has built-in support for most, but not all HTTP status codes.
+If you are using MediatorBuddy for API projects, there is built-in support for most, but not all HTTP non-error status codes.
 
-| Codes | Supported |
-| ----- | --------- |
-| 100s  | 100 - 102 |
-| 200s  | 200 - 208 |
+| Codes | Supported          |
+| ----- | ------------------ |
+| 100s  | 100 - 102          |
+| 200s  | 200 - 226          |
+| 300s  | 301, 302, 307, 308 |
 
 ## Table of Contents
 
@@ -77,9 +78,11 @@ If you are familiar with the [Prettier](https://prettier.io/) format library for
 
 MediatorBuddy has a very specific way of handling requests and responses. The advantage you gain is up to 100% less unit testing in your presentation layer alongside a consistent way of handling failures.
 
-MediatorBuddy also assumes that you prefer to use the built-in [validation attributes](https://learn.microsoft.com/en-us/aspnet/core/mvc/models/validation?view=aspnetcore-7.0#validation-attributes) that Microsoft provides out of the box. Attribute validators are highly recommended, especially if you are utilizing Swagger.
+MediatorBuddy assumes that you prefer to use the built-in [validation attributes](https://learn.microsoft.com/en-us/aspnet/core/mvc/models/validation?view=aspnetcore-7.0#validation-attributes) that Microsoft provides out of the box. Attribute validators are highly recommended, especially if you are utilizing Swagger.
 
 You may use a separate library such as [FluentValidation](https://www.nuget.org/packages/FluentValidation)-however you will need to validate request objects in your handlers.
+
+A quick sample using FluentValidation is available [here.](https://github.com/mjbradvica/MediatorBuddy/tree/master/samples/MediatorBuddy.Samples.Api)
 
 ## Background Story
 

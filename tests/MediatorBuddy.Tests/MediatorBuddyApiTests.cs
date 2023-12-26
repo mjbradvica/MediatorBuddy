@@ -182,6 +182,16 @@ namespace MediatorBuddy.Tests
         }
 
         /// <summary>
+        /// Ensures that could not process request errors are correct.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+        [TestMethod]
+        public async Task CouldNotProcessRequest_IsCorrect()
+        {
+            await AssertStatusCorrect<ObjectResult>(Envelope<TestResponse>.CouldNotProcessRequest());
+        }
+
+        /// <summary>
         /// Ensures that user does not exist errors are correct.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>

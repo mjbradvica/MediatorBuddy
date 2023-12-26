@@ -3,7 +3,6 @@
 // </copyright>
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NuGet.Frameworks;
 
 namespace MediatorBuddy.Tests
 {
@@ -140,6 +139,17 @@ namespace MediatorBuddy.Tests
             var result = Envelope<TestResponse>.PostConditionNotMet();
 
             Assert.AreEqual(ApplicationStatus.PostConditionNotMet, result.Status);
+        }
+
+        /// <summary>
+        /// Ensures a could not process request has the correct status.
+        /// </summary>
+        [TestMethod]
+        public void CouldNotProcessRequest_HasCorrectProperties()
+        {
+            var result = Envelope<TestResponse>.CouldNotProcessRequest();
+
+            Assert.AreEqual(ApplicationStatus.CouldNotProcessRequest, result.Status);
         }
 
         /// <summary>

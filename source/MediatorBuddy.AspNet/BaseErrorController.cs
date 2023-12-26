@@ -84,6 +84,16 @@ namespace MediatorBuddy.AspNet
         }
 
         /// <summary>
+        /// An explanation for the could not process request error.
+        /// </summary>
+        /// <returns>A <see cref="IActionResult"/>.</returns>
+        [HttpGet("CouldNotProcessRequest")]
+        public virtual IActionResult CouldNotProcessRequest()
+        {
+            return Ok("The request was able to pass all validation but the process did not complete entirely. This is possibly due to semantic reasons. You may try the request again.");
+        }
+
+        /// <summary>
         /// An explanation for the user does not exist error.
         /// </summary>
         /// <returns>A <see cref="IActionResult"/>.</returns>

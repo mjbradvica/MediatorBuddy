@@ -3,7 +3,9 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
 using MediatorBuddy.AspNet;
+using Microsoft.AspNetCore.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MediatorBuddy.Tests
@@ -31,6 +33,27 @@ namespace MediatorBuddy.Tests
             Assert.AreEqual(type, errorResponse.Type);
             Assert.AreEqual(title, errorResponse.Title);
             Assert.AreEqual(status, errorResponse.Status);
+            Assert.AreEqual(detail, errorResponse.Detail);
+            Assert.AreEqual(instance, errorResponse.Instance);
+        }
+
+        /// <summary>
+        /// Ensures the validation error properties are correct.
+        /// </summary>
+        [TestMethod]
+        public void ValidationError_HasCorrectProperties()
+        {
+            var type = new Uri("/errors/validation", UriKind.Relative);
+            const string title = "Validation Error";
+            var errors = new List<string> { "A validation constraint was not met." };
+            const string detail = "The following errors were present: A validation constraint was not met.";
+            var instance = new Uri("/people", UriKind.Relative);
+
+            var errorResponse = ErrorResponse.ValidationError(type, errors, instance);
+
+            Assert.AreEqual(type, errorResponse.Type);
+            Assert.AreEqual(title, errorResponse.Title);
+            Assert.AreEqual(StatusCodes.Status400BadRequest, errorResponse.Status);
             Assert.AreEqual(detail, errorResponse.Detail);
             Assert.AreEqual(instance, errorResponse.Instance);
         }

@@ -87,6 +87,15 @@ namespace MediatorBuddy.Tests
         }
 
         /// <summary>
+        /// Ensures CouldNotProcessRequest is correct.
+        /// </summary>
+        [TestMethod]
+        public void CouldNotProcessRequest_IsCorrectType()
+        {
+            AssertCorrect(_errorController.CouldNotProcessRequest());
+        }
+
+        /// <summary>
         /// Ensures UserDoesNotExist is correct.
         /// </summary>
         [TestMethod]

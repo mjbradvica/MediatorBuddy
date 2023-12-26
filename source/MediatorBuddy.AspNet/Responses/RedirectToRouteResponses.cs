@@ -19,7 +19,7 @@ namespace MediatorBuddy.AspNet.Responses
         /// <typeparam name="TResponse">The type of the response.</typeparam>
         /// <param name="resultFunc">A <see cref="Func{TResult}"/> that yields a <see cref="string"/> route name, and <see cref="RouteValueDictionary"/> route values.</param>
         /// <returns>A <see cref="IActionResult"/> of type <see cref="RedirectToRouteResult"/>.</returns>
-        public static Func<TResponse, IActionResult> RedirectToRouteResponse<TResponse>(Func<TResponse, (string RouteName, RouteValueDictionary RouteValues)> resultFunc)
+        public static Func<TResponse, IActionResult> RedirectToRouteResponse<TResponse>(Func<TResponse, (string? RouteName, RouteValueDictionary? RouteValues)> resultFunc)
         {
             return response =>
             {
@@ -35,7 +35,7 @@ namespace MediatorBuddy.AspNet.Responses
         /// <typeparam name="TResponse">The type of the response.</typeparam>
         /// <param name="resultFunc">A <see cref="Func{TResult}"/> that yields a <see cref="string"/> route name, a <see cref="RouteValueDictionary"/> route values, and a <see cref="string"/> fragment.</param>
         /// <returns>A <see cref="IActionResult"/> of type <see cref="RedirectToRouteResult"/>.</returns>
-        public static Func<TResponse, IActionResult> RedirectToRouteResponse<TResponse>(Func<TResponse, (string RouteName, RouteValueDictionary RouteValues, string Fragment)> resultFunc)
+        public static Func<TResponse, IActionResult> RedirectToRouteResponse<TResponse>(Func<TResponse, (string? RouteName, RouteValueDictionary? RouteValues, string? Fragment)> resultFunc)
         {
             return response =>
             {
@@ -51,7 +51,7 @@ namespace MediatorBuddy.AspNet.Responses
         /// <typeparam name="TResponse">The type of the response.</typeparam>
         /// <param name="resultFunc">A <see cref="Func{TResult}"/> that yields a <see cref="string"/> route name, and <see cref="RouteValueDictionary"/> route values.</param>
         /// <returns>A <see cref="IActionResult"/> of type <see cref="RedirectToRouteResult"/>.</returns>
-        public static Func<TResponse, IActionResult> RedirectToRoutePermanentResponse<TResponse>(Func<TResponse, (string RouteName, RouteValueDictionary RouteValues)> resultFunc)
+        public static Func<TResponse, IActionResult> RedirectToRoutePermanentResponse<TResponse>(Func<TResponse, (string? RouteName, RouteValueDictionary? RouteValues)> resultFunc)
         {
             return response =>
             {
@@ -67,7 +67,7 @@ namespace MediatorBuddy.AspNet.Responses
         /// <typeparam name="TResponse">The type of the response.</typeparam>
         /// <param name="resultFunc">A <see cref="Func{TResult}"/> that yields a <see cref="string"/> route name, <see cref="RouteValueDictionary"/> route values, and <see cref="string"/> fragment.</param>
         /// <returns>A <see cref="IActionResult"/> of type <see cref="RedirectToRouteResult"/>.</returns>
-        public static Func<TResponse, IActionResult> RedirectToRoutePermanentResponse<TResponse>(Func<TResponse, (string RouteName, RouteValueDictionary RouteValues, string Fragment)> resultFunc)
+        public static Func<TResponse, IActionResult> RedirectToRoutePermanentResponse<TResponse>(Func<TResponse, (string? RouteName, RouteValueDictionary? RouteValues, string? Fragment)> resultFunc)
         {
             return response =>
             {
@@ -83,7 +83,7 @@ namespace MediatorBuddy.AspNet.Responses
         /// <typeparam name="TResponse">The type of the response.</typeparam>
         /// <param name="resultFunc">A <see cref="Func{TResult}"/> that yields a <see cref="string"/> route name, <see cref="RouteValueDictionary"/> route values, and <see cref="string"/> fragment.</param>
         /// <returns>A <see cref="IActionResult"/> of type <see cref="RedirectToRouteResult"/>.</returns>
-        public static Func<TResponse, IActionResult> RedirectToRoutePermanentPreserveResponse<TResponse>(Func<TResponse, (string PageName, RouteValueDictionary RouteValues, string Fragment)> resultFunc)
+        public static Func<TResponse, IActionResult> RedirectToRoutePermanentPreserveResponse<TResponse>(Func<TResponse, (string? PageName, RouteValueDictionary? RouteValues, string? Fragment)> resultFunc)
         {
             return response =>
             {
@@ -99,7 +99,7 @@ namespace MediatorBuddy.AspNet.Responses
         /// <typeparam name="TResponse">The type of the response.</typeparam>
         /// <param name="resultFunc">A <see cref="Func{TResult}"/> that yields a <see cref="string"/> route name, <see cref="RouteValueDictionary"/> route values, and <see cref="string"/> fragment.</param>
         /// <returns>A <see cref="IActionResult"/> of type <see cref="RedirectToRouteResult"/>.</returns>
-        public static Func<TResponse, IActionResult> RedirectToRoutePreserveResponse<TResponse>(Func<TResponse, (string RouteName, RouteValueDictionary RouteValues, string Fragment)> resultFunc)
+        public static Func<TResponse, IActionResult> RedirectToRoutePreserveResponse<TResponse>(Func<TResponse, (string? RouteName, RouteValueDictionary? RouteValues, string? Fragment)> resultFunc)
         {
             return response =>
             {

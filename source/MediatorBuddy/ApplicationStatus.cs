@@ -49,6 +49,11 @@ namespace MediatorBuddy
         /// </summary>
         public const int PostConditionNotMet = 7;
 
+        /// <summary>
+        /// Indicates the request could not be processed at this moment.
+        /// </summary>
+        public const int CouldNotProcessRequest = 8;
+
         // Authentication
 
         /// <summary>

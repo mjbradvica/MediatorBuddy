@@ -5,7 +5,6 @@
 using MediatorBuddy.AspNet;
 using MediatorBuddy.AspNet.Attributes;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -51,6 +50,33 @@ namespace MediatorBuddy.Tests.Attributes
         public void MediatorBuddy404Attribute_IsCorrect()
         {
             AssertIsType(new MediatorBuddy404ErrorResponseAttribute(), StatusCodes.Status404NotFound);
+        }
+
+        /// <summary>
+        /// Ensures the mediator buddy 405 attribute is correct.
+        /// </summary>
+        [TestMethod]
+        public void MediatorBuddy405Attribute_IsCorrect()
+        {
+            AssertIsType(new MediatorBuddy405ErrorResponseAttribute(), StatusCodes.Status405MethodNotAllowed);
+        }
+
+        /// <summary>
+        /// Ensures the mediator buddy 406 attribute is correct.
+        /// </summary>
+        [TestMethod]
+        public void MediatorBuddy406Attribute_IsCorrect()
+        {
+            AssertIsType(new MediatorBuddy406ErrorResponseAttribute(), StatusCodes.Status406NotAcceptable);
+        }
+
+        /// <summary>
+        /// Ensures the mediator buddy 407 attribute is correct.
+        /// </summary>
+        [TestMethod]
+        public void MediatorBuddy407Attribute_IsCorrect()
+        {
+            AssertIsType(new MediatorBuddy407ErrorResponseAttribute(), StatusCodes.Status407ProxyAuthenticationRequired);
         }
 
         /// <summary>

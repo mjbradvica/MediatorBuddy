@@ -78,7 +78,9 @@ If you are familiar with the [Prettier](https://prettier.io/) format library for
 
 MediatorBuddy has a very specific way of handling requests and responses. The advantage you gain is up to 100% less unit testing in your presentation layer alongside a consistent way of handling failures.
 
-MediatorBuddy assumes that you prefer to use the built-in [validation attributes](https://learn.microsoft.com/en-us/aspnet/core/mvc/models/validation?view=aspnetcore-7.0#validation-attributes) that Microsoft provides out of the box. Attribute validators are highly recommended, especially if you are utilizing Swagger.
+MediatorBuddy assumes that you prefer to use the built-in [validation attributes](https://learn.microsoft.com/en-us/aspnet/core/mvc/models/validation?view=aspnetcore-7.0#validation-attributes) that Microsoft provides out of the box.
+
+> Attribute validators are highly recommended, especially if you are utilizing Swagger.
 
 You may use a separate library such as [FluentValidation](https://www.nuget.org/packages/FluentValidation)-however you will need to validate request objects in your handlers.
 
@@ -165,7 +167,7 @@ Pass your requests to the "ExecuteRequest" method and use one of the built-in su
 
 Annotate your method with the built-in error response attributes for each specific error type you return.
 
-> The base controller already has 400 and 500 attributes for each action.
+> The base controller already annotates for a 400-Bad Request and 500-Internal Server Error codes.
 
 ```csharp
 [ApiController]
@@ -239,7 +241,7 @@ Every request from now on will return an "IEnvelope" even if the true return typ
 
 MediatorBuddy uses the interface to return a response based on the status of your application.
 
-> MediatorBuddy does not imply HTTP status codes it the base library. It is important to separate the status of your application from a status code returned from an API.
+> MediatorBuddy does not imply HTTP status codes in the base library. It is important to separate the status of your application from a status code returned from an API.
 
 ### Handlers
 
@@ -361,6 +363,57 @@ public class GetWeatherHandler : IEnvelopeHandler<GetWeatherRequest, GetWeatherR
         return Envelope<GetWeatherResponse>.Success(new GetWeatherResponse(data));
     }
 }
+```
+
+### Custom Faults
+
+For custom faults, it is recommended to create a class that contains your error codes. These are not HTTP status codes. Make sure they don't overlap with any existing codes in the [ApplicationStatus class.](https://github.com/mjbradvica/MediatorBuddy/blob/development/source/MediatorBuddy/ApplicationStatus.cs)
+
+```csharp
+public class CustomApplicationStatus
+{
+    public const int NotEnoughSteam = 999;
+}
+```
+
+Create a class that can return an "IEnvelope" of type T responses for each fault code.
+
+```csharp
+public class CustomEnvelope<TResponse>
+{
+    public static IEnvelope<TResponse> NotEnoughSteam()
+    {
+        return new Envelope<TResponse>(
+            CustomApplicationStatus.NotEnoughSteam,
+            "Not enough steam.",
+            "You don't have enough steam to run that command.");
+    }
+}
+```
+
+Use in your code where needed...
+
+```csharp
+public class MyHandler : IEnvelopeHandler<MyRequest, MyResponse>
+{
+    public async Task<IEnvelope<MyResponse>> Handle(MyRequest request, CancellationToken cancellationToken)
+    {
+        var data = await _data.GetData();
+
+        if(!data.HasSteam())
+        {
+            return CustomEnvelope<MyResponse>.NotEnoughSteam();
+        }
+
+        return Envelope<MyResponse>.Success(new MyResponse());
+    }
+}
+```
+
+You will need to modify your controller to account for the error message.
+
+```csharp
+
 ```
 
 ### Controllers
@@ -555,4 +608,3 @@ HTTP status codes are an implementation detail and should not be allowed to leak
 ### Can I only use MediatorBuddy for an API?
 
 API projects will be fully supported, while Razor Pages and MVC projects will be partially supported on the initial release. There are plans to add support for gRPC and GraphQL at later dates.
-

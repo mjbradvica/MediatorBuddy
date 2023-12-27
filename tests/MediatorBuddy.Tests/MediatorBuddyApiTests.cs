@@ -95,7 +95,7 @@ namespace MediatorBuddy.Tests
             _mediator.Setup(x => x.Send(It.IsAny<TestObjectRequest>(), CancellationToken.None))
                 .ReturnsAsync(Envelope<TestResponse>.Success(new TestResponse()));
 
-            static IActionResult ExtraOptions(int value) => new StatusCodeResult(999);
+            static IActionResult? ExtraOptions(CustomErrorWrapper wrapper) => new StatusCodeResult(999);
 
             _apiController = new TestMediatorApiController(_mediator.Object, ExtraOptions)
             {

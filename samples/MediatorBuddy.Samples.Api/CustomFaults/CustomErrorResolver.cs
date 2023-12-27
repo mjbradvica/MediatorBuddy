@@ -17,7 +17,7 @@ namespace MediatorBuddy.Samples.Api.CustomFaults
         /// </summary>
         /// <param name="wrapper">The error wrapper.</param>
         /// <returns>A <see cref="IActionResult"/>.</returns>
-        public static IActionResult? ResolveFaults(CustomErrorWrapper wrapper)
+        public static IActionResult? ResolveFaults(ApiErrorWrapper wrapper)
         {
             var asCustom = wrapper.ErrorTypes as CustomErrorTypes;
 

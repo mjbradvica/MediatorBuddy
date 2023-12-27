@@ -1,4 +1,4 @@
-﻿// <copyright file="CustomErrorWrapperTests.cs" company="Michael Bradvica LLC">
+﻿// <copyright file="ApiErrorWrapperTests.cs" company="Michael Bradvica LLC">
 // Copyright (c) Michael Bradvica LLC. All rights reserved.
 // </copyright>
 
@@ -12,7 +12,7 @@ namespace MediatorBuddy.Tests
     /// Tests for the customer error wrapper.
     /// </summary>
     [TestClass]
-    public class CustomErrorWrapperTests
+    public class ApiErrorWrapperTests
     {
         /// <summary>
         /// Ensures the wrapper properties are correct.
@@ -25,7 +25,7 @@ namespace MediatorBuddy.Tests
             const string detail = "detail";
             var instance = new Uri("Error/Custom", UriKind.Relative);
 
-            var wrapper = CustomErrorWrapper.Instantiate(status, title, detail, instance, new ErrorTypes());
+            var wrapper = ApiErrorWrapper.Instantiate(status, title, detail, instance, new ErrorTypes());
 
             Assert.AreEqual(status, wrapper.Status);
             Assert.AreEqual(title, wrapper.Title);

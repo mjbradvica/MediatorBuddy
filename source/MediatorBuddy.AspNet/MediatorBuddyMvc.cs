@@ -4,6 +4,18 @@
 
 using System;
 using System.Threading.Tasks;
+
+
+/* Unmerged change from project 'MediatorBuddy.AspNet (netstandard2.1)'
+Before:
+using MediatR;
+After:
+using MediatorBuddy;
+using MediatorBuddy.AspNet;
+using MediatorBuddy.AspNet;
+using MediatorBuddy.AspNet.Mvc;
+using MediatR;
+*/
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,15 +30,23 @@ namespace MediatorBuddy.AspNet
 
         private readonly string _errorController;
 
+        private readonly Func<RazorErrorWrapper, IActionResult?>? _extraOptions;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="MediatorBuddyMvc"/> class.
         /// </summary>
         /// <param name="mediator">An instance of the <see cref="IMediator"/> interface.</param>
+        /// <param name="extraOptions">A <see cref="Func{TResult}"/> that accepts a <see cref="RazorErrorWrapper"/> and returns a <see cref="IActionResult"/>.</param>
         /// <param name="errorAction">The default name of the error view action.</param>
         /// <param name="errorController">The default name of the error view controller.</param>
-        protected MediatorBuddyMvc(IMediator mediator, string errorAction = "Index", string errorController = "Error")
+        protected MediatorBuddyMvc(
+            IMediator mediator,
+            Func<RazorErrorWrapper, IActionResult?>? extraOptions = null,
+            string errorAction = "Index",
+            string errorController = "Error")
         {
             Mediator = mediator;
+            _extraOptions = extraOptions;
             _errorAction = errorAction;
             _errorController = errorController;
         }
@@ -45,8 +65,6 @@ namespace MediatorBuddy.AspNet
         /// <returns>An IActionResult representing the end result of the request object.</returns>
         protected async Task<IActionResult> ExecuteRequest<TResponse>(IRequest<IEnvelope<TResponse>> request, Func<TResponse, IActionResult> responseFunc)
         {
-            IActionResult response;
-
             var validationResult = ObjectVerification.Validate(request);
             if (validationResult.Failed)
             {
@@ -57,7 +75,14 @@ namespace MediatorBuddy.AspNet
             {
                 var result = await Mediator.Send(request);
 
-                response = responseFunc.Invoke(result.Response);
+                if (result.Status == ApplicationStatus.Success)
+                {
+                    return responseFunc.Invoke(result.Response);
+                }
+
+                var errorResult = _extraOptions?.Invoke(RazorErrorWrapper.Instantiate(result.Status, result.Title, result.Detail));
+
+                return errorResult ?? View();
             }
             catch (Exception exception)
             {
@@ -65,8 +90,6 @@ namespace MediatorBuddy.AspNet
 
                 return RedirectToAction(_errorAction, _errorController);
             }
-
-            return response;
         }
     }
 }

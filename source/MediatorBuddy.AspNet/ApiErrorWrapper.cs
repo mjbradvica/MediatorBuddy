@@ -1,4 +1,4 @@
-﻿// <copyright file="CustomErrorWrapper.cs" company="Michael Bradvica LLC">
+﻿// <copyright file="ApiErrorWrapper.cs" company="Michael Bradvica LLC">
 // Copyright (c) Michael Bradvica LLC. All rights reserved.
 // </copyright>
 
@@ -9,9 +9,9 @@ namespace MediatorBuddy.AspNet
     /// <summary>
     /// A wrapper for custom error properties.
     /// </summary>
-    public class CustomErrorWrapper
+    public class ApiErrorWrapper
     {
-        private CustomErrorWrapper(int status, string title, string detail, Uri instance, ErrorTypes errorTypes)
+        private ApiErrorWrapper(int status, string title, string detail, Uri instance, ErrorTypes errorTypes)
         {
             Status = status;
             Title = title;
@@ -53,10 +53,10 @@ namespace MediatorBuddy.AspNet
         /// <param name="detail">The error details.</param>
         /// <param name="instance">The current endpoint instance.</param>
         /// <param name="errorTypes">The error types instance.</param>
-        /// <returns>A new <see cref="CustomErrorWrapper"/>.</returns>
-        public static CustomErrorWrapper Instantiate(int status, string title, string detail, Uri instance, ErrorTypes errorTypes)
+        /// <returns>A new <see cref="ApiErrorWrapper"/>.</returns>
+        public static ApiErrorWrapper Instantiate(int status, string title, string detail, Uri instance, ErrorTypes errorTypes)
         {
-            return new CustomErrorWrapper(status, title, detail, instance, errorTypes);
+            return new ApiErrorWrapper(status, title, detail, instance, errorTypes);
         }
     }
 }

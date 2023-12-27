@@ -63,6 +63,15 @@ namespace MediatorBuddy.Tests.Attributes
         }
 
         /// <summary>
+        /// Ensures the mediator buddy 422 attribute is correct.
+        /// </summary>
+        [TestMethod]
+        public void MediatorBuddy422Attribute_IsCorrect()
+        {
+            AssertIsType(new MediatorBuddy422ErrorResponseAttribute(), StatusCodes.Status422UnprocessableEntity);
+        }
+
+        /// <summary>
         /// Ensures the mediator buddy 423 attribute is correct.
         /// </summary>
         [TestMethod]

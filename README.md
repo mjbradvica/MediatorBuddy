@@ -82,7 +82,7 @@ MediatorBuddy assumes that you prefer to use the built-in [validation attributes
 
 You may use a separate library such as [FluentValidation](https://www.nuget.org/packages/FluentValidation)-however you will need to validate request objects in your handlers.
 
-A quick sample using FluentValidation is available [here.](https://github.com/mjbradvica/MediatorBuddy/tree/master/samples/MediatorBuddy.Samples.Api)
+A quick sample using FluentValidation is available [here.](https://github.com/mjbradvica/MediatorBuddy/tree/master/samples/MediatorBuddy.Samples.Api/FluentValidationExample)
 
 ## Background Story
 
@@ -124,6 +124,15 @@ public class MyRequest : IEnvelopeRequest<MyResponse>
 
 All handlers inherit from the [IEnvelopeHandler](https://github.com/mjbradvica/MediatorBuddy/blob/master/source/MediatorBuddy/IEnvelopeHandler.cs) interface.
 
+```csharp
+public class MyHandler : IEnvelopeHandler<MyRequest, MyResponse>
+{
+    public async Task<IEnvelope<MyResponse>> Handle(MyRequest handler, CancellationToken cancellationToken)
+    {
+    }
+}
+```
+
 Use the built-in [Envelope](https://github.com/mjbradvica/MediatorBuddy/blob/master/source/MediatorBuddy/Envelope.cs) class to determine responses.
 
 ```csharp
@@ -154,6 +163,10 @@ Have your controller inherit from the [MediatorBuddyApi](https://github.com/mjbr
 
 Pass your requests to the "ExecuteRequest" method and use one of the built-in success callbacks.
 
+Annotate your method with the built-in error response attributes for each specific error type you return.
+
+> The base controller already has 400 and 500 attributes for each action.
+
 ```csharp
 [ApiController]
 [Route("[controller]")]
@@ -163,9 +176,10 @@ public class MyController : MediatorBuddyApi
         : base(mediator)
     {
         [HttpGet]
+        [MediatorBuddy404ErrorResponse]
         public async Task<IActionResult> GetMyData()
         {
-            return await ExecuteRequest(new MyRequest(), ResponseOptions.OkObjectResponse<MyResponse>());
+            return await ExecuteRequest(new MyRequest(), ResponseOptions.OkResponse<MyResponse>());
         }
     }
 }
@@ -390,9 +404,26 @@ public async Task<IActionResult> Get()
 
 The [ResponseOptions](https://github.com/mjbradvica/MediatorBuddy/blob/master/source/MediatorBuddy.AspNet/ResponseOptions.cs) class is the preferred way of passing a successful callback to the method. This is the response that will be used if the status of your envelope is not in a faulted state.
 
-ResponseOptions has every response for any status code in the 100's or 200's.
+ResponseOptions has a majority of status codes in the 100's, 200's, and 300's.
 
-> You will need to provide a custom callback for any 300 response.
+> MediatorBuddy uses the responses available in the [ControllerBase](https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc.controllerbase?view=aspnetcore-8.0) class as a reference point.
+
+#### Error Type Annotations
+
+MediatorBuddy comes with a set of attributes to annotate action responses for error codes.
+
+```csharp
+[HttpGet(Name = "GetWeatherForecast")]
+[MediatorBuddy404ErrorResponse]
+public async Task<IActionResult> Get()
+{
+    return await ExecuteRequest(new GetWeatherRequest(), ResponseOptions.OkObjectResponse<GetWeatherResponse>());
+}
+```
+
+These are a shorthand way of replicating the [ProducesResponseType](https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc.producesresponsetypeattribute?view=aspnetcore-8.0) attribute.
+
+> You don't need to an attribute for a 400 or 500 error code, the base controller already adds these for you.
 
 #### Detailed Response
 
@@ -409,6 +440,19 @@ public async Task<IActionResult> Add(AddWeatherRequest request)
 ```
 
 > MediatorBuddy uses the [Paredo Principle](https://en.wikipedia.org/wiki/Pareto_principle) a.k.a. 80/20 rule for responses. You may have a specific use case or two that requires a custom callback.
+
+#### Custom Callbacks
+
+In the case that you need a response type that doesn't exist already. You only need to pass a call back that accepts your response type and returns an IActionResult.
+
+```csharp
+[HttpPost(Name = "NeedCustomResponse")]
+[ProducesResponseType(StatusCodes.Status418ImATeapot)]
+public async Task<IActionResult> HasCustomResponse(MyRequest request)
+{
+    return await ExecuteRequest(request, _ => new StatusCodeResult(StatusCodes.Status418ImATeapot));
+}
+```
 
 #### Handling Exceptions
 
@@ -457,6 +501,7 @@ When using MediatorBuddy for an API project, here are the default responses for 
 | Validation Constraint Not Met       | 400         | Error/ValidationConstraintNotMet      |
 | Pre-Condition Not Met               | 400         | Error/PreConditionNotMet              |
 | Post-Condition Not Met              | 400         | Error/PostConditionNotMet             |
+| Could Not Process Request           | 422         | Error/CouldNotProcessRequest          |
 | User Does Not Exist                 | 404         | Error/UserDoesNotExist                |
 | User Could Not Be Created           | 500         | Error/UserCouldNotBeCreated           |
 | User Name Already Exists            | 409         | Error/UsernameAlreadyExists           |
@@ -510,3 +555,4 @@ HTTP status codes are an implementation detail and should not be allowed to leak
 ### Can I only use MediatorBuddy for an API?
 
 API projects will be fully supported, while Razor Pages and MVC projects will be partially supported on the initial release. There are plans to add support for gRPC and GraphQL at later dates.
+

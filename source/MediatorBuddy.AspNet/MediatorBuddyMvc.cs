@@ -4,18 +4,6 @@
 
 using System;
 using System.Threading.Tasks;
-
-
-/* Unmerged change from project 'MediatorBuddy.AspNet (netstandard2.1)'
-Before:
-using MediatR;
-After:
-using MediatorBuddy;
-using MediatorBuddy.AspNet;
-using MediatorBuddy.AspNet;
-using MediatorBuddy.AspNet.Mvc;
-using MediatR;
-*/
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

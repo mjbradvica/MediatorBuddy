@@ -2,21 +2,6 @@
 // Copyright (c) Michael Bradvica LLC. All rights reserved.
 // </copyright>
 
-
-/* Unmerged change from project 'MediatorBuddy.AspNet (netstandard2.1)'
-Before:
-namespace MediatorBuddy.AspNet.Mvc
-After:
-using MediatorBuddy;
-using MediatorBuddy.AspNet;
-using MediatorBuddy.AspNet;
-using MediatorBuddy.AspNet.Mvc
-*/
-
-// <copyright file="RazorErrorWrapper.cs" company="Michael Bradvica LLC">
-// Copyright (c) Michael Bradvica LLC. All rights reserved.
-// </copyright>
-
 namespace MediatorBuddy.AspNet
 {
     /// <summary>

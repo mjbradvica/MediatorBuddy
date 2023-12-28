@@ -5,9 +5,11 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using MediatorBuddy.AspNet;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
@@ -20,7 +22,7 @@ namespace MediatorBuddy.Tests
     public class MediatorBuddyPageTests
     {
         private readonly Mock<IMediator> _mediator;
-        private readonly TestMediatorPage _page;
+        private TestMediatorPage _page;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MediatorBuddyPageTests"/> class.
@@ -71,6 +73,40 @@ namespace MediatorBuddy.Tests
             var result = await _page.TestEndpoint(TestObjectRequest.Valid());
 
             Assert.IsInstanceOfType<RedirectToPageResult>(result);
+        }
+
+        /// <summary>
+        /// Ensures the correct response on no response option.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> respresnting the operation.</returns>
+        [TestMethod]
+        public async Task NoOption_ReturnsPage()
+        {
+            _mediator.Setup(x => x.Send(It.IsAny<TestObjectRequest>(), CancellationToken.None))
+                .ReturnsAsync(Envelope<TestResponse>.AccountIsLockedOut());
+
+            var result = await _page.TestEndpoint(TestObjectRequest.Valid());
+
+            Assert.IsInstanceOfType<PageResult>(result);
+        }
+
+        /// <summary>
+        /// Ensures the correct response on using error options.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> respresnting the operation.</returns>
+        [TestMethod]
+        public async Task ExtraOptions_IsCorrect()
+        {
+            static IActionResult ExtraOptions(RazorErrorWrapper wrapper) => new RedirectToRouteResult("route", new RouteValueDictionary());
+
+            _page = new TestMediatorPage(_mediator.Object, ExtraOptions);
+
+            _mediator.Setup(x => x.Send(It.IsAny<TestObjectRequest>(), CancellationToken.None))
+                .ReturnsAsync(Envelope<TestResponse>.AccountIsLockedOut());
+
+            var result = await _page.TestEndpoint(TestObjectRequest.Valid());
+
+            Assert.IsInstanceOfType<RedirectToRouteResult>(result);
         }
     }
 }

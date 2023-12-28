@@ -2,6 +2,7 @@
 // Copyright (c) Michael Bradvica LLC. All rights reserved.
 // </copyright>
 
+using System;
 using System.Threading.Tasks;
 using MediatorBuddy.AspNet;
 using MediatorBuddy.AspNet.Responses;
@@ -19,8 +20,9 @@ namespace MediatorBuddy.Tests
         /// Initializes a new instance of the <see cref="TestMediatorMvcController"/> class.
         /// </summary>
         /// <param name="mediator">An instance of the <see cref="IMediator"/> interface.</param>
-        public TestMediatorMvcController(IMediator mediator)
-            : base(mediator)
+        /// <param name="extraOptions">Error result func.</param>
+        public TestMediatorMvcController(IMediator mediator, Func<RazorErrorWrapper, IActionResult?>? extraOptions = null)
+            : base(mediator, extraOptions)
         {
         }
 

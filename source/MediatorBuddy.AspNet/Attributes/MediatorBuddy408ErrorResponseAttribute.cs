@@ -2,20 +2,22 @@
 // Copyright (c) Michael Bradvica LLC. All rights reserved.
 // </copyright>
 
-using MediatorBuddy.AspNet;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-/// <summary>
-/// Attribute for a <see cref="ErrorResponse"/> with a 408 status code.
-/// </summary>
-public class MediatorBuddy408ErrorResponseAttribute : ProducesResponseTypeAttribute
+namespace MediatorBuddy.AspNet.Attributes
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="MediatorBuddy408ErrorResponseAttribute"/> class.
+    /// Attribute for a <see cref="ErrorResponse"/> with a 408 status code.
     /// </summary>
-    public MediatorBuddy408ErrorResponseAttribute()
-        : base(typeof(ErrorResponse), StatusCodes.Status408RequestTimeout)
+    public class MediatorBuddy408ErrorResponseAttribute : ProducesResponseTypeAttribute
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MediatorBuddy408ErrorResponseAttribute"/> class.
+        /// </summary>
+        public MediatorBuddy408ErrorResponseAttribute()
+            : base(typeof(ErrorResponse), StatusCodes.Status408RequestTimeout)
+        {
+        }
     }
 }

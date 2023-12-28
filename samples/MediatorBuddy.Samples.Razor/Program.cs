@@ -2,6 +2,10 @@
 // Copyright (c) Michael Bradvica LLC. All rights reserved.
 // </copyright>
 
+using System.Reflection;
+using MediatorBuddy.AspNet.Registration;
+using MediatorBuddy.Samples.Razor.Features.Common;
+
 namespace MediatorBuddy.Samples.Razor
 {
     /// <summary>
@@ -18,6 +22,8 @@ namespace MediatorBuddy.Samples.Razor
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddRazorPages();
+            builder.Services.AddMediatorBuddy(x => x.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+            builder.Services.AddSingleton<IWidgetRepository, WidgetRepository>();
 
             var app = builder.Build();
 

@@ -3,7 +3,10 @@
 // </copyright>
 
 using System.Diagnostics;
+using MediatorBuddy.AspNet;
+using MediatorBuddy.Samples.Mvc.Features.GetAll;
 using MediatorBuddy.Samples.Mvc.Models;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MediatorBuddy.Samples.Mvc.Controllers
@@ -28,7 +31,7 @@ namespace MediatorBuddy.Samples.Mvc.Controllers
         /// <returns>The Privacy view.</returns>
         public IActionResult Privacy()
         {
-            return View();
+            return View(new List<string>());
         }
 
         /// <summary>

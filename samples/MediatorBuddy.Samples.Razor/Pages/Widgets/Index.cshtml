@@ -1,0 +1,11 @@
+﻿@page
+@model MediatorBuddy.Samples.Razor.Pages.Widgets.IndexModel
+@{
+}
+
+<ul>
+@foreach (var widget in @Model.ViewModel.Widgets)
+{
+    <li>@widget.Id - @widget.Name</li>
+}
+</ul>

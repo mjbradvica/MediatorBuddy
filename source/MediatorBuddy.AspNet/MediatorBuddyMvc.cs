@@ -79,5 +79,43 @@ namespace MediatorBuddy.AspNet
                 return RedirectToAction(_errorAction, _errorController);
             }
         }
+
+        /// <summary>
+        /// Accepts a request and executes it alongside common tasks used in a web request pipeline.
+        /// </summary>
+        /// <typeparam name="TResponse">The response type being returned from the controller action.</typeparam>
+        /// <param name="request">The request object being sent to the execution pipeline.</param>
+        /// <param name="responseFunc">A <see cref="Func{TResult}"/> that will accept a response object and <see cref="RazorViewData"/> and return a <see cref="IActionResult"/>.</param>
+        /// <returns>A <see cref="Task"/> of type <see cref="IActionResult"/> representing the end result of the request object.</returns>
+        protected async Task<IActionResult> ExecuteRequest<TResponse>(IRequest<IEnvelope<TResponse>> request, Func<TResponse, RazorViewData, IActionResult> responseFunc)
+        {
+            var validationResult = ObjectVerification.Validate(request);
+            if (validationResult.Failed)
+            {
+                return View(request);
+            }
+
+            try
+            {
+                var result = await Mediator.Send(request);
+
+                if (result.Status == ApplicationStatus.Success)
+                {
+                    var razorViewData = RazorViewData.Initialize(TempData, ViewData);
+
+                    return responseFunc.Invoke(result.Response, razorViewData);
+                }
+
+                var errorResult = _extraOptions?.Invoke(RazorErrorWrapper.Instantiate(result.Status, result.Title, result.Detail));
+
+                return errorResult ?? View();
+            }
+            catch (Exception exception)
+            {
+                await Mediator.Publish(new GlobalExceptionOccurred(exception));
+
+                return RedirectToAction(_errorAction, _errorController);
+            }
+        }
     }
 }

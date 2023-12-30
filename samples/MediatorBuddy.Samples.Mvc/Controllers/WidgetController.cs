@@ -2,9 +2,12 @@
 // Copyright (c) Michael Bradvica LLC. All rights reserved.
 // </copyright>
 
+using AutoMapper;
 using MediatorBuddy.AspNet;
+using MediatorBuddy.AspNet.Responses;
 using MediatorBuddy.Samples.Mvc.Features.GetAll;
 using MediatorBuddy.Samples.Mvc.Features.GetById;
+using MediatorBuddy.Samples.Mvc.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,13 +19,17 @@ namespace MediatorBuddy.Samples.Mvc.Controllers
     [Route("[controller]")]
     public class WidgetController : MediatorBuddyMvc
     {
+        private readonly IMapper _mapper;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="WidgetController"/> class.
         /// </summary>
         /// <param name="mediator">An instance of the <see cref="IMediator"/> interface.</param>
-        public WidgetController(IMediator mediator)
+        /// <param name="mapper">An instance of the <see cref="IMapper"/> interface.</param>
+        public WidgetController(IMediator mediator, IMapper mapper)
             : base(mediator)
         {
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -32,7 +39,9 @@ namespace MediatorBuddy.Samples.Mvc.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            return await ExecuteRequest(new GetAllWidgetsRequest(), response => View(response.Widgets));
+            return await ExecuteRequest(
+                new GetAllWidgetsRequest(),
+                ResponseOptions.ViewResponse<GetAllWidgetsResponse, WidgetIndexViewModel>(_mapper.Map<GetAllWidgetsResponse, WidgetIndexViewModel>));
         }
 
         /// <summary>
@@ -43,7 +52,9 @@ namespace MediatorBuddy.Samples.Mvc.Controllers
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> Details(Guid id)
         {
-            return await ExecuteRequest(new GetWidgetByIdRequest(id), response => View(response.Widget));
+            return await ExecuteRequest(
+                new GetWidgetByIdRequest(id),
+                ResponseOptions.ViewResponse<GetWidgetByIdResponse, WidgetViewModel>(WidgetViewModel.FromWidget));
         }
     }
 }

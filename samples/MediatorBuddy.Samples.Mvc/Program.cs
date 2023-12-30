@@ -24,6 +24,7 @@ namespace MediatorBuddy.Samples.Mvc
             builder.Services.AddControllersWithViews();
             builder.Services.AddMediatorBuddy(x => x.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
             builder.Services.AddSingleton<IWidgetRepository, WidgetRepository>();
+            builder.Services.AddAutoMapper(config => config.AddMaps(Assembly.GetExecutingAssembly()));
 
             var app = builder.Build();
 

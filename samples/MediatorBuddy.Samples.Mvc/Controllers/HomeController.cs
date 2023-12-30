@@ -3,10 +3,7 @@
 // </copyright>
 
 using System.Diagnostics;
-using MediatorBuddy.AspNet;
-using MediatorBuddy.Samples.Mvc.Features.GetAll;
 using MediatorBuddy.Samples.Mvc.Models;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MediatorBuddy.Samples.Mvc.Controllers

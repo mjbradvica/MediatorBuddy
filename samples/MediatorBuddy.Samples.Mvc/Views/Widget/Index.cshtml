@@ -1,7 +1,7 @@
-﻿@model IEnumerable<MediatorBuddy.Samples.Mvc.Features.Common.Widget>
+﻿@model MediatorBuddy.Samples.Mvc.ViewModels.WidgetIndexViewModel
 
 <ul>
-    @foreach (var widget in Model)
+    @foreach (var widget in Model.Widgets)
     {
         <li>
             @widget.Id - @widget.Name <button><a asp-controller="Widget" asp-action="Details" asp-route-id="@widget.Id">Details</a></button>

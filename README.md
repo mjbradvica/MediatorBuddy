@@ -2,7 +2,7 @@
 
 An opinionated implementation for the [MediatR](https://github.com/jbogard/MediatR) library.
 
-![TempBuddy](./images/logo-web.png)
+![TempBuddy](https://i.imgur.com/Un435IL.png)
 
 ![build-status](https://github.com/mjbradvica/MediatorBuddy/workflows/main/badge.svg) ![downloads](https://img.shields.io/nuget/dt/MediatorBuddy) ![downloads](https://img.shields.io/nuget/v/MediatorBuddy) ![activity](https://img.shields.io/github/last-commit/mjbradvica/MediatorBuddy/master)
 

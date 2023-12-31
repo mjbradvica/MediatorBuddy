@@ -43,7 +43,7 @@ namespace MediatorBuddy.Samples.Razor.Common
         /// <param name="request">The get request.</param>
         /// <typeparam name="TResponse">The response type.</typeparam>
         /// <returns>A <see cref="Task"/> of type <see cref="IActionResult"/>.</returns>
-        public async Task<IActionResult> ExecuteGet<TResponse>(IEnvelopeRequest<TResponse> request)
+        protected async Task<IActionResult> ExecuteGet<TResponse>(IEnvelopeRequest<TResponse> request)
         {
             return await ExecuteRequest(request, response => ViewModel = _mapper.Map<TResponse, TViewModel>(response));
         }

@@ -3,8 +3,9 @@
 // </copyright>
 
 using MediatorBuddy.Samples.Razor.Features.Common;
+using MediatorBuddy.Samples.Razor.Features.GetAll;
 
-namespace MediatorBuddy.Samples.Razor.Pages.Widgets
+namespace MediatorBuddy.Samples.Razor.ViewModels
 {
     /// <summary>
     /// Sample widget index view model.
@@ -20,8 +21,17 @@ namespace MediatorBuddy.Samples.Razor.Pages.Widgets
         }
 
         /// <summary>
-        /// Gets or sets the widgets.
+        /// Gets the widgets.
         /// </summary>
-        public IEnumerable<Widget> Widgets { get; set; }
+        public IEnumerable<Widget> Widgets { get; private set; }
+
+        /// <summary>
+        /// Action function.
+        /// </summary>
+        /// <param name="response">Response object.</param>
+        public void FromResponse(GetAllWidgetsResponse response)
+        {
+            Widgets = response.Widgets;
+        }
     }
 }

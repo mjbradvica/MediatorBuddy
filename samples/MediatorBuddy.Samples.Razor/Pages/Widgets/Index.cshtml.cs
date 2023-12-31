@@ -4,6 +4,7 @@
 
 using MediatorBuddy.AspNet;
 using MediatorBuddy.Samples.Razor.Features.GetAll;
+using MediatorBuddy.Samples.Razor.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -36,7 +37,7 @@ namespace MediatorBuddy.Samples.Razor.Pages.Widgets
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task<IActionResult> OnGetAsync()
         {
-            return await ExecuteRequest(new GetAllWidgetsRequest(), response => ViewModel.Widgets = response.Widgets);
+            return await ExecuteRequest(new GetAllWidgetsRequest(), ViewModel.FromResponse);
         }
     }
 }

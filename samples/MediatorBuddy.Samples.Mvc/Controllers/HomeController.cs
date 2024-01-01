@@ -28,7 +28,7 @@ namespace MediatorBuddy.Samples.Mvc.Controllers
         /// <returns>The Privacy view.</returns>
         public IActionResult Privacy()
         {
-            return View();
+            return View(new List<string>());
         }
 
         /// <summary>

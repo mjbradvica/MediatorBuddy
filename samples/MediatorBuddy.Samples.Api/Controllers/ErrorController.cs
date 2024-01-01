@@ -14,5 +14,14 @@ namespace MediatorBuddy.Samples.Api.Controllers
     [Route("[controller]")]
     public class ErrorController : BaseErrorController
     {
+        /// <summary>
+        /// Custom fault explanation.
+        /// </summary>
+        /// <returns>A <see cref="IActionResult"/>.</returns>
+        [HttpGet("NotEnoughSteam")]
+        public IActionResult NotEnoughSteam()
+        {
+            return Ok("You don't have enough steam to be a tea pot!");
+        }
     }
 }

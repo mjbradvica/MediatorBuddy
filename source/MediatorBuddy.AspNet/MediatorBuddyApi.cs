@@ -19,7 +19,7 @@ namespace MediatorBuddy.AspNet
     public abstract class MediatorBuddyApi : ControllerBase
     {
         private readonly ErrorTypes _errorTypes;
-        private readonly Func<int, IActionResult>? _extraOptions;
+        private readonly Func<ApiErrorWrapper, IActionResult?>? _extraOptions;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MediatorBuddyApi"/> class.
@@ -30,7 +30,7 @@ namespace MediatorBuddy.AspNet
         protected MediatorBuddyApi(
             IMediator mediator,
             ErrorTypes? errorTypes = null,
-            Func<int, IActionResult>? extraOptions = null)
+            Func<ApiErrorWrapper, IActionResult?>? extraOptions = null)
         {
             Mediator = mediator;
             _errorTypes = errorTypes ?? new ErrorTypes();
@@ -85,11 +85,13 @@ namespace MediatorBuddy.AspNet
         /// <param name="currentRoute">The current route as Uri or link to general errors.</param>
         /// <param name="additionalOptions">Any additional response actions that may be required.</param>
         /// <returns>An IActionResult with the appropriate response.</returns>
-        private IActionResult DetermineResponse<TResponse>(IEnvelope<TResponse> envelope, IActionResult successResult, Uri currentRoute, Func<int, IActionResult>? additionalOptions = null)
+        private IActionResult DetermineResponse<TResponse>(IEnvelope<TResponse> envelope, IActionResult successResult, Uri currentRoute, Func<ApiErrorWrapper, IActionResult?>? additionalOptions = null)
         {
-            if (additionalOptions != null)
+            var result = additionalOptions?.Invoke(ApiErrorWrapper.Instantiate(envelope.Status, envelope.Title, envelope.Detail, currentRoute, _errorTypes));
+
+            if (result != null)
             {
-                return additionalOptions.Invoke(envelope.Status);
+                return result;
             }
 
             return envelope.Status switch

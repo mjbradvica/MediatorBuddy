@@ -3,7 +3,6 @@
 // </copyright>
 
 using MediatorBuddy.Samples.Api.Features.Common;
-using MediatorBuddy.Samples.Api.Features.GetById;
 
 namespace MediatorBuddy.Samples.Api.FluentValidationExample
 {

@@ -21,7 +21,7 @@ namespace MediatorBuddy.Tests
         /// </summary>
         /// <param name="mediator">An instance of the Mediator object.</param>
         /// <param name="extraOptions">Extra response options.</param>
-        public TestMediatorApiController(IMediator mediator, Func<int, IActionResult>? extraOptions = null)
+        public TestMediatorApiController(IMediator mediator, Func<ApiErrorWrapper, IActionResult?>? extraOptions = null)
             : base(mediator, null, extraOptions)
         {
         }

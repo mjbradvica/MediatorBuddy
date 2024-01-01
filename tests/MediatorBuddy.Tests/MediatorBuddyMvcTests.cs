@@ -5,9 +5,10 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using MediatorBuddy.AspNet;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
@@ -20,7 +21,7 @@ namespace MediatorBuddy.Tests
     public class MediatorBuddyMvcTests
     {
         private readonly Mock<IMediator> _mediator;
-        private readonly TestMediatorMvcController _page;
+        private TestMediatorMvcController _controller;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MediatorBuddyMvcTests"/> class.
@@ -28,7 +29,7 @@ namespace MediatorBuddy.Tests
         public MediatorBuddyMvcTests()
         {
             _mediator = new Mock<IMediator>();
-            _page = new TestMediatorMvcController(_mediator.Object);
+            _controller = new TestMediatorMvcController(_mediator.Object);
         }
 
         /// <summary>
@@ -38,7 +39,7 @@ namespace MediatorBuddy.Tests
         [TestMethod]
         public async Task InvalidModel_ReturnsToPage()
         {
-            var result = await _page.TestEndpoint(TestObjectRequest.InValid());
+            var result = await _controller.TestEndpoint(TestObjectRequest.InValid());
 
             Assert.IsInstanceOfType<ViewResult>(result);
         }
@@ -53,7 +54,7 @@ namespace MediatorBuddy.Tests
             _mediator.Setup(x => x.Send(It.IsAny<TestObjectRequest>(), CancellationToken.None))
                 .ReturnsAsync(Envelope<TestResponse>.Success(new TestResponse()));
 
-            var result = await _page.TestEndpoint(TestObjectRequest.Valid());
+            var result = await _controller.TestEndpoint(TestObjectRequest.Valid());
 
             Assert.IsInstanceOfType<RedirectToActionResult>(result);
         }
@@ -68,13 +69,47 @@ namespace MediatorBuddy.Tests
             _mediator.Setup(x => x.Send(It.IsAny<TestObjectRequest>(), CancellationToken.None))
                 .ThrowsAsync(new Exception());
 
-            var result = await _page.TestEndpoint(TestObjectRequest.Valid());
+            var result = await _controller.TestEndpoint(TestObjectRequest.Valid());
 
             var asResult = result as RedirectToActionResult;
 
             Assert.IsInstanceOfType<RedirectToActionResult>(result);
             Assert.AreEqual("Index", asResult?.ActionName);
             Assert.AreEqual("Error", asResult?.ControllerName);
+        }
+
+        /// <summary>
+        /// Ensures the correct response on no response option.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> respresnting the operation.</returns>
+        [TestMethod]
+        public async Task NoOption_ReturnsPage()
+        {
+            _mediator.Setup(x => x.Send(It.IsAny<TestObjectRequest>(), CancellationToken.None))
+                .ReturnsAsync(Envelope<TestResponse>.AccountIsLockedOut());
+
+            var result = await _controller.TestEndpoint(TestObjectRequest.Valid());
+
+            Assert.IsInstanceOfType<ViewResult>(result);
+        }
+
+        /// <summary>
+        /// Ensures the correct response on using error options.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> respresnting the operation.</returns>
+        [TestMethod]
+        public async Task ExtraOptions_IsCorrect()
+        {
+            static IActionResult ExtraOptions(RazorErrorWrapper wrapper) => new RedirectToRouteResult("route", new RouteValueDictionary());
+
+            _controller = new TestMediatorMvcController(_mediator.Object, ExtraOptions);
+
+            _mediator.Setup(x => x.Send(It.IsAny<TestObjectRequest>(), CancellationToken.None))
+                .ReturnsAsync(Envelope<TestResponse>.AccountIsLockedOut());
+
+            var result = await _controller.TestEndpoint(TestObjectRequest.Valid());
+
+            Assert.IsInstanceOfType<RedirectToRouteResult>(result);
         }
     }
 }

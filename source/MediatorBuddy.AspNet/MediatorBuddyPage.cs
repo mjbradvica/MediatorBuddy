@@ -17,7 +17,7 @@ namespace MediatorBuddy.AspNet
     {
         private readonly string _errorPage;
 
-        private readonly Func<int, IActionResult>? _extraOptions;
+        private readonly Func<RazorErrorWrapper, IActionResult?>? _extraOptions;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MediatorBuddyPage"/> class.
@@ -25,7 +25,7 @@ namespace MediatorBuddy.AspNet
         /// <param name="mediator">An instance of the <see cref="IMediator"/> interface.</param>
         /// <param name="extraOptions">Additional error handling options.</param>
         /// <param name="errorPage">The name of the Page to redirect to on exception. Defaults to "Error".</param>
-        protected MediatorBuddyPage(IMediator mediator, Func<int, IActionResult>? extraOptions = null, string errorPage = "/Error")
+        protected MediatorBuddyPage(IMediator mediator, Func<RazorErrorWrapper, IActionResult?>? extraOptions = null, string errorPage = "/Error")
         {
             Mediator = mediator;
             _extraOptions = extraOptions;
@@ -42,12 +42,10 @@ namespace MediatorBuddy.AspNet
         /// </summary>
         /// <typeparam name="TResponse">The response type being returned from the controller action.</typeparam>
         /// <param name="request">The request object being sent to the execution pipeline.</param>
-        /// <param name="responseFunc">A function that will accept a response object and return a web response.</param>
-        /// <returns>An IActionResult representing the end result of the request object.</returns>
+        /// <param name="responseFunc">A <see cref="Func{TResult}"/> that will accept a response object and return a <see cref="IActionResult"/>.</param>
+        /// <returns>A <see cref="Task"/> of type <see cref="IActionResult"/> representing the end result of the request object.</returns>
         protected async Task<IActionResult> ExecuteRequest<TResponse>(IRequest<IEnvelope<TResponse>> request, Func<TResponse, IActionResult> responseFunc)
         {
-            IActionResult response;
-
             var validationResult = ObjectVerification.Validate(request);
             if (validationResult.Failed)
             {
@@ -58,7 +56,14 @@ namespace MediatorBuddy.AspNet
             {
                 var result = await Mediator.Send(request);
 
-                response = responseFunc.Invoke(result.Response);
+                if (result.Status == ApplicationStatus.Success)
+                {
+                    return responseFunc.Invoke(result.Response);
+                }
+
+                var errorResult = _extraOptions?.Invoke(RazorErrorWrapper.Instantiate(result.Status, result.Title, result.Detail));
+
+                return errorResult ?? Page();
             }
             catch (Exception exception)
             {
@@ -66,8 +71,44 @@ namespace MediatorBuddy.AspNet
 
                 return RedirectToPage(_errorPage);
             }
+        }
 
-            return response;
+        /// <summary>
+        /// Accepts a request and executes it alongside common tasks used in a web request pipeline.
+        /// </summary>
+        /// <typeparam name="TResponse">The response type being returned from the controller action.</typeparam>
+        /// <param name="request">The request object being sent to the execution pipeline.</param>
+        /// <param name="resultAction">A <see cref="Action"/> that will accept a response object. Typically, to update a view model.</param>
+        /// <returns>A <see cref="Task"/> of type <see cref="IActionResult"/> representing the end result of the request object.</returns>
+        protected async Task<IActionResult> ExecuteRequest<TResponse>(IRequest<IEnvelope<TResponse>> request, Action<TResponse> resultAction)
+        {
+            var validationResult = ObjectVerification.Validate(request);
+            if (validationResult.Failed)
+            {
+                return Page();
+            }
+
+            try
+            {
+                var result = await Mediator.Send(request);
+
+                if (result.Status == ApplicationStatus.Success)
+                {
+                    resultAction.Invoke(result.Response);
+
+                    return Page();
+                }
+
+                var errorResult = _extraOptions?.Invoke(RazorErrorWrapper.Instantiate(result.Status, result.Title, result.Detail));
+
+                return errorResult ?? Page();
+            }
+            catch (Exception exception)
+            {
+                await Mediator.Publish(new GlobalExceptionOccurred(exception));
+
+                return RedirectToPage(_errorPage);
+            }
         }
     }
 }

@@ -14,11 +14,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatorBuddy.AspNet", "sou
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatorBuddy.Tests", "tests\MediatorBuddy.Tests\MediatorBuddy.Tests.csproj", "{708664A3-F473-41B8-A0F8-4CEE2AAC5AA7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediatorBuddy.Samples.Api", "samples\MediatorBuddy.Samples.Api\MediatorBuddy.Samples.Api.csproj", "{851EDDB0-EC76-46B6-B82D-AAA60C1197C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatorBuddy.Samples.Api", "samples\MediatorBuddy.Samples.Api\MediatorBuddy.Samples.Api.csproj", "{851EDDB0-EC76-46B6-B82D-AAA60C1197C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediatorBuddy.Samples.Razor", "samples\MediatorBuddy.Samples.Razor\MediatorBuddy.Samples.Razor.csproj", "{D62AC8C4-24DB-4E4F-B283-549620507F45}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatorBuddy.Samples.Razor", "samples\MediatorBuddy.Samples.Razor\MediatorBuddy.Samples.Razor.csproj", "{D62AC8C4-24DB-4E4F-B283-549620507F45}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediatorBuddy.Samples.Mvc", "samples\MediatorBuddy.Samples.Mvc\MediatorBuddy.Samples.Mvc.csproj", "{2F43C7F4-3612-4390-B8B2-09702B87D528}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatorBuddy.Samples.Mvc", "samples\MediatorBuddy.Samples.Mvc\MediatorBuddy.Samples.Mvc.csproj", "{2F43C7F4-3612-4390-B8B2-09702B87D528}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -47,8 +47,12 @@ If you are using MediatorBuddy for API projects, there is built-in support for m
 - [Background](#background-story)
 - [Setup](#setup)
 - [Quick Start API](#quick-start-api)
-- [In-Depth](#in-depth)
+- [In-Depth](#in-depth-api)
   - [Default Responses](#default-responses)
+- [Quick Start Razor Pages](#quick-start-razor-pages)
+- [In-Depth Razor Pages](#in-depth-razor-pages)
+- [Quick Start MVC](#quick-start-mvc)
+- [In-Depth MVC](#in-depth-mvc)
 - [FAQ](#faq)
 
 ## Dependencies
@@ -71,6 +75,17 @@ In your presentation layer:
 ```bash
 Install-Package MediatorBuddy.AspNet
 ```
+
+## How to read this documentation
+
+After you have gone through the installation and set-up steps read the following:
+
+1. Common [Quick-Start](#common-quick-start) or Common [In-Depth](#common-in-depth)
+2. The frontend framework you are using:
+
+- API [Quick-Start](#quick-start-api) or [In-Depth](#in-depth-api)
+- MVC [Quick-Start](#quick-start-mvc) or [In-Depth](#in-depth-mvc)
+- Razor Pages [Quick-Start](#quick-start-razor-pages) or [In-Depth](#in-depth-razor-pages)
 
 ## What is implied by an "opinionated" library?
 
@@ -113,6 +128,12 @@ public class Program
     }
 }
 ```
+
+## Common Quick Start
+
+## Common In-Depth
+
+## In-Depth Quick Start
 
 ## Quick Start API
 
@@ -215,7 +236,7 @@ That's 90% of how MediatorBuddy works!
 
 I hope the potential of what the library can do for you and your development team is apparent.
 
-## In-Depth
+## In-Depth API
 
 ### Requests
 
@@ -570,6 +591,99 @@ When using MediatorBuddy for an API project, here are the default responses for 
 | Content Is Forbidden                | 403         | Error/ContentIsForbidden              |
 | General Auth                        | 401         | Error/GeneralAuthError                |
 | Global Exception                    | 500         | Error/General                         |
+
+## Quick Start Razor Pages
+
+You have two options to use for a base page:
+
+Either the standard [MediatorBuddyPage](https://github.com/mjbradvica/MediatorBuddy/blob/master/source/MediatorBuddy.AspNet/MediatorBuddyPage.cs) or the recommended [MediatorBuddyBasePage](https://github.com/mjbradvica/MediatorBuddy/blob/master/source/MediatorBuddy.AspNet/MediatorBuddyPage.cs)
+
+- The standard page only gives you two methods to pass requests to.
+- The base page provides a basic implementation for commands and queries alongside a built-in property for your viewModel.
+
+> If your application is pretty standard and is mostly concerned with CRUD operations, then the BasePage will probably suit most of your needs.
+
+### Using the Base Page
+
+> The base page is an opinionated version of the standard page.
+
+Have your Page inherit from the MediatorBuddyBasePage and pass the type of your view model into the generic parameter.
+
+> Your view model must satisfy the "new()" constraint as the base page needs an empty constructor to create the object.
+
+```csharp
+public class MyPage : MediatorBuddyBasePage<MyViewModel>
+{
+    public MyPage(IMediator mediator)
+        : base(mediator)
+    {
+    }
+}
+```
+
+Structure of the view model for reference:
+
+```csharp
+public class MyViewModel
+{
+    // No or empty constructor is required for constraint.
+
+    // Properties for view model.
+
+    public void FromResponse(MyResponse response)
+    {
+        // assign properties from response object.
+    }
+}
+```
+
+#### GET requests
+
+For a standard GET request, create the standard method and pass your request with an optional mapping Func to translate to your view model.
+
+```csharp
+public class MyPage : MediatorBuddyBasePage<MyViewModel>
+{
+    public MyPage(IMediator mediator)
+        : base(mediator)
+    {
+    }
+
+    public async Task<IActionResult> OnGetAsync()
+    {
+        return await ExecuteQuery(new MyRequest(), MyViewModel.FromRequest)
+    }
+}
+```
+
+#### POST requests
+
+The base page POST implementation is best suited for grabbing some data from a form, sending that to the server, and re-directing to a page on success.
+
+The POST implementation for the base page will execute a RedirectToPage result on success. The method accepts the page you want to route to as a string.
+
+```csharp
+public class MyPage : MediatorBuddyBasePage<MyViewModel>
+{
+    public MyPage(IMediator mediator)
+        : base(mediator)
+    {
+    }
+
+    public async Task<IActionResult> OnPostAsync()
+    {
+        return await ExecuteCommand(new MyCommandRequest(), "Index")
+    }
+}
+```
+
+### Using the Standard Page
+
+## In-Depth Razor Pages
+
+## Quick Start MVC
+
+## In-Depth MVC
 
 ## FAQ
 

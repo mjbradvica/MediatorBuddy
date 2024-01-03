@@ -29,7 +29,7 @@ What does MediatorBuddy give you?
 
 ## Built-In Http Status Code Support
 
-If you are using MediatorBuddy for API projects, there is built-in support for most, but not all HTTP non-error status codes.
+This is the current list of HTTP non-error status codes supported by the library. These are based on this [method list](https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc.controllerbase?view=aspnetcore-8.0#methods).
 
 | Codes | Supported          |
 | ----- | ------------------ |
@@ -46,9 +46,11 @@ If you are using MediatorBuddy for API projects, there is built-in support for m
 - [Explanation](#what-is-implied-by-an-opinionated-library)
 - [Background](#background-story)
 - [Setup](#setup)
+- [Samples](#samples)
+- [Common Quick Start](#common-quick-start)
+- [Common In-Depth](#common-in-depth)
 - [Quick Start API](#quick-start-api)
-- [In-Depth](#in-depth-api)
-  - [Default Responses](#default-responses)
+- [In-Depth API](#in-depth-api)
 - [Quick Start Razor Pages](#quick-start-razor-pages)
 - [In-Depth Razor Pages](#in-depth-razor-pages)
 - [Quick Start MVC](#quick-start-mvc)
@@ -129,6 +131,10 @@ public class Program
 }
 ```
 
+## Samples
+
+If you prefer code samples in addition to documentation, there are full samples available for each framework type that may be [viewed here](https://github.com/mjbradvica/MediatorBuddy/tree/master/samples).
+
 ## Common Quick Start
 
 ### Application
@@ -190,6 +196,8 @@ Any controller that you use be it for an API, MVC, or Razor Pages project follow
 The best thing about MediatorBuddy is the loads and loads of unit tests that you **don't** have to write.
 
 This is because 99% of the standard boilerplate for controllers is accomplished in the base controller you use.
+
+You may view the source code [here](https://github.com/mjbradvica/MediatorBuddy/blob/master/source/MediatorBuddy.AspNet/MediatorBuddyApi.cs) for a more in-depth reference.
 
 ## Common In-Depth
 
@@ -464,7 +472,7 @@ public class MyController : MediatorBuddyApi
 
 The base class accepts two additional parameters, but these are only to be used if you are creating custom faults of your own.
 
-The base class automatically annotates any action with an attribute for 400 and 500 errors. You don't need to add these attributes for any action.
+> The base class automatically annotates any action with an attribute for 400 and 500 errors. You don't need to add these attributes for any action.
 
 ### Requests
 

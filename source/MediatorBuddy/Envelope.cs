@@ -2,6 +2,8 @@
 // Copyright (c) Michael Bradvica LLC. All rights reserved.
 // </copyright>
 
+using MediatR;
+
 namespace MediatorBuddy
 {
     /// <summary>
@@ -56,6 +58,15 @@ namespace MediatorBuddy
         public static IEnvelope<TResponse> Success(TResponse response)
         {
             return new Envelope<TResponse>(response);
+        }
+
+        /// <summary>
+        /// Factory function for a success Envelope that returns nothing.
+        /// </summary>
+        /// <returns>A <see cref="IEnvelope{TResponse}"/> of type <see cref="Unit"/>.</returns>
+        public static IEnvelope<Unit> Success()
+        {
+            return new Envelope<Unit>(Unit.Value);
         }
 
         /// <summary>

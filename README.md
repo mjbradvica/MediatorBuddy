@@ -184,6 +184,8 @@ public class MyHandler : IEnvelopeHandler<MyRequest, MyResponse>
 }
 ```
 
+The envelope class has dozens of methods available that should cover most, if not all possible error situations in your application.
+
 ### Controllers
 
 Any controller that you use be it for an API, MVC, or Razor Pages project follows the same general path:
@@ -209,7 +211,7 @@ public class GetWeatherRequest : IEnvelopeRequest<GetWeatherResponse>
 }
 ```
 
-If your request does not need to return an object:
+If your request does not need to return an object, the straight interface with no generic will suffice.
 
 ```csharp
 public class GetWeatherRequest : IEnvelopeRequest
@@ -233,6 +235,18 @@ Similar to requests, handlers will inherit from an [IEnvelopeHandler](https://gi
 public class GetWeatherHandler : IEnvelopeHandler<GetWeatherRequest, GetWeatherResponse>
 {
     public Task<IEnvelope<GetWeatherResponse>> Handle(GetWeatherRequest request, CancellationToken cancellationToken)
+    {
+        // Implementation.
+    }
+}
+```
+
+If you don't need to return an object, you can use the shorthand version which will return a Unit that represents void.
+
+```csharp
+public class MyRequestHandler : IEnvelopeHandler<MyRequest>
+{
+    public Task<IEnvelope<Unit>> Handle(MyRequest request, CancellationToken cancellationToken)
     {
         // Implementation.
     }
@@ -268,7 +282,7 @@ public class GetWeatherHandler : IEnvelopeHandler<GetWeatherRequest, GetWeatherR
 }
 ```
 
-Even if a handler returns void, an Envelope is still expected.
+Even if a handler returns void, an Envelope is still expected. You may use the shorthand version of Success since it knows you want a Unit.
 
 ```csharp
 public class UpdateWeatherHandler : IEnvelopeHandler<UpdateWeatherRequest>
@@ -284,7 +298,7 @@ public class UpdateWeatherHandler : IEnvelopeHandler<UpdateWeatherRequest>
     {
         var data = await _data.UpdateData(request);
 
-        return Envelope<Unit>.Success(Unit.Value);
+        return Envelope<Unit>.Success();
     }
 }
 ```
@@ -394,7 +408,7 @@ public class MyHandler : IEnvelopeHandler<MyRequest, MyResponse>
 
 You will need to modify your controller to account for the error message.
 
-See each controller section in-depth for custom error handling in controllers:
+See each controller [section in-depth](#adding-support-for-custom-errors) for custom error handling in controllers:
 
 ## Quick Start API
 
@@ -484,7 +498,7 @@ Starting a request is as easy as calling the [ExecuteRequest](https://github.com
 [HttpGet(Name = "GetWeatherForecast")]
 public async Task<IActionResult> Get()
 {
-    return await ExecuteRequest(new GetWeatherRequest(), ResponseOptions.OkObjectResponse<GetWeatherResponse>());
+    return await ExecuteRequest(new GetWeatherRequest(), ResponseOptions.OkResponse<GetWeatherResponse>());
 }
 ```
 
@@ -503,7 +517,7 @@ MediatorBuddy comes with a set of attributes to annotate action responses for er
 [MediatorBuddy404ErrorResponse]
 public async Task<IActionResult> Get()
 {
-    return await ExecuteRequest(new GetWeatherRequest(), ResponseOptions.OkObjectResponse<GetWeatherResponse>());
+    return await ExecuteRequest(new GetWeatherRequest(), ResponseOptions.OkResponse<GetWeatherResponse>());
 }
 ```
 
@@ -520,8 +534,7 @@ Some ResponseOptions allow you to pass another callback. Such is the case of a 2
 public async Task<IActionResult> Add(AddWeatherRequest request)
 {
     return await ExecuteRequest(request,
-    ResponseOptions.CreatedObjectResponse<AddWeatherResponse>(
-        response => new Uri($"WeatherForecast/{response.Id}", UriKind.Relative)));
+    ResponseOptions.CreatedObjectResponse<AddWeatherResponse>(response => new Uri($"WeatherForecast/{response.Id}", UriKind.Relative)));
 }
 ```
 
@@ -669,6 +682,91 @@ If any request returns an "AccountHasNotBeenVerified" error, your custom respons
 > In keeping with the ethos of the library, please ensure you are returning an ErrorResponse for each custom error. This will ensure consistency for errors between you and your client.
 
 Examples of overridden errors can be found [here]().
+
+### Changing the Error Controller
+
+MediatorBuddy uses an implementation of the [RFC 9457](https://www.rfc-editor.org/rfc/rfc9457.txt) spec which states that your end user should have some kind of documentation on errors that may be returned.
+
+There is a standard one by default that you may inherit from:
+
+```csharp
+[ApiController]
+[Route("[controller]")]
+public class ErrorController : BaseErrorController
+{
+}
+```
+
+You may override any response to enrich an error or update the text to your liking.
+
+```csharp
+[ApiController]
+[Route("[controller]")]
+public class ErrorController : BaseErrorController
+{
+    public override IActionResult UserCouldNotBeCreated()
+    {
+        return Ok("A user could not be created possibly due to the following errors...");
+    }
+}
+```
+
+#### Adding Support for Custom Errors
+
+With custom errors, you will need to provide the controller with a few parameters so it knows how to format your response.
+
+Update the error controller with a new method.
+
+```csharp
+[ApiController]
+[Route("[controller]")]
+public class ErrorController : BaseErrorController
+{
+    [HttpGet("NotEnoughSteam")]
+    public IActionResult NotEnoughSteam()
+    {
+        return Ok("The Not Enough Steam error occurs when the following happens...");
+    }
+}
+```
+
+Create a custom error types class that will contain the Uri of the custom error endpoint.
+
+```csharp
+public class CustomErrorTypes : ErrorTypes
+{
+    public Uri NotEnoughSteam { get; set; } = new Uri("Error/NotEnoughSteam", UriKind.Relative);
+}
+```
+
+Finally, pass a resolution Func and your new error types object to the constructor with the API endpoint.
+
+```csharp
+[ApiController]
+[Route("[controller]")]
+public class MyController : MediatorBuddyApi
+{
+    private static readonly Func<ApiErrorWrapper, IActionResult?>? ExtraOptions = wrapper =>
+    {
+        return wrapper.Status switch =>
+        {
+            CustomApplicationStatus.NotEnoughSteam => new ObjectResult(
+                            new ErrorResponse(
+                                (wrapper.ErrorTypes as CustomErrorTypes)?.NotEnoughSteam ?? wrapper.ErrorTypes.General,
+                                wrapper.Title,
+                                wrapper.Status,
+                                wrapper.Detail,
+                                wrapper.Instance)),
+            _ => null,
+        };
+    };
+
+    public MyController(IMediator mediator)
+        : base(mediator, new CustomErrorTypes(), ExtraOptions)
+    {
+    }
+}
+```
 
 ## Quick Start Razor Pages
 

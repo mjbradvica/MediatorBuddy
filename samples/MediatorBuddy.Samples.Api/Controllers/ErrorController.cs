@@ -23,5 +23,14 @@ namespace MediatorBuddy.Samples.Api.Controllers
         {
             return Ok("You don't have enough steam to be a tea pot!");
         }
+
+        /// <summary>
+        /// Overridden error message for user could not be created.
+        /// </summary>
+        /// <returns>A <see cref="IActionResult"/> of type <see cref="string"/>.</returns>
+        public override IActionResult UserCouldNotBeCreated()
+        {
+            return Ok("A user could not be created possibly due to the following errors...");
+        }
     }
 }

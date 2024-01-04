@@ -2,6 +2,7 @@
 // Copyright (c) Michael Bradvica LLC. All rights reserved.
 // </copyright>
 
+using MediatR;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MediatorBuddy.Tests
@@ -62,6 +63,17 @@ namespace MediatorBuddy.Tests
             Assert.IsNull(envelope.Response);
             Assert.AreEqual(title, envelope.Title);
             Assert.AreEqual(detail, envelope.Detail);
+        }
+
+        /// <summary>
+        /// Ensures a unit success has the correct status.
+        /// </summary>
+        [TestMethod]
+        public void UnitSuccess_HasCorrectProperties()
+        {
+            var result = Envelope<Unit>.Success();
+
+            Assert.AreEqual(ApplicationStatus.Success, result.Status);
         }
 
         /// <summary>

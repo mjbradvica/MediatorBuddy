@@ -35,5 +35,15 @@ namespace MediatorBuddy.Tests
         {
             return await ExecuteRequest(request, ResponseOptions.RedirectToActionResponse<TestResponse>(_ => ("MyAction", null, null)));
         }
+
+        /// <summary>
+        /// A test action used for controller testing.
+        /// </summary>
+        /// <param name="request">A test request object.</param>
+        /// <returns>An IActionResult from the controller operation.</returns>
+        public async Task<IActionResult> TestRazorDataEndpoint(TestObjectRequest request)
+        {
+            return await ExecuteRequest(request, ResponseOptions.ViewResponse<TestResponse>());
+        }
     }
 }

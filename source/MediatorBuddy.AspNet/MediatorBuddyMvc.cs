@@ -30,8 +30,8 @@ namespace MediatorBuddy.AspNet
         protected MediatorBuddyMvc(
             IMediator mediator,
             Func<RazorErrorWrapper, IActionResult?>? extraOptions = null,
-            string errorAction = "Index",
-            string errorController = "Error")
+            string errorAction = "Error",
+            string errorController = "Home")
         {
             Mediator = mediator;
             _extraOptions = extraOptions;

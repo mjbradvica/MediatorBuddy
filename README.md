@@ -913,6 +913,8 @@ public class MyController : MediatorBuddyMvc
 
 Create your controller actions as needed, and pass the request object to the "ExecuteRequest" method and the accompanying ResponseOptions callback.
 
+You may also pass a mapping function to be called. In this case, the response object is converted to the view model from the view model's "FromResponse" method.
+
 ```csharp
 public class MyController : MediatorBuddyMvc
 {
@@ -951,7 +953,7 @@ public class MyController : MediatorBuddyMvc
     {
         return await ExecuteRequest(
             viewModel,
-            ResponseOptions.RedirectToActionResponse<MyResponse>(_ => ("Index", "Widgets"))
+            ResponseOptions.RedirectToActionResponse<MyResponse>(_ => ("Index", "Widget"))
         );
     }
 }
@@ -978,6 +980,8 @@ public class MyController : MediatorBuddyMvc
     }
 }
 ```
+
+> If you choose not to pass a function for errors, the controller will route the user to the "Error" action on the "Home" controller as this is the default for all MVC projects.
 
 ### Detailed Usage for MVC Controllers
 
@@ -1033,7 +1037,7 @@ public abstract class MyBaseController : MediatorBuddyMvc
     {
         return await ExecuteRequest(
             request,
-            ResponseOptions.ViewResponse<TResponse, TViewModel>(_mapper.Map<TResponse, TViewModel>));
+            ResponseOptions.ViewResponse<TResponse, TViewModel>(response => _mapper.Map<TResponse, TViewModel>(response)));
     }
 }
 ```

@@ -108,5 +108,84 @@ namespace MediatorBuddy.Tests
 
             Assert.IsInstanceOfType<RedirectToRouteResult>(result);
         }
+
+        /// <summary>
+        /// Ensures the correct response on invalid model state.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> respresnting the operation.</returns>
+        [TestMethod]
+        public async Task InvalidModel_Action_ReturnsToPage()
+        {
+            var result = await _page.TestActionEndpoint(TestObjectRequest.InValid());
+
+            Assert.IsInstanceOfType<PageResult>(result);
+        }
+
+        /// <summary>
+        /// Ensures the correct response on invalid model state.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> respresnting the operation.</returns>
+        [TestMethod]
+        public async Task Success_Action_ReturnsToSpecifiedResult()
+        {
+            var expected = new TestResponse();
+
+            _mediator.Setup(x => x.Send(It.IsAny<TestObjectRequest>(), CancellationToken.None))
+                .ReturnsAsync(Envelope<TestResponse>.Success(expected));
+
+            var result = await _page.TestActionEndpoint(TestObjectRequest.Valid());
+
+            Assert.IsInstanceOfType<PageResult>(result);
+            Assert.AreEqual(expected, _page.ViewModel);
+        }
+
+        /// <summary>
+        /// Ensures the correct response on invalid model state.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> respresnting the operation.</returns>
+        [TestMethod]
+        public async Task Exception_Action_ReturnsToRedirect()
+        {
+            _mediator.Setup(x => x.Send(It.IsAny<TestObjectRequest>(), CancellationToken.None))
+                .ThrowsAsync(new Exception());
+
+            var result = await _page.TestActionEndpoint(TestObjectRequest.Valid());
+
+            Assert.IsInstanceOfType<RedirectToPageResult>(result);
+        }
+
+        /// <summary>
+        /// Ensures the correct response on no response option.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> respresnting the operation.</returns>
+        [TestMethod]
+        public async Task NoOption_Action_ReturnsPage()
+        {
+            _mediator.Setup(x => x.Send(It.IsAny<TestObjectRequest>(), CancellationToken.None))
+                .ReturnsAsync(Envelope<TestResponse>.AccountIsLockedOut());
+
+            var result = await _page.TestActionEndpoint(TestObjectRequest.Valid());
+
+            Assert.IsInstanceOfType<PageResult>(result);
+        }
+
+        /// <summary>
+        /// Ensures the correct response on using error options.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> respresnting the operation.</returns>
+        [TestMethod]
+        public async Task ExtraOptions_Action_IsCorrect()
+        {
+            static IActionResult ExtraOptions(RazorErrorWrapper wrapper) => new RedirectToRouteResult("route", new RouteValueDictionary());
+
+            _page = new TestMediatorPage(_mediator.Object, ExtraOptions);
+
+            _mediator.Setup(x => x.Send(It.IsAny<TestObjectRequest>(), CancellationToken.None))
+                .ReturnsAsync(Envelope<TestResponse>.AccountIsLockedOut());
+
+            var result = await _page.TestActionEndpoint(TestObjectRequest.Valid());
+
+            Assert.IsInstanceOfType<RedirectToRouteResult>(result);
+        }
     }
 }

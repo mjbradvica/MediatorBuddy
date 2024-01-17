@@ -3,8 +3,8 @@
 // </copyright>
 
 using AutoMapper;
-using MediatorBuddy.AspNet;
 using MediatorBuddy.AspNet.Responses;
+using MediatorBuddy.Samples.Mvc.Features.AddWidget;
 using MediatorBuddy.Samples.Mvc.Features.GetAll;
 using MediatorBuddy.Samples.Mvc.Features.GetById;
 using MediatorBuddy.Samples.Mvc.ViewModels;
@@ -17,19 +17,16 @@ namespace MediatorBuddy.Samples.Mvc.Controllers
     /// Sample widget controller.
     /// </summary>
     [Route("[controller]")]
-    public class WidgetController : MediatorBuddyMvc
+    public class WidgetController : BaseMvcController
     {
-        private readonly IMapper _mapper;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="WidgetController"/> class.
         /// </summary>
         /// <param name="mediator">An instance of the <see cref="IMediator"/> interface.</param>
         /// <param name="mapper">An instance of the <see cref="IMapper"/> interface.</param>
         public WidgetController(IMediator mediator, IMapper mapper)
-            : base(mediator)
+            : base(mediator, mapper)
         {
-            _mapper = mapper;
         }
 
         /// <summary>
@@ -39,9 +36,7 @@ namespace MediatorBuddy.Samples.Mvc.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            return await ExecuteRequest(
-                new GetAllWidgetsRequest(),
-                ResponseOptions.ViewResponse<GetAllWidgetsResponse, WidgetIndexViewModel>(_mapper.Map<GetAllWidgetsResponse, WidgetIndexViewModel>));
+            return await ExecuteGet<GetAllWidgetsResponse, WidgetIndexViewModel>(new GetAllWidgetsRequest());
         }
 
         /// <summary>
@@ -55,6 +50,32 @@ namespace MediatorBuddy.Samples.Mvc.Controllers
             return await ExecuteRequest(
                 new GetWidgetByIdRequest(id),
                 ResponseOptions.ViewResponse<GetWidgetByIdResponse, WidgetViewModel>(WidgetViewModel.FromWidget));
+        }
+
+        /// <summary>
+        /// Get for add widget page.
+        /// </summary>
+        /// <returns>A <see cref="IActionResult"/>.</returns>
+        [HttpGet("add")]
+        public IActionResult Add()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// Sample to add a widget.
+        /// </summary>
+        /// <param name="viewModel">The request object.</param>
+        /// <returns>A <see cref="Task"/> of <see cref="IActionResult"/>.</returns>
+        [HttpPost("add")]
+        public async Task<IActionResult> Add(AddWidgetViewModel viewModel)
+        {
+            return await ExecuteRequest(
+                new AddWidgetRequest(viewModel.Name),
+                ResponseOptions.RedirectToActionResponse<AddWidgetResponse>(response => (
+                    "Details",
+                    "Widget",
+                    new RouteValueDictionary(new { Id = response.Widget.Id }))));
         }
     }
 }

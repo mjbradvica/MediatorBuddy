@@ -11,49 +11,86 @@ An opinionated implementation for the [MediatR](https://github.com/jbogard/Media
 What does MediatorBuddy give you?
 
 - :telephone: A consistent interface for communication between your presentation and application layer.
-- :clipboard: An implementation of the [RFC 9457](https://www.rfc-editor.org/rfc/rfc9457.txt) spec for consistent and user-friendly API error responses.
-- :construction_worker: A base controller that handles generic boilerplate for you. You may find that you no longer need to unit-test anything in your presentation layer.
+- :clipboard: An implementation of the [RFC 9457](https://www.rfc-editor.org/rfc/rfc9457.txt) spec for user-friendly API error responses.
+- :construction_worker: A base controller that handles generic boilerplate for you. Far fewer unit tests.
 - :hammer: Extendable: You can define custom application status states and return a specific status code.
 - :currency_exchange: Modifiable: Override a status return code, title, or detail message.
+
+## Table of Contents
+
+- [MediatorBuddy](#mediatorbuddy)
+  - [Overview](#overview)
+  - [Table of Contents](#table-of-contents)
+  - [Samples](#samples)
+  - [Framework Support](#framework-support)
+    - [Built-In Http Status Code Support](#built-in-http-status-code-support)
+  - [Dependencies](#dependencies)
+  - [Installation](#installation)
+  - [What is implied by an "opinionated" library?](#what-is-implied-by-an-opinionated-library)
+  - [Background Story](#background-story)
+  - [Setup](#setup)
+  - [Handlers and Requests](#handlers-and-requests)
+    - [Quick Start for Handlers and Requests](#quick-start-for-handlers-and-requests)
+    - [Detailed Usage for Handlers and Requests](#detailed-usage-for-handlers-and-requests)
+      - [Custom Envelopes](#custom-envelopes)
+      - [Custom Fault Messages](#custom-fault-messages)
+      - [Custom Faults](#custom-faults)
+      - [Third-Party Validation](#third-party-validation)
+  - [API Controllers](#api-controllers)
+    - [Quick Start for API Controllers](#quick-start-for-api-controllers)
+    - [Detailed Usage for API Controllers](#detailed-usage-for-api-controllers)
+      - [Detailed Response](#detailed-response)
+      - [Custom Callbacks](#custom-callbacks)
+      - [Handling Exceptions](#handling-exceptions)
+      - [Default Response Codes Reference](#default-response-codes-reference)
+      - [Overriding Existing Status Codes](#overriding-existing-status-codes)
+      - [Changing the Error Controller](#changing-the-error-controller)
+      - [Adding Support for Custom Errors](#adding-support-for-custom-errors)
+  - [Razor Pages](#razor-pages)
+    - [Quick Start for Razor Pages](#quick-start-for-razor-pages)
+    - [Detailed Usage For Razor Pages](#detailed-usage-for-razor-pages)
+      - [Using the Standard Page](#using-the-standard-page)
+      - [Integration With AutoMapper](#integration-with-automapper)
+      - [Using A Different Error Page](#using-a-different-error-page)
+  - [MVC Controllers](#mvc-controllers)
+    - [Quick Start for MVC Controller](#quick-start-for-mvc-controller)
+    - [Detailed Usage for MVC Controllers](#detailed-usage-for-mvc-controllers)
+      - [Using the Controller TempData or ViewData](#using-the-controller-tempdata-or-viewdata)
+      - [Integration For AutoMapper](#integration-for-automapper)
+      - [Using A Different Error Route](#using-a-different-error-route)
+  - [FAQ](#faq)
+    - [What is MediatorBuddy?](#what-is-mediatorbuddy)
+    - [What is implied by an 80/20 library?](#what-is-implied-by-an-8020-library)
+    - [How does MediatorBuddy handle errors?](#how-does-mediatorbuddy-handle-errors)
+    - [What if I need to throw an exception?](#what-if-i-need-to-throw-an-exception)
+    - [Do I need to use the existing Envelope implementation?](#do-i-need-to-use-the-existing-envelope-implementation)
+    - [What is the difference between the ApplicationStatus and an HTTP status?](#what-is-the-difference-between-the-applicationstatus-and-an-http-status)
+    - [Can I only use MediatorBuddy for an API?](#can-i-only-use-mediatorbuddy-for-an-api)
+
+## Samples
+
+If you prefer code samples in addition to documentation, there are full samples available for each framework type that may be [viewed here](https://github.com/mjbradvica/MediatorBuddy/tree/master/samples).
 
 ## Framework Support
 
 | Framework   | Supported |
 | ----------- | --------- |
 | .NET API    | Yes       |
-| .NET MVC    | Soon      |
-| Razor Pages | Soon      |
+| .NET MVC    | Yes       |
+| Razor Pages | Yes       |
 | gRPC        | Planned   |
 | graphQL     | Planned   |
 | Blazor      | Planned   |
 
-## Built-In Http Status Code Support
+### Built-In Http Status Code Support
 
-If you are using MediatorBuddy for API projects, there is built-in support for most, but not all HTTP non-error status codes.
+This is the current list of HTTP non-error status codes supported by the library. These are based on this [method list](https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc.controllerbase?view=aspnetcore-8.0#methods).
 
 | Codes | Supported          |
 | ----- | ------------------ |
 | 100s  | 100 - 102          |
 | 200s  | 200 - 226          |
 | 300s  | 301, 302, 307, 308 |
-
-## Table of Contents
-
-- [Overview](#overview)
-- [Framework Support](#framework-support)
-- [Dependencies](#dependencies)
-- [Installation](#installation)
-- [Explanation](#what-is-implied-by-an-opinionated-library)
-- [Background](#background-story)
-- [Setup](#setup)
-- [Quick Start API](#quick-start-api)
-- [In-Depth](#in-depth-api)
-  - [Default Responses](#default-responses)
-- [Quick Start Razor Pages](#quick-start-razor-pages)
-- [In-Depth Razor Pages](#in-depth-razor-pages)
-- [Quick Start MVC](#quick-start-mvc)
-- [In-Depth MVC](#in-depth-mvc)
-- [FAQ](#faq)
 
 ## Dependencies
 
@@ -76,20 +113,9 @@ In your presentation layer:
 Install-Package MediatorBuddy.AspNet
 ```
 
-## How to read this documentation
-
-After you have gone through the installation and set-up steps read the following:
-
-1. Common [Quick-Start](#common-quick-start) or Common [In-Depth](#common-in-depth)
-2. The frontend framework you are using:
-
-- API [Quick-Start](#quick-start-api) or [In-Depth](#in-depth-api)
-- MVC [Quick-Start](#quick-start-mvc) or [In-Depth](#in-depth-mvc)
-- Razor Pages [Quick-Start](#quick-start-razor-pages) or [In-Depth](#in-depth-razor-pages)
-
 ## What is implied by an "opinionated" library?
 
-If you are familiar with the [Prettier](https://prettier.io/) format library for front-end frameworks-then the idea of an "opinionated" library should be familiar.
+If you are familiar with the [Prettier](https://prettier.io/docs/en/option-philosophy) format library for front-end frameworks-then the idea of an "opinionated" library should be familiar.
 
 MediatorBuddy has a very specific way of handling requests and responses. The advantage you gain is up to 100% less unit testing in your presentation layer alongside a consistent way of handling failures.
 
@@ -111,7 +137,7 @@ MediatorBuddy's greatest strength is that it puts guardrails on your developers.
 
 > This documentation assumes you are already familiar with how [MediatR](https://github.com/jbogard/MediatR) works.
 
-While MediatorBuddy has nothing it needs to register with the dependency injection framework-its needs to turn off the default model state filter.
+While MediatorBuddy has nothing it needs to register with the dependency injection framework, it does need to turn off the default model state filter.
 
 For convenience pass your MediatR configuration setup and MediatorBuddy will setup MediatR in the same call.
 
@@ -129,15 +155,11 @@ public class Program
 }
 ```
 
-## Common Quick Start
+## Handlers and Requests
 
-## Common In-Depth
+### Quick Start for Handlers and Requests
 
-## In-Depth Quick Start
-
-## Quick Start API
-
-All requests inherit from the [IEnvelopeRequest](https://github.com/mjbradvica/MediatorBuddy/blob/master/source/MediatorBuddy/IEnvelopeRequest.cs) interface.
+All requests will now inherit from the [IEnvelopeRequest](https://github.com/mjbradvica/MediatorBuddy/blob/master/source/MediatorBuddy/IEnvelopeRequest.cs) interface.
 
 ```csharp
 public class MyRequest : IEnvelopeRequest<MyResponse>
@@ -145,7 +167,17 @@ public class MyRequest : IEnvelopeRequest<MyResponse>
 }
 ```
 
-All handlers inherit from the [IEnvelopeHandler](https://github.com/mjbradvica/MediatorBuddy/blob/master/source/MediatorBuddy/IEnvelopeHandler.cs) interface.
+Any request that does not return a response object will now inherit from the non-generic interface.
+
+```csharp
+public class MyRequest : IEnvelopeRequest
+{
+}
+```
+
+> IEnvelopeRequest is the short hand version for returning a IEnvelope for each request.
+
+All handlers will now inherit from the [IEnvelopeHandler](https://github.com/mjbradvica/MediatorBuddy/blob/master/source/MediatorBuddy/IEnvelopeHandler.cs) interface.
 
 ```csharp
 public class MyHandler : IEnvelopeHandler<MyRequest, MyResponse>
@@ -156,7 +188,22 @@ public class MyHandler : IEnvelopeHandler<MyRequest, MyResponse>
 }
 ```
 
-Use the built-in [Envelope](https://github.com/mjbradvica/MediatorBuddy/blob/master/source/MediatorBuddy/Envelope.cs) class to determine responses.
+A handler that does not return an object will look like so:
+
+```csharp
+public class MyHandler : IEnvelopeHandler<MyRequest>
+{
+    public async Task<IEnvelope<Unit>> Handle(MyRequest handler, CancellationToken cancellationToken)
+    {
+    }
+}
+```
+
+> Notice that even though your request does not return anything, the handler still MUST return an envelope.
+
+Use the built-in [Envelope](https://github.com/mjbradvica/MediatorBuddy/blob/master/source/MediatorBuddy/Envelope.cs) class to return either a success or failure.
+
+> Envelopes must have a generic argument of your response type due to their static nature.
 
 ```csharp
 public class MyHandler : IEnvelopeHandler<MyRequest, MyResponse>
@@ -182,183 +229,30 @@ public class MyHandler : IEnvelopeHandler<MyRequest, MyResponse>
 }
 ```
 
-Have your controller inherit from the [MediatorBuddyApi](https://github.com/mjbradvica/MediatorBuddy/blob/master/source/MediatorBuddy.AspNet/MediatorBuddyApi.cs) base class.
+The envelope class has dozens of methods available that should cover most, if not all possible error situations in your application.
 
-Pass your requests to the "ExecuteRequest" method and use one of the built-in success callbacks.
+### Detailed Usage for Handlers and Requests
 
-Annotate your method with the built-in error response attributes for each specific error type you return.
+#### Custom Envelopes
 
-> The base controller already annotates for a 400-Bad Request and 500-Internal Server Error codes.
+If you wish to create your implementation of the [IEnvelope](https://github.com/mjbradvica/MediatorBuddy/blob/master/source/MediatorBuddy/IEnvelope.cs) interface, these are the properties you would implement.
 
 ```csharp
-[ApiController]
-[Route("[controller]")]
-public class MyController : MediatorBuddyApi
+public interface IEnvelope<out TResponse>
 {
-    public MyController(IMediator mediator)
-        : base(mediator)
-    {
-        [HttpGet]
-        [MediatorBuddy404ErrorResponse]
-        public async Task<IActionResult> GetMyData()
-        {
-            return await ExecuteRequest(new MyRequest(), ResponseOptions.OkResponse<MyResponse>());
-        }
-    }
+    public int Status { get; }
+
+    public string Title { get; }
+
+    public string Detail { get; }
+
+    public TResponse Response { get; }
 }
 ```
 
-Implement a handler to account for global exceptions.
+> An alternative for a custom implementation may be to create static methods for the Envelope class in the same way the library does it.
 
-```csharp
- public class GlobalExceptionOccurredHandler : INotificationHandler<GlobalExceptionOccurred>
- {
-     public Task Handle(GlobalExceptionOccurred notification, CancellationToken cancellationToken)
-     {
-         // log exception or handle gracefully.
-
-         return Task.CompletedTask;
-     }
- }
-```
-
-Create a concrete class for error endpoints. I suggest using the default base error controller class, then gradually overriding what you need.
-
-```csharp
-[ApiController]
-[Route("[controller]")]
-public class ErrorController : BaseErrorController
-{
-}
-```
-
-That's 90% of how MediatorBuddy works!
-
-I hope the potential of what the library can do for you and your development team is apparent.
-
-## In-Depth API
-
-### Requests
-
-Creating a request object will now inherit from the IEnvelopeRequest interface.
-
-```csharp
-public class GetWeatherRequest : IEnvelopeRequest<GetWeatherResponse>
-{
-}
-```
-
-If your request does not need to return an object:
-
-```csharp
-public class GetWeatherRequest : IEnvelopeRequest
-{
-}
-```
-
-The [IEnvelopeRequest](https://github.com/mjbradvica/MediatorBuddy/blob/master/source/MediatorBuddy/IEnvelopeRequest.cs) interface is a shorthand way of returning the [IEnvelope](https://github.com/mjbradvica/MediatorBuddy/blob/master/source/MediatorBuddy/IEnvelope.cs) interface.
-
-Every request from now on will return an "IEnvelope" even if the true return type is supposed to be void.
-
-MediatorBuddy uses the interface to return a response based on the status of your application.
-
-> MediatorBuddy does not imply HTTP status codes in the base library. It is important to separate the status of your application from a status code returned from an API.
-
-### Handlers
-
-Similar to requests, handlers will inherit from an [IEnvelopeHandler](https://github.com/mjbradvica/MediatorBuddy/blob/master/source/MediatorBuddy/IEnvelopeHandler.cs) interface.
-
-```csharp
-public class GetWeatherHandler : IEnvelopeHandler<GetWeatherRequest, GetWeatherResponse>
-{
-    public Task<IEnvelope<GetWeatherResponse>> Handle(GetWeatherRequest request, CancellationToken cancellationToken)
-    {
-        // Implementation.
-    }
-}
-```
-
-### Envelopes
-
-The best way to use the [IEnvelope](https://github.com/mjbradvica/MediatorBuddy/blob/master/source/MediatorBuddy/IEnvelope.cs) interface is to utilize the built-in [Envelope](https://github.com/mjbradvica/MediatorBuddy/blob/master/source/MediatorBuddy/Envelope.cs) class.
-
-The class has a static function you can call for each application status.
-
-> You are free to create your own implementation for the [IEnvelope](https://github.com/mjbradvica/MediatorBuddy/blob/master/source/MediatorBuddy/IEnvelope.cs) interface. However, I recommend starting with the built-in class for most projects.
-
-Returning a response is straightforward:
-
-```csharp
-public class GetWeatherHandler : IEnvelopeHandler<GetWeatherRequest, GetWeatherResponse>
-{
-    private readonly IDataSource _data;
-
-    public GetWeatherHandler(IDataSource data)
-    {
-        _data = data;
-    }
-
-    public async Task<IEnvelope<GetWeatherResponse>> Handle(GetWeatherRequest request, CancellationToken cancellationToken)
-    {
-        var data = await _data.GetData();
-
-        return Envelope<GetWeatherResponse>.Success(new GetWeatherResponse(data));
-    }
-}
-```
-
-Even if a handler returns void, an Envelope is still expected.
-
-```csharp
-public class UpdateWeatherHandler : IEnvelopeHandler<UpdateWeatherRequest>
-{
-    private readonly IDataSource _data;
-
-    public GetWeatherHandler(IDataSource data)
-    {
-        _data = data;
-    }
-
-    public async Task<IEnvelope<Unit>> Handle(UpdateWeatherRequest request, CancellationToken cancellationToken)
-    {
-        var data = await _data.UpdateData(request);
-
-        return Envelope<Unit>.Success(Unit.Value);
-    }
-}
-```
-
-### Failures
-
-If your application experiences a fault, you are still expected to return an Envelope.
-
-> Throwing blanket exceptions is another form of a goto statement. If you "expected" something to happen, that does not qualify for an exception.
-
-```csharp
-public class GetWeatherHandler : IEnvelopeHandler<GetWeatherRequest, GetWeatherResponse>
-{
-    private readonly IDataSource _data;
-
-    public GetWeatherHandler(IDataSource data)
-    {
-        _data = data;
-    }
-
-    public async Task<IEnvelope<GetWeatherResponse>> Handle(GetWeatherRequest request, CancellationToken cancellationToken)
-    {
-        var data = await _data.GetData();
-
-        if (data == null)
-        {
-            return Envelope<GetWeatherResponse>.EntityNotFound();
-        }
-
-        return Envelope<GetWeatherResponse>.Success(new GetWeatherResponse(data));
-    }
-}
-```
-
-### Custom Fault Messages
+#### Custom Fault Messages
 
 The title and description for failures are generic on purpose. You can enrich a fault by adding a custom title and description.
 
@@ -386,7 +280,7 @@ public class GetWeatherHandler : IEnvelopeHandler<GetWeatherRequest, GetWeatherR
 }
 ```
 
-### Custom Faults
+#### Custom Faults
 
 For custom faults, it is recommended to create a class that contains your error codes. These are not HTTP status codes. Make sure they don't overlap with any existing codes in the [ApplicationStatus class.](https://github.com/mjbradvica/MediatorBuddy/blob/development/source/MediatorBuddy/ApplicationStatus.cs)
 
@@ -433,71 +327,119 @@ public class MyHandler : IEnvelopeHandler<MyRequest, MyResponse>
 
 You will need to modify your controller to account for the error message.
 
-```csharp
-// TODO: Update
-```
+See each controller [section in-depth](#adding-support-for-custom-errors) for custom error handling in controllers.
 
-### Controllers
+#### Third-Party Validation
 
-#### Base Controller Overview
+I **highly** recommend the [standard suite](https://learn.microsoft.com/en-us/aspnet/core/mvc/models/validation?view=aspnetcore-8.0#built-in-attributes) of validators built into the dotnet framework.
 
-The MediatorBuddy base controller takes care of the normal boring boilerplate you need for each action.
+> Swagger uses the standard validators to annotate your API for more details and metadata.
 
-- Validates the request using the [built-in validators](https://learn.microsoft.com/en-us/aspnet/core/mvc/models/validation?view=aspnetcore-7.0).
-- Wraps every operation in a try/catch for exceptions.
-- Sends the request down the MediatR pipeline to be executed.
-- Handles the response object accordingly.
+If you desire to use a third-party validation framework such as [FluentValidator](https://docs.fluentvalidation.net/en/latest/), you will need to validate your requests in each handler.
 
-The biggest benefit of MediatorBuddy is turning your presentation layer into a thin, already-tested shield over your application.
-
-Have your controller or page if using Razor pages inherit from the appropriate base class. Pass the "IMediator" interface to the base class.
+Assuming a validator that has the following:
 
 ```csharp
-[ApiController]
-[Route("[controller]")]
-public class WeatherForecastController : MediatorBuddyApi
+public class GetByIdValidator : AbstractValidator<FluentGetByIdRequest>
 {
-    public WeatherForecastController(IMediator mediator)
-        : base(mediator)
+    public GetByIdValidator()
     {
+        RuleFor(request => request.Id).NotEqual(Guid.Empty);
+    }
+
+    public static ValidationResult ValidateRequest(FluentGetByIdRequest request)
+    {
+        return new GetByIdValidator().Validate(request);
     }
 }
 ```
 
-#### Simple Response
-
-Starting a request is as easy as calling the [ExecuteRequest](https://github.com/mjbradvica/MediatorBuddy/blob/master/source/MediatorBuddy.AspNet/MediatorBuddyApi.cs) method with your request object and a successful callback.
+Your handler would resemble:
 
 ```csharp
-[HttpGet(Name = "GetWeatherForecast")]
-public async Task<IActionResult> Get()
+public async Task<IEnvelope<FluentGetByIdResponse>> Handle(FluentGetByIdRequest request, CancellationToken cancellationToken)
 {
-    return await ExecuteRequest(new GetWeatherRequest(), ResponseOptions.OkObjectResponse<GetWeatherResponse>());
+    var validationResult = GetByIdValidator.ValidateRequest(request);
+
+    if (!validationResult.IsValid)
+    {
+        return Envelope<FluentGetByIdResponse>.ValidationConstraintNotMet();
+    }
+
+    var widget = await _widgetRepository.GetById(request.Id);
+
+    if (widget == null)
+    {
+        return Envelope<FluentGetByIdResponse>.EntityWasNotFound();
+    }
+
+    var response = WidgetFactory.FluentResponse(widget);
+
+    return Envelope<FluentGetByIdResponse>.Success(response);
 }
 ```
 
-The [ResponseOptions](https://github.com/mjbradvica/MediatorBuddy/blob/master/source/MediatorBuddy.AspNet/ResponseOptions.cs) class is the preferred way of passing a successful callback to the method. This is the response that will be used if the status of your envelope is not in a faulted state.
+Please note, that this method would require extra unit-testing for the invalid logical branch.
 
-ResponseOptions has a majority of status codes in the 100's, 200's, and 300's.
+## API Controllers
 
-> MediatorBuddy uses the responses available in the [ControllerBase](https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc.controllerbase?view=aspnetcore-8.0) class as a reference point.
+### Quick Start for API Controllers
 
-#### Error Type Annotations
+1) Have your controller inherit from the [MediatorBuddyApi](https://github.com/mjbradvica/MediatorBuddy/blob/master/source/MediatorBuddy.AspNet/MediatorBuddyApi.cs) base class.
 
-MediatorBuddy comes with a set of attributes to annotate action responses for error codes.
+2) Create an action method that will return a Task of type IActionResult.
+
+3) Pass your requests to the "ExecuteRequest" method and use one of the built-in success callbacks from the [ResponseOptions](https://github.com/mjbradvica/MediatorBuddy/tree/master/source/MediatorBuddy.AspNet/Responses) class.
+
+4) Annotate your method with the built-in error response attributes for each specific error type you return.
+
+> The base controller already annotates for a 400-Bad Request and 500-Internal Server Error codes.
 
 ```csharp
-[HttpGet(Name = "GetWeatherForecast")]
-[MediatorBuddy404ErrorResponse]
-public async Task<IActionResult> Get()
+[ApiController]
+[Route("[controller]")]
+public class MyController : MediatorBuddyApi
 {
-    return await ExecuteRequest(new GetWeatherRequest(), ResponseOptions.OkObjectResponse<GetWeatherResponse>());
+    public MyController(IMediator mediator)
+        : base(mediator)
+    {
+        [HttpGet]
+        [MediatorBuddy404ErrorResponse]
+        public async Task<IActionResult> GetMyData()
+        {
+            return await ExecuteRequest(new MyRequest(), ResponseOptions.OkResponse<MyResponse>());
+        }
+    }
 }
 ```
 
-These are a shorthand way of replicating the [ProducesResponseType](https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc.producesresponsetypeattribute?view=aspnetcore-8.0) attribute.
+> The ErrorResponse attributes are a short hand way for specifying a [ProducesResponseType](https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc.producesresponsetypeattribute?view=aspnetcore-8.0) attribute without having to pass the same arguments every time.
 
-> You don't need to an attribute for a 400 or 500 error code, the base controller already adds these for you.
+Implement a handler to account for global exceptions.
+
+```csharp
+ public class GlobalExceptionOccurredHandler : INotificationHandler<GlobalExceptionOccurred>
+ {
+     public Task Handle(GlobalExceptionOccurred notification, CancellationToken cancellationToken)
+     {
+         // log exception or handle gracefully.
+
+         return Task.CompletedTask;
+     }
+ }
+```
+
+Create a concrete class for error endpoints. I suggest using the default base error controller class, then gradually overriding what you need.
+
+```csharp
+[ApiController]
+[Route("[controller]")]
+public class ErrorController : BaseErrorController
+{
+}
+```
+
+### Detailed Usage for API Controllers
 
 #### Detailed Response
 
@@ -507,13 +449,39 @@ Some ResponseOptions allow you to pass another callback. Such is the case of a 2
 [HttpPost(Name = "AddWeatherForecast")]
 public async Task<IActionResult> Add(AddWeatherRequest request)
 {
-    return await ExecuteRequest(request,
-    ResponseOptions.CreatedObjectResponse<AddWeatherResponse>(
-        response => new Uri($"WeatherForecast/{response.Id}", UriKind.Relative)));
+    return await ExecuteRequest(
+        request,
+        ResponseOptions.CreatedObjectResponse<AddWeatherResponse>(response => new Uri($"WeatherForecast/{response.Id}", UriKind.Relative)));
 }
 ```
 
 > MediatorBuddy uses the [Paredo Principle](https://en.wikipedia.org/wiki/Pareto_principle) a.k.a. 80/20 rule for responses. You may have a specific use case or two that requires a custom callback.
+
+Some detailed responses ask that you return a Tuple of values, such as the case if you return a file result.
+
+```csharp
+[HttpGet(Name = "GetWeatherFile")]
+public async Task<IActionResult> WeatherFile(WeatherFileRequest request)
+{
+    return await ExecuteRequest(
+        request,
+        ResponseOptions.FileResponse<WeatherFileResponse>(response => (response.File, "application/pdf", null, null, false)));
+}
+```
+
+Hovering over the function name should give you ample documentation of what the response requires.
+
+Any response option that contains the word "Empty" means that no object is returned in the result.
+
+```csharp
+[HttpPost(Name = "UpdateWeatherForecast")]
+public async Task<IActionResult> Add(UpdatedWeatherRequest request)
+{
+    return await ExecuteRequest(request, ResponseOptions<Unit>.AcceptedEmpty());
+}
+```
+
+> ResponseOptions needs to have the type of the response regardless of the result.
 
 #### Custom Callbacks
 
@@ -535,8 +503,6 @@ MediatorBuddy uses the publishing of MediatR to allow you to handle exceptions. 
 - We do not assume you are using logging.
 - We do not assume what kind of logging implementation you are using.
 - One less dependency to inject into every controller.
-
-##### Exception handler
 
 Handling exceptions is a matter of defining a notification handler for the [GlobalExceptionOccurred](https://github.com/mjbradvica/MediatorBuddy/blob/master/source/MediatorBuddy/GlobalExceptionOccurred.cs) class.
 
@@ -561,7 +527,7 @@ public class GlobalExceptionOccurredHandler : INotificationHandler<GlobalExcepti
 
 > Even if you choose to ignore exceptions. You must define a handler or else MediatR will throw an exception.
 
-### Default Responses
+#### Default Response Codes Reference
 
 When using MediatorBuddy for an API project, here are the default responses for each application status.
 
@@ -590,22 +556,137 @@ When using MediatorBuddy for an API project, here are the default responses for 
 | Unauthorized User                   | 401         | Error/UnauthorizedUser                |
 | Content Is Forbidden                | 403         | Error/ContentIsForbidden              |
 | General Auth                        | 401         | Error/GeneralAuthError                |
+| Auth Challenged                     | 401         | Error/AuthenticationChallenged        |
 | Global Exception                    | 500         | Error/General                         |
 
-## Quick Start Razor Pages
+#### Overriding Existing Status Codes
 
-You have two options to use for a base page:
+If you would like to return a different status code from the chart above, you can pass a function to the constructor that will execute before the standard response.
 
-Either the standard [MediatorBuddyPage](https://github.com/mjbradvica/MediatorBuddy/blob/master/source/MediatorBuddy.AspNet/MediatorBuddyPage.cs) or the recommended [MediatorBuddyBasePage](https://github.com/mjbradvica/MediatorBuddy/blob/master/source/MediatorBuddy.AspNet/MediatorBuddyPage.cs)
+```csharp
+[ApiController]
+[Route("[controller]")]
+public class MyController : MediatorBuddyApi
+{
+    private static readonly Func<ApiErrorWrapper, IActionResult?>? ExtraOptions = wrapper =>
+    {
+        switch (wrapper.Status)
+        {
+            case ApplicationStatus.AccountHasNotBeenVerified:
+                return new ObjectResult(new ErrorResponse(
+                                        wrapper.ErrorTypes.AccountHasNotBeenVerified,
+                                        wrapper.Title,
+                                        wrapper.Status,
+                                        wrapper.Detail,
+                                        wrapper.Instance));
+        }
 
-- The standard page only gives you two methods to pass requests to.
-- The base page provides a basic implementation for commands and queries alongside a built-in property for your viewModel.
+        return null;
+    };
 
-> If your application is pretty standard and is mostly concerned with CRUD operations, then the BasePage will probably suit most of your needs.
+    public MyController(IMediator mediator)
+        : base(mediator, null, ExtraOptions)
+    {
+    }
+}
+```
 
-### Using the Base Page
+If any request returns an "AccountHasNotBeenVerified" error, your custom response will now be returned instead.
 
-> The base page is an opinionated version of the standard page.
+> In keeping with the ethos of the library, please ensure you are returning an [ErrorResponse](https://github.com/mjbradvica/MediatorBuddy/blob/master/source/MediatorBuddy.AspNet/ErrorResponse.cs) for each custom error. This will ensure consistency for errors between you and your client.
+
+Examples of overridden errors can be found [here]().
+
+#### Changing the Error Controller
+
+MediatorBuddy uses an implementation of the [RFC 9457](https://www.rfc-editor.org/rfc/rfc9457.txt) spec which states that your end user should have some kind of documentation on errors that may be returned.
+
+There is a standard one by default that you may inherit from:
+
+```csharp
+[ApiController]
+[Route("[controller]")]
+public class ErrorController : BaseErrorController
+{
+}
+```
+
+You may override any response to enrich an error or update the text to your liking.
+
+```csharp
+[ApiController]
+[Route("[controller]")]
+public class ErrorController : BaseErrorController
+{
+    public override IActionResult UserCouldNotBeCreated()
+    {
+        return Ok("A user could not be created possibly due to the following errors...");
+    }
+}
+```
+
+#### Adding Support for Custom Errors
+
+With custom errors, you will need to provide the controller with a few parameters so it knows how to format your response.
+
+Update the error controller with a new method.
+
+```csharp
+[ApiController]
+[Route("[controller]")]
+public class ErrorController : BaseErrorController
+{
+    [HttpGet("NotEnoughSteam")]
+    public IActionResult NotEnoughSteam()
+    {
+        return Ok("The Not Enough Steam error occurs when the following happens...");
+    }
+}
+```
+
+Create a custom error types class that inherits from [ErrorTypes](https://github.com/mjbradvica/MediatorBuddy/blob/master/source/MediatorBuddy.AspNet/ErrorTypes.cs) with the custom error URI.
+
+```csharp
+public class CustomErrorTypes : ErrorTypes
+{
+    public Uri NotEnoughSteam { get; set; } = new Uri("Error/NotEnoughSteam", UriKind.Relative);
+}
+```
+
+Finally, pass a resolution Func and your new error types object to the constructor with the API endpoint.
+
+```csharp
+[ApiController]
+[Route("[controller]")]
+public class MyController : MediatorBuddyApi
+{
+    private static readonly Func<ApiErrorWrapper, IActionResult?>? ExtraOptions = wrapper =>
+    {
+        return wrapper.Status switch =>
+        {
+            CustomApplicationStatus.NotEnoughSteam => new ObjectResult(
+                            new ErrorResponse(
+                                (wrapper.ErrorTypes as CustomErrorTypes)?.NotEnoughSteam ?? wrapper.ErrorTypes.General,
+                                wrapper.Title,
+                                wrapper.Status,
+                                wrapper.Detail,
+                                wrapper.Instance)),
+            _ => null,
+        };
+    };
+
+    public MyController(IMediator mediator)
+        : base(mediator, new CustomErrorTypes(), ExtraOptions)
+    {
+    }
+}
+```
+
+## Razor Pages
+
+### Quick Start for Razor Pages
+
+The easiest way to use MediatorBuddy with Razor Pages is to use the base page. The base page gives you a predefined property for your view model and some simple methods to call for either a query or command.
 
 Have your Page inherit from the MediatorBuddyBasePage and pass the type of your view model into the generic parameter.
 
@@ -626,18 +707,19 @@ Structure of the view model for reference:
 ```csharp
 public class MyViewModel
 {
-    // No or empty constructor is required for constraint.
+    // Empty constructor for new() constraint.
 
-    // Properties for view model.
+    public Guid Id { get; set; }
+
+    public string Name { get; set;}
 
     public void FromResponse(MyResponse response)
     {
-        // assign properties from response object.
+        Id = response.Id;
+        Name = response.Name;
     }
 }
 ```
-
-#### GET requests
 
 For a standard GET request, create the standard method and pass your request with an optional mapping Func to translate to your view model.
 
@@ -655,8 +737,6 @@ public class MyPage : MediatorBuddyBasePage<MyViewModel>
     }
 }
 ```
-
-#### POST requests
 
 The base page POST implementation is best suited for grabbing some data from a form, sending that to the server, and re-directing to a page on success.
 
@@ -677,13 +757,304 @@ public class MyPage : MediatorBuddyBasePage<MyViewModel>
 }
 ```
 
-### Using the Standard Page
+If you need to route to a page that accepts a parameter.
 
-## In-Depth Razor Pages
+```csharp
+public class MyPage : MediatorBuddyBasePage<MyViewModel>
+{
+    public MyPage(IMediator mediator)
+        : base(mediator)
+    {
+    }
 
-## Quick Start MVC
+    public async Task<IActionResult> OnPostAsync()
+    {
+        return await ExecuteCommand(
+            new MyCommandRequest(), 
+            response => ("Details", null, new RouteValueDictionary(new { Id = response.Widget.Id })));
+    }
+}
+```
 
-## In-Depth MVC
+Unlike the API Controller, the base Razor Pages have no concept of a "standard" error response. It is up to you to decide how you want to handle errors that are returned from your handlers.
+
+If you desire to keep things as simple as possible, you can just re-direct to the error page and log the errors in your backend to decipher why they occurred.
+
+The base page accepts the same type of function that returns an IActionResult that an API controller expects.
+
+```csharp
+public class MyPage : MediatorBuddyBasePage<MyViewModel>
+{
+    private static readonly Func<RazorErrorWrapper, IActionResult?>? extraOptions = Wrapper =>
+    {
+        return Wrapper.status switch =>
+        {
+            ApplicationStatus.GeneralAuthError => new RedirectToPage("/LogIn"),
+            ApplicationStatus.GeneralError => new RedirectToPage("/Home"),
+            _ => null,
+        }
+    };
+
+    public MyPage(IMediator mediator)
+        : base(mediator, extraOptions)
+    {
+    }
+}
+```
+
+### Detailed Usage For Razor Pages
+
+#### Using the Standard Page
+
+The base page is an opinionated version of the normal page. The base page will satisfy most use cases, while the standard page is useful if you need a customized approach.
+
+Unlike the base page, you will need to define your view model property and bind to it.
+
+```csharp
+public class MyModel : MediatorBuddyPage
+{
+    public MyModel(IMediator mediator)
+        : base(mediator)
+    {
+        ViewModel = new MyViewModel();
+    }
+
+    [BindProperty]
+    public MyViewModel ViewModel { get; set; }
+}
+```
+
+The standard page only has two methods, one that accepts an Action of type TResponse, typically for queries or gets-and one that accepts a Func of type TResponse and returns an IActionResult, better used for commands or posts.
+
+```csharp
+public class MyModel : MediatorBuddyPage
+{
+    public MyModel(IMediator mediator)
+        : base(mediator)
+    {
+        ViewModel = new MyViewModel();
+    }
+
+    [BindProperty]
+    public MyViewModel ViewModel { get; set; }
+
+    public async Task<IActionResult> OnGetAsync(Guid id)
+    {
+        return await ExecuteRequest(new MyRequest(id), response => ViewModel == response);
+    }
+
+    public async Task<IActionResult> OnPostAsync()
+    {
+        return await Execute(
+            new MyOtherRequest(),
+            ResponseOptions.RedirectToPageResponse<MyResponse>(response => ("OtherPage")))
+    }
+}
+```
+
+> Sadly, you can't pass a ResponseOption callback for mapping due to how closures with anonymous methods work in C#. That's why the GET request uses an action.
+
+#### Integration With AutoMapper
+
+If you use AutoMapper to translate between responses and view models you can easily extend the standard or base page to work seamlessly.
+
+```csharp
+public abstract class MyBasePage<TViewModel> : MediatorBuddyBasePage<TViewModel>
+    where TViewModel : new()
+{
+    private readonly IMapper _mapper;
+
+    protected MyBasePage(IMediator mediator, IMapper mapper)
+        : base(mediator)
+    {
+        _mapper = mapper;
+    }
+
+    protected async Task<IActionResult> ExecuteGet<TResponse>(IEnvelopeRequest<TResponse> request)
+    {
+        return await ExecuteRequest(request, _mapper.Map<TResponse, TViewModel>)
+    }
+}
+```
+
+Your pages would now extend from your customer base page that would map responses to view models.
+
+#### Using A Different Error Page
+
+The default routing for Error Pages in RazorPages is "/Error".
+
+If you use a different route, you may pass that new route into each page.
+
+```csharp
+public class MyPage : MediatorBuddyPage
+{
+    public MyPage(IMediator mediator)
+        : base(mediator, null, "/CustomErrorRoute")
+    {
+    }
+}
+```
+
+## MVC Controllers
+
+### Quick Start for MVC Controller
+
+Have your controller inherit from the MediatorBuddyMvc base class. Pass the IMediator instance into the base class.
+
+```csharp
+public class MyController : MediatorBuddyMvc
+{
+    public MyController(IMediator mediator)
+        : base(mediator)
+    {
+    }
+}
+```
+
+Create your controller actions as needed, and pass the request object to the "ExecuteRequest" method and the accompanying ResponseOptions callback.
+
+You may also pass a mapping function to be called. In this case, the response object is converted to the view model from the view model's "FromResponse" method.
+
+```csharp
+public class MyController : MediatorBuddyMvc
+{
+    public MyController(IMediator mediator)
+        : base(mediator)
+    {
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Index()
+    {
+        return await ExecuteRequest(
+            new MyRequest(),
+            ResponseOptions.ViewResponse<MyResponse, MyViewModel>(MyViewModel.FromResponse)
+        );
+    }
+}
+```
+
+Similar to how RazorPages works, you would pass a callback that maps your response object to your view model.
+
+> ViewResponses needs two generics because it has to know what types are you are going from and to.
+
+A request that does not return a view model would look like the following. Assuming your view model was also your request object.
+
+```csharp
+public class MyController : MediatorBuddyMvc
+{
+    public MyController(IMediator mediator)
+        : base(mediator)
+    {
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> AddWidget(AddWidgetViewModel viewModel)
+    {
+        return await ExecuteRequest(
+            viewModel,
+            ResponseOptions.RedirectToActionResponse<MyResponse>(_ => ("Index", "Widget"))
+        );
+    }
+}
+```
+
+Just like RazorPages projects, errors in MVC are handled by passing a Func that will return the appropriate IActionResult you desire.
+
+```csharp
+public class MyController : MediatorBuddyMvc
+{
+    private static readonly Func<RazorErrorWrapper, IActionResult?>? extraOptions = Wrapper =>
+    {
+        return Wrapper.status switch =>
+        {
+            ApplicationStatus.GeneralAuthError => new RedirectToActionResult("Login", "Authentication"),
+            ApplicationStatus.GeneralError => new RedirectToActionResult("Index", "Home"),
+            _ => null,
+        }
+    };
+
+    public MyController(IMediator mediator)
+        : base(mediator, extraOptions)
+    {
+    }
+}
+```
+
+> If you choose not to pass a function for errors, the controller will route the user to the "Error" action on the "Home" controller as this is the default for all MVC projects.
+
+### Detailed Usage for MVC Controllers
+
+#### Using the Controller TempData or ViewData
+
+There are two methods in the base controller. The first one is the standard signature that accepts the response object and returns an IActionResult.
+
+The other is primarily used for views, this accepts both the response object and the [RazorViewData](https://github.com/mjbradvica/MediatorBuddy/blob/dependabot/nuget/Microsoft.AspNetCore.OpenApi-7.0.15/source/MediatorBuddy.AspNet/RazorViewData.cs) which will give you access to both the ITempDataDictionary and the ViewDataDictionary for the controller.
+
+```csharp
+public class MyController : MediatorBuddyMvc
+{
+    public MyController(IMediator mediator)
+        : base(mediator)
+    {
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Index()
+    {
+        return await ExecuteRequest(
+            new MyRequest(),
+            (response, razorData) => 
+            {
+                var tempData = razorData.TempData;
+                var viewData = razorData.ViewData;
+
+                // use temp or view data as needed
+
+                return new ViewResponse();
+            }
+        );
+    }
+}
+```
+
+#### Integration For AutoMapper
+
+Integrating with AutoMapper can be done with a custom base class that extends the existing MediatorBuddyMvc class.
+
+```csharp
+public abstract class MyBaseController : MediatorBuddyMvc
+{
+    private readonly IMapper _mapper;
+
+    protected MyBaseController(IMediator mediator, IMapper mapper)
+        : base(mediator)
+    {
+        _mapper = mapper;
+    }
+
+    protected async Task<IActionResult> ExecuteQuery<TResponse, TViewModel>(IRequest<IEnvelope<TRequest>> request)
+    {
+        return await ExecuteRequest(
+            request,
+            ResponseOptions.ViewResponse<TResponse, TViewModel>(response => _mapper.Map<TResponse, TViewModel>(response)));
+    }
+}
+```
+
+#### Using A Different Error Route
+
+The base controller uses the default MVC error route of "Index" for the action, and "Error" for the controller name. To use a different route, pass the desired parameters to the base class.
+
+```csharp
+public class MyController : MediatorBuddyMvc
+{
+    public MyController(IMediator mediator)
+        : base(mediator, null, "Home", "Fault")
+    {
+    }
+}
+```
 
 ## FAQ
 

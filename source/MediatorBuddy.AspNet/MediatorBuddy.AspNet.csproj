@@ -6,7 +6,7 @@
     <Title>MediatorBuddy.AspNet</Title>
     <Authors>Michael Bradvica</Authors>
     <Company>Michael Bradvica LLC.</Company>
-    <Description>An opnionated implementation of the MediatR library.</Description>
+    <Description>An opinionated implementation of the MediatR library.</Description>
     <Copyright>Copyright 2024. All rights reserved.</Copyright>
     <PackageProjectUrl>https://github.com/mjbradvica/MediatorBuddy</PackageProjectUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>

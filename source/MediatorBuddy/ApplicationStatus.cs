@@ -7,7 +7,7 @@ namespace MediatorBuddy
     /// <summary>
     /// Defines that class that contains status codes used to designate the status of the application.
     /// </summary>
-    public partial class ApplicationStatus
+    public class ApplicationStatus
     {
         /// <summary>
         /// Indicates an operation was successful.
@@ -25,7 +25,7 @@ namespace MediatorBuddy
         public const int OperationCouldNotBeCompleted = 2;
 
         /// <summary>
-        /// The Entity in question was not found.
+        /// The entity in question was not found.
         /// </summary>
         public const int EntityWasNotFound = 4;
 
@@ -102,7 +102,7 @@ namespace MediatorBuddy
         public const int AccountHasNotBeenVerified = 38;
 
         /// <summary>
-        /// The Email has yet to be verified.
+        /// The email has yet to be verified.
         /// </summary>
         public const int EmailHasNotBeenVerified = 39;
 

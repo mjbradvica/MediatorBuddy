@@ -74,8 +74,8 @@ namespace MediatorBuddy.Tests
             var asResult = result as RedirectToActionResult;
 
             Assert.IsInstanceOfType<RedirectToActionResult>(result);
-            Assert.AreEqual("Index", asResult?.ActionName);
-            Assert.AreEqual("Error", asResult?.ControllerName);
+            Assert.AreEqual("Error", asResult?.ActionName);
+            Assert.AreEqual("Home", asResult?.ControllerName);
         }
 
         /// <summary>

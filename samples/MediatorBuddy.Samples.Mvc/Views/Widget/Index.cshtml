@@ -1,5 +1,8 @@
 ﻿@model MediatorBuddy.Samples.Mvc.ViewModels.WidgetIndexViewModel
 
+<div>
+    <button><a asp-controller="Widget" asp-action="Add">Add Widget</a></button>
+</div>
 <ul>
     @foreach (var widget in Model.Widgets)
     {

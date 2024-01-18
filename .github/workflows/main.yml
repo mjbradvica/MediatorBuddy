@@ -36,6 +36,3 @@ jobs:
 
       - name: Publish MediatorBuddy
         run: dotnet nuget push MediatorBuddy.*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.KEY }} --skip-duplicate
-
-      # - name: Publish MediatorBuddy.AspNet
-      #   run: dotnet nuget push MediatorBuddy.AspNet.*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.KEY }} --skip-duplicate

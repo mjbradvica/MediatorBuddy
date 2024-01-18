@@ -595,7 +595,7 @@ If any request returns an "AccountHasNotBeenVerified" error, your custom respons
 
 > In keeping with the ethos of the library, please ensure you are returning an [ErrorResponse](https://github.com/mjbradvica/MediatorBuddy/blob/master/source/MediatorBuddy.AspNet/ErrorResponse.cs) for each custom error. This will ensure consistency for errors between you and your client.
 
-Examples of overridden errors can be found [here]().
+Examples of overridden errors can be found [here](https://github.com/mjbradvica/MediatorBuddy/tree/master/samples/MediatorBuddy.Samples.Api/CustomFaults).
 
 #### Changing the Error Controller
 
@@ -1044,7 +1044,7 @@ public abstract class MyBaseController : MediatorBuddyMvc
 
 #### Using A Different Error Route
 
-The base controller uses the default MVC error route of "Index" for the action, and "Error" for the controller name. To use a different route, pass the desired parameters to the base class.
+The base controller uses the default MVC error route of "Error" for the action, and "Home" for the controller name. To use a different route, pass the desired parameters to the base class.
 
 ```csharp
 public class MyController : MediatorBuddyMvc

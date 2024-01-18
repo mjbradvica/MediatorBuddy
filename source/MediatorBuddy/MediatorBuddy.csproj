@@ -13,6 +13,8 @@
     <RepositoryUrl>https://github.com/mjbradvica/MediatorBuddy</RepositoryUrl>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageIcon>logo.png</PackageIcon>
+    <Version>0.9.0</Version>
+    <PackageTags>mediator, aspnet</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

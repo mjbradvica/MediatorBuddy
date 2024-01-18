@@ -14,7 +14,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\source\MediatorBuddy.AspNet\MediatorBuddy.AspNet.csproj" />
-    <ProjectReference Include="..\..\source\MediatorBuddy\MediatorBuddy.csproj" />
   </ItemGroup>
 
 </Project>

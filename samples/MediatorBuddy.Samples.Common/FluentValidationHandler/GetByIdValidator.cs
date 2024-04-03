@@ -5,7 +5,7 @@
 using FluentValidation;
 using FluentValidation.Results;
 
-namespace MediatorBuddy.Samples.Common.FluentValidationExample
+namespace MediatorBuddy.Samples.Common.FluentValidationHandler
 {
     /// <summary>
     /// Fluent validator for a get by id request.

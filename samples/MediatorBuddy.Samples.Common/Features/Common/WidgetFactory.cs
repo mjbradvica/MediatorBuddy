@@ -6,7 +6,7 @@ using MediatorBuddy.Samples.Common.Features.AddWidget;
 using MediatorBuddy.Samples.Common.Features.GetAll;
 using MediatorBuddy.Samples.Common.Features.GetById;
 using MediatorBuddy.Samples.Common.Features.UpdateWidget;
-using MediatorBuddy.Samples.Common.FluentValidationExample;
+using MediatorBuddy.Samples.Common.FluentValidationHandler;
 
 namespace MediatorBuddy.Samples.Common.Features.Common
 {

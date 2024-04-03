@@ -4,7 +4,7 @@
 
 using System.Text.Json.Serialization;
 
-namespace MediatorBuddy.Samples.Common.FluentValidationExample
+namespace MediatorBuddy.Samples.Common.FluentValidationHandler
 {
     /// <summary>
     /// Sample fluent request.

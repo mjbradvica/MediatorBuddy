@@ -4,7 +4,7 @@
 
 using MediatorBuddy.Samples.Common.Features.Common;
 
-namespace MediatorBuddy.Samples.Common.FluentValidationExample
+namespace MediatorBuddy.Samples.Common.FluentValidationHandler
 {
     /// <summary>
     /// Sample fluent get by id handler.

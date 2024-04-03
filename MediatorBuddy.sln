@@ -20,6 +20,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatorBuddy.Samples.Razor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatorBuddy.Samples.Mvc", "samples\MediatorBuddy.Samples.Mvc\MediatorBuddy.Samples.Mvc.csproj", "{2F43C7F4-3612-4390-B8B2-09702B87D528}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediatorBuddy.Samples.Common", "samples\MediatorBuddy.Samples.Common\MediatorBuddy.Samples.Common.csproj", "{547C031D-071F-4A5C-970B-735C377AD874}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +52,10 @@ Global
 		{2F43C7F4-3612-4390-B8B2-09702B87D528}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F43C7F4-3612-4390-B8B2-09702B87D528}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F43C7F4-3612-4390-B8B2-09702B87D528}.Release|Any CPU.Build.0 = Release|Any CPU
+		{547C031D-071F-4A5C-970B-735C377AD874}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{547C031D-071F-4A5C-970B-735C377AD874}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{547C031D-071F-4A5C-970B-735C377AD874}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{547C031D-071F-4A5C-970B-735C377AD874}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\source\MediatorBuddy.AspNet\MediatorBuddy.AspNet.csproj" />
+    <ProjectReference Include="..\MediatorBuddy.Samples.Common\MediatorBuddy.Samples.Common.csproj" />
   </ItemGroup>
 
 </Project>

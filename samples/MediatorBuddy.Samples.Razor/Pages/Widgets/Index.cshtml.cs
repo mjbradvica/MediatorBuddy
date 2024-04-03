@@ -3,7 +3,7 @@
 // </copyright>
 
 using MediatorBuddy.AspNet;
-using MediatorBuddy.Samples.Razor.Features.GetAll;
+using MediatorBuddy.Samples.Common.Features.GetAll;
 using MediatorBuddy.Samples.Razor.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

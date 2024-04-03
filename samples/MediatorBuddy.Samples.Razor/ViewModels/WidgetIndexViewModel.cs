@@ -2,8 +2,8 @@
 // Copyright (c) Michael Bradvica LLC. All rights reserved.
 // </copyright>
 
-using MediatorBuddy.Samples.Razor.Features.Common;
-using MediatorBuddy.Samples.Razor.Features.GetAll;
+using MediatorBuddy.Samples.Common.Features.Common;
+using MediatorBuddy.Samples.Common.Features.GetAll;
 
 namespace MediatorBuddy.Samples.Razor.ViewModels
 {

@@ -4,7 +4,7 @@
 
 using System.Reflection;
 using MediatorBuddy.AspNet.Registration;
-using MediatorBuddy.Samples.Api.Features.Common;
+using MediatorBuddy.Samples.Common.Features.Common;
 
 namespace MediatorBuddy.Samples.Api
 {

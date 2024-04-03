@@ -2,7 +2,7 @@
 // Copyright (c) Michael Bradvica LLC. All rights reserved.
 // </copyright>
 
-using MediatorBuddy.Samples.Mvc.Features.GetById;
+using MediatorBuddy.Samples.Common.Features.GetById;
 
 namespace MediatorBuddy.Samples.Mvc.ViewModels
 {

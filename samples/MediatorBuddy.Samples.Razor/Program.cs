@@ -4,7 +4,7 @@
 
 using System.Reflection;
 using MediatorBuddy.AspNet.Registration;
-using MediatorBuddy.Samples.Razor.Features.Common;
+using MediatorBuddy.Samples.Common.Features.Common;
 
 namespace MediatorBuddy.Samples.Razor
 {

@@ -3,7 +3,7 @@
 // </copyright>
 
 using MediatorBuddy.AspNet;
-using MediatorBuddy.Samples.Razor.Features.AddWidget;
+using MediatorBuddy.Samples.Common.Features.AddWidget;
 using MediatorBuddy.Samples.Razor.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +13,7 @@ namespace MediatorBuddy.Samples.Razor.Pages.Widgets
     /// <summary>
     /// Sample add page for widgets.
     /// </summary>
-    public class AddModel : MediatorBuddyBasePage<AddWidgetViewModel>
+    public class AddModel : MediatorBuddyStandardPage<AddWidgetViewModel>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AddModel"/> class.

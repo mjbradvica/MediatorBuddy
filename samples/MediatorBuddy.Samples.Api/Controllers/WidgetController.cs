@@ -3,12 +3,13 @@
 // </copyright>
 
 using MediatorBuddy.AspNet;
+using MediatorBuddy.AspNet.Attributes;
 using MediatorBuddy.AspNet.Responses;
-using MediatorBuddy.Samples.Api.Features.AddWidget;
-using MediatorBuddy.Samples.Api.Features.DeleteWidget;
-using MediatorBuddy.Samples.Api.Features.GetAll;
-using MediatorBuddy.Samples.Api.Features.GetById;
-using MediatorBuddy.Samples.Api.Features.UpdateWidget;
+using MediatorBuddy.Samples.Common.Features.AddWidget;
+using MediatorBuddy.Samples.Common.Features.DeleteWidget;
+using MediatorBuddy.Samples.Common.Features.GetAll;
+using MediatorBuddy.Samples.Common.Features.GetById;
+using MediatorBuddy.Samples.Common.Features.UpdateWidget;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -48,8 +49,8 @@ namespace MediatorBuddy.Samples.Api.Controllers
         /// <param name="id">A <see cref="Guid"/> identifier.</param>
         /// <returns>A <see cref="Task"/> of type <see cref="IActionResult"/>.</returns>
         [HttpGet("{id:guid}", Name = "GetWidgetById")]
+        [MediatorBuddy404ErrorResponse]
         [ProducesResponseType(typeof(GetWidgetByIdResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetWidgetById(Guid id)
         {
             return await ExecuteRequest(new GetWidgetByIdRequest(id), ResponseOptions.OkResponse<GetWidgetByIdResponse>());
@@ -72,8 +73,8 @@ namespace MediatorBuddy.Samples.Api.Controllers
         /// <param name="request">A <see cref="DeleteWidgetRequest"/>.</param>
         /// <returns>A <see cref="Task"/> of type <see cref="IActionResult"/>.</returns>
         [HttpDelete(Name = "DeleteWidget")]
+        [MediatorBuddy404ErrorResponse]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteWidget(DeleteWidgetRequest request)
         {
             return await ExecuteRequest(request, ResponseOptions.NoContentResponse<Unit>());
@@ -85,8 +86,8 @@ namespace MediatorBuddy.Samples.Api.Controllers
         /// <param name="request">A <see cref="UpdateWidgetRequest"/>.</param>
         /// <returns>A <see cref="Task"/> of type <see cref="IActionResult"/>.</returns>
         [HttpPut(Name = "UpdateWidget")]
+        [MediatorBuddy404ErrorResponse]
         [ProducesResponseType(typeof(UpdateWidgetResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdateWidget(UpdateWidgetRequest request)
         {
             return await ExecuteRequest(request, ResponseOptions.OkResponse<UpdateWidgetResponse>());

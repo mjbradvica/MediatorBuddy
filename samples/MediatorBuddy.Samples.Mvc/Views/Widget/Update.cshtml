@@ -1,0 +1,17 @@
+﻿@model MediatorBuddy.Samples.Mvc.ViewModels.UpdateWidgetViewModel
+
+<div>
+    <form method="post">
+        <div>
+            <label asp-for="@Model.Id"></label>
+            <input disabled asp-for="@Model.Id"/>
+        </div>
+        <div>
+            <label asp-for="@Model.Name"></label>
+            <input asp-for="@Model.Name"/>
+        </div>
+        <div>
+            <button type="submit">Submit</button>
+        </div>
+    </form>
+</div>

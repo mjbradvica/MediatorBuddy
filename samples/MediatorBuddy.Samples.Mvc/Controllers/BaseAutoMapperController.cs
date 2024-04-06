@@ -1,4 +1,4 @@
-﻿// <copyright file="BaseMvcController.cs" company="Michael Bradvica LLC">
+﻿// <copyright file="BaseAutoMapperController.cs" company="Michael Bradvica LLC">
 // Copyright (c) Michael Bradvica LLC. All rights reserved.
 // </copyright>
 
@@ -13,16 +13,16 @@ namespace MediatorBuddy.Samples.Mvc.Controllers
     /// <summary>
     /// Example controller that utilizes AutoMapper.
     /// </summary>
-    public abstract class BaseMvcController : MediatorBuddyMvc
+    public abstract class BaseAutoMapperController : MediatorBuddyMvc
     {
         private readonly IMapper _mapper;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BaseMvcController"/> class.
+        /// Initializes a new instance of the <see cref="BaseAutoMapperController"/> class.
         /// </summary>
         /// <param name="mediator">An instance of the <see cref="IMediator"/> interface.</param>
         /// <param name="mapper">An instance of the <see cref="IMapper"/> interface.</param>
-        protected BaseMvcController(IMediator mediator, IMapper mapper)
+        protected BaseAutoMapperController(IMediator mediator, IMapper mapper)
             : base(mediator)
         {
             _mapper = mapper;
@@ -35,7 +35,7 @@ namespace MediatorBuddy.Samples.Mvc.Controllers
         /// <typeparam name="TViewModel">The type of the view model.</typeparam>
         /// <param name="request">The request object.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        protected async Task<IActionResult> ExecuteGet<TResponse, TViewModel>(IRequest<IEnvelope<TResponse>> request)
+        protected async Task<IActionResult> ExecuteGet<TResponse, TViewModel>(IEnvelopeRequest<TResponse> request)
         {
             return await ExecuteRequest(request, ResponseOptions.ViewResponse<TResponse, TViewModel>(response => _mapper.Map<TResponse, TViewModel>(response)));
         }

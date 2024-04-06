@@ -17,7 +17,7 @@ namespace MediatorBuddy.Samples.Mvc.Controllers
     /// Sample widget controller.
     /// </summary>
     [Route("[controller]")]
-    public class WidgetController : BaseMvcController
+    public class WidgetController : BaseAutoMapperController
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="WidgetController"/> class.

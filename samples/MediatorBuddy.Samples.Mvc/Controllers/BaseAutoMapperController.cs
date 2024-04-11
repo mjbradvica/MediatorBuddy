@@ -39,5 +39,22 @@ namespace MediatorBuddy.Samples.Mvc.Controllers
         {
             return await ExecuteRequest(request, ResponseOptions.ViewResponse<TResponse, TViewModel>(response => _mapper.Map<TResponse, TViewModel>(response)));
         }
+
+        /// <summary>
+        /// Executes a post request on a view model.
+        /// </summary>
+        /// <typeparam name="TViewModel">The type of the view model.</typeparam>
+        /// <typeparam name="TRequest">The type of the request.</typeparam>
+        /// <typeparam name="TResponse">The type of the response.</typeparam>
+        /// <param name="viewModel">The view model to map.</param>
+        /// <param name="responseFunc">The response func.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        protected async Task<IActionResult> ExecutePost<TViewModel, TRequest, TResponse>(TViewModel viewModel, Func<TResponse, (string? ActionName, string? ControllerName, RouteValueDictionary? RouteValueDictionary)> responseFunc)
+            where TRequest : IEnvelopeRequest<TResponse>
+        {
+            var request = _mapper.Map<TViewModel, TRequest>(viewModel);
+
+            return await ExecuteRequest(request, ResponseOptions.RedirectToActionResponse(responseFunc));
+        }
     }
 }

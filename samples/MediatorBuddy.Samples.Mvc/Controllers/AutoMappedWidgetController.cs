@@ -3,6 +3,7 @@
 // </copyright>
 
 using AutoMapper;
+using MediatorBuddy.Samples.Common.Features.AddWidget;
 using MediatorBuddy.Samples.Common.Features.GetAll;
 using MediatorBuddy.Samples.Common.Features.GetById;
 using MediatorBuddy.Samples.Mvc.ViewModels;
@@ -46,6 +47,28 @@ namespace MediatorBuddy.Samples.Mvc.Controllers
         public async Task<IActionResult> Details(Guid id)
         {
             return await ExecuteGet<GetWidgetByIdResponse, WidgetViewModel>(new GetWidgetByIdRequest(id));
+        }
+
+        /// <summary>
+        /// Get for add widget page.
+        /// </summary>
+        /// <returns>A <see cref="IActionResult"/>.</returns>
+        [HttpGet("add")]
+        public IActionResult Add()
+        {
+            return View("Add");
+        }
+
+        /// <summary>
+        /// Sample to add a widget.
+        /// </summary>
+        /// <param name="viewModel">The request object.</param>
+        /// <returns>A <see cref="Task"/> of <see cref="IActionResult"/>.</returns>
+        public async Task<IActionResult> Add(AddWidgetViewModel viewModel)
+        {
+            return await ExecutePost<AddWidgetViewModel, AddWidgetRequest, AddWidgetResponse>(
+                viewModel,
+                response => ("Details", "AutoMappedWidget", new RouteValueDictionary(new { Id = response.Widget.Id })));
         }
     }
 }

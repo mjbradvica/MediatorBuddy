@@ -22,12 +22,7 @@ namespace MediatorBuddy.Samples.Common.Features.AddWidget
             _widgetRepository = widgetRepository;
         }
 
-        /// <summary>
-        /// Handle method for adding widgets.
-        /// </summary>
-        /// <param name="request">A <see cref="AddWidgetRequest"/>.</param>
-        /// <param name="cancellationToken">A <see cref="CancellationToken"/>.</param>
-        /// <returns>A <see cref="IEnvelope{TResponse}"/>.</returns>
+        /// <inheritdoc/>
         public async Task<IEnvelope<AddWidgetResponse>> Handle(AddWidgetRequest request, CancellationToken cancellationToken)
         {
             var widget = WidgetFactory.FromRequest(request);

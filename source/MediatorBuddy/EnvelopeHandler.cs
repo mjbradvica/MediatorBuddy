@@ -2,9 +2,9 @@
 // Copyright (c) Michael Bradvica LLC. All rights reserved.
 // </copyright>
 
-using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
+using MediatR;
 
 namespace MediatorBuddy
 {

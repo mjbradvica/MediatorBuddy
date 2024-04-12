@@ -9,7 +9,7 @@ namespace MediatorBuddy.Samples.Common.Features.GetAll
     /// <summary>
     /// Sample get all widgets handler.
     /// </summary>
-    public class GetAllWidgetsHandler : IEnvelopeHandler<GetAllWidgetsRequest, GetAllWidgetsResponse>
+    public class GetAllWidgetsHandler : EnvelopeHandler<GetAllWidgetsRequest, GetAllWidgetsResponse>
     {
         private readonly IWidgetRepository _widgetRepository;
 
@@ -28,13 +28,13 @@ namespace MediatorBuddy.Samples.Common.Features.GetAll
         /// <param name="request">A <see cref="GetAllWidgetsRequest"/>.</param>
         /// <param name="cancellationToken">A <see cref="CancellationToken"/>.</param>
         /// <returns>A <see cref="IEnvelope{TResponse}"/>.</returns>
-        public async Task<IEnvelope<GetAllWidgetsResponse>> Handle(GetAllWidgetsRequest request, CancellationToken cancellationToken)
+        public override async Task<IEnvelope<GetAllWidgetsResponse>> Handle(GetAllWidgetsRequest request, CancellationToken cancellationToken)
         {
             var widgets = await _widgetRepository.GetAllWidgets();
 
             var response = WidgetFactory.GetAllResponse(widgets);
 
-            return Envelope<GetAllWidgetsResponse>.Success(response);
+            return Success(response);
         }
     }
 }

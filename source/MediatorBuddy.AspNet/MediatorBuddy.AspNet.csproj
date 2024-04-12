@@ -39,6 +39,6 @@
 	</ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="MediatorBuddy" Version="0.9.1" />
+    <PackageReference Include="MediatorBuddy" Version="0.9.2" />
   </ItemGroup>
 </Project>

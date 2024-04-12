@@ -2,7 +2,7 @@
 // Copyright (c) Michael Bradvica LLC. All rights reserved.
 // </copyright>
 
-using MediatorBuddy.Samples.Mvc.Features.GetById;
+using MediatorBuddy.Samples.Common.Features.GetById;
 
 namespace MediatorBuddy.Samples.Mvc.ViewModels
 {
@@ -11,21 +11,15 @@ namespace MediatorBuddy.Samples.Mvc.ViewModels
     /// </summary>
     public class WidgetViewModel
     {
-        private WidgetViewModel(Guid id, string name)
-        {
-            Id = id;
-            Name = name;
-        }
-
         /// <summary>
         /// Gets the widget identifier.
         /// </summary>
-        public Guid Id { get; }
+        public Guid Id { get; init; }
 
         /// <summary>
         /// Gets the widget name.
         /// </summary>
-        public string Name { get; }
+        public string Name { get; init; } = string.Empty;
 
         /// <summary>
         /// Creates a view model.
@@ -34,7 +28,11 @@ namespace MediatorBuddy.Samples.Mvc.ViewModels
         /// <returns>A new <see cref="WidgetViewModel"/>.</returns>
         public static WidgetViewModel FromWidget(GetWidgetByIdResponse response)
         {
-            return new WidgetViewModel(response.Widget.Id, response.Widget.Name);
+            return new WidgetViewModel
+            {
+                Id = response.Widget.Id,
+                Name = response.Widget.Name,
+            };
         }
     }
 }

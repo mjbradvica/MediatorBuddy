@@ -4,7 +4,7 @@
 
 using System.Reflection;
 using MediatorBuddy.AspNet.Registration;
-using MediatorBuddy.Samples.Razor.Features.Common;
+using MediatorBuddy.Samples.Common.Features.Common;
 
 namespace MediatorBuddy.Samples.Razor
 {
@@ -22,7 +22,7 @@ namespace MediatorBuddy.Samples.Razor
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddRazorPages();
-            builder.Services.AddMediatorBuddy(x => x.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+            builder.Services.AddMediatorBuddy(x => x.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly(), Assembly.Load("MediatorBuddy.Samples.Common")));
             builder.Services.AddSingleton<IWidgetRepository, WidgetRepository>();
             builder.Services.AddAutoMapper(config => config.AddMaps(Assembly.GetExecutingAssembly()));
 

@@ -3,7 +3,9 @@
 // </copyright>
 
 using AutoMapper;
-using MediatorBuddy.Samples.Mvc.Features.GetAll;
+using MediatorBuddy.Samples.Common.Features.AddWidget;
+using MediatorBuddy.Samples.Common.Features.GetAll;
+using MediatorBuddy.Samples.Common.Features.GetById;
 using MediatorBuddy.Samples.Mvc.ViewModels;
 
 namespace MediatorBuddy.Samples.Mvc.Profiles
@@ -19,6 +21,11 @@ namespace MediatorBuddy.Samples.Mvc.Profiles
         public WidgetProfile()
         {
             CreateMap<GetAllWidgetsResponse, WidgetIndexViewModel>();
+
+            CreateMap<GetWidgetByIdResponse, WidgetViewModel>()
+                .ConstructUsing(response => WidgetViewModel.FromWidget(response));
+
+            CreateMap<AddWidgetViewModel, AddWidgetRequest>();
         }
     }
 }

@@ -4,9 +4,9 @@
 
 using AutoMapper;
 using MediatorBuddy.AspNet.Responses;
-using MediatorBuddy.Samples.Mvc.Features.AddWidget;
-using MediatorBuddy.Samples.Mvc.Features.GetAll;
-using MediatorBuddy.Samples.Mvc.Features.GetById;
+using MediatorBuddy.Samples.Common.Features.AddWidget;
+using MediatorBuddy.Samples.Common.Features.GetAll;
+using MediatorBuddy.Samples.Common.Features.GetById;
 using MediatorBuddy.Samples.Mvc.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +17,7 @@ namespace MediatorBuddy.Samples.Mvc.Controllers
     /// Sample widget controller.
     /// </summary>
     [Route("[controller]")]
-    public class WidgetController : BaseMvcController
+    public class WidgetController : BaseAutoMapperController
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="WidgetController"/> class.

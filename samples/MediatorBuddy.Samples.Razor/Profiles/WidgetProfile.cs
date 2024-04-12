@@ -3,7 +3,7 @@
 // </copyright>
 
 using AutoMapper;
-using MediatorBuddy.Samples.Razor.Features.GetById;
+using MediatorBuddy.Samples.Common.Features.GetById;
 using MediatorBuddy.Samples.Razor.ViewModels;
 
 namespace MediatorBuddy.Samples.Razor.Profiles

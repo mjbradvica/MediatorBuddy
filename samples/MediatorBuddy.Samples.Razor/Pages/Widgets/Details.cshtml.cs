@@ -4,7 +4,7 @@
 
 using AutoMapper;
 using MediatorBuddy.AspNet;
-using MediatorBuddy.Samples.Razor.Features.GetById;
+using MediatorBuddy.Samples.Common.Features.GetById;
 using MediatorBuddy.Samples.Razor.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +14,7 @@ namespace MediatorBuddy.Samples.Razor.Pages.Widgets
     /// <summary>
     /// Sample Widget details page.
     /// </summary>
-    public class DetailsModel : MediatorBuddyBasePage<WidgetViewModel>
+    public class DetailsModel : MediatorBuddyStandardPage<WidgetViewModel>
     {
         private readonly IMapper _mapper;
 

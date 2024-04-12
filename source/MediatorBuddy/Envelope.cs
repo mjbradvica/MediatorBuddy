@@ -87,7 +87,9 @@ namespace MediatorBuddy
         /// <param name="title">The title of the failure.</param>
         /// <param name="detail">The detail of the failure.</param>
         /// <returns>A <see cref="IEnvelope{TResponse}"/>.</returns>
-        public static IEnvelope<TResponse> GeneralError(string title = "General error occurred.", string detail = "A non-description fault happened somewhere along the process.")
+        public static IEnvelope<TResponse> GeneralError(
+            string title = "General error occurred.",
+            string detail = "A non-description fault happened somewhere along the process.")
         {
             return new Envelope<TResponse>(ApplicationStatus.GeneralError, title, detail);
         }
@@ -140,8 +142,7 @@ namespace MediatorBuddy
         /// <returns>A <see cref="IEnvelope{TResponse}"/>.</returns>
         public static IEnvelope<TResponse> ValidationConstraintNotMet(
             string title = "A validation constraint was not met.",
-            string detail =
-                "An entity or request did not match the specified parameters and the operation could not continue.")
+            string detail = "An entity or request did not match the specified parameters and the operation could not continue.")
         {
             return new Envelope<TResponse>(ApplicationStatus.ValidationConstraintNotMet, title, detail);
         }

@@ -9,7 +9,7 @@ namespace MediatorBuddy.Samples.Common.Features.AddWidget
     /// <summary>
     /// Sample handler for adding widgets.
     /// </summary>
-    public class AddWidgetHandler : IEnvelopeHandler<AddWidgetRequest, AddWidgetResponse>
+    public class AddWidgetHandler : EnvelopeHandler<AddWidgetRequest, AddWidgetResponse>
     {
         private readonly IWidgetRepository _widgetRepository;
 
@@ -23,25 +23,25 @@ namespace MediatorBuddy.Samples.Common.Features.AddWidget
         }
 
         /// <inheritdoc/>
-        public async Task<IEnvelope<AddWidgetResponse>> Handle(AddWidgetRequest request, CancellationToken cancellationToken)
+        public override async Task<IEnvelope<AddWidgetResponse>> Handle(AddWidgetRequest request, CancellationToken cancellationToken)
         {
             var widget = WidgetFactory.FromRequest(request);
 
             if (widget == null)
             {
-                return Envelope<AddWidgetResponse>.ValidationConstraintNotMet();
+                return ValidationConstraintNotMet();
             }
 
             var result = await _widgetRepository.AddWidget(widget);
 
             if (result == 0)
             {
-                return Envelope<AddWidgetResponse>.OperationCouldNotBeCompleted();
+                return OperationCouldNotBeCompleted();
             }
 
             var response = WidgetFactory.AddResponse(widget);
 
-            return Envelope<AddWidgetResponse>.Success(response);
+            return Success(response);
         }
     }
 }

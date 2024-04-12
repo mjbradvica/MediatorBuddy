@@ -1,31 +1,30 @@
-﻿// <copyright file="EnvelopeHandler.cs" company="Michael Bradvica LLC">
+﻿// <copyright file="EmptyEnvelopeHandler.cs" company="Michael Bradvica LLC">
 // Copyright (c) Michael Bradvica LLC. All rights reserved.
 // </copyright>
 
 using System.Threading;
 using System.Threading.Tasks;
+using MediatR;
 
 namespace MediatorBuddy
 {
     /// <summary>
-    /// Base class for all envelope handlers.
+    /// Base class for Handlers that do not return a response.
     /// </summary>
-    /// <typeparam name="TRequest">The type of the request.</typeparam>
-    /// <typeparam name="TResponse">The type of the response.</typeparam>
-    public abstract class EnvelopeHandler<TRequest, TResponse> : IEnvelopeHandler<TRequest, TResponse>
-        where TRequest : IEnvelopeRequest<TResponse>
+    /// <typeparam name="TRequest">The type of the request object.</typeparam>
+    public abstract class EnvelopeHandler<TRequest> : IEnvelopeHandler<TRequest>
+        where TRequest : IEnvelopeRequest
     {
         /// <inheritdoc/>
-        public abstract Task<IEnvelope<TResponse>> Handle(TRequest request, CancellationToken cancellationToken);
+        public abstract Task<IEnvelope<Unit>> Handle(TRequest request, CancellationToken cancellationToken);
 
         /// <summary>
-        /// Factory function for success Envelope.
+        /// Factory function for a success Envelope that returns nothing.
         /// </summary>
-        /// <param name="response">The response object.</param>
-        /// <returns>A <see cref="IEnvelope{TResponse}"/>.</returns>
-        protected IEnvelope<TResponse> Success(TResponse response)
+        /// <returns>A <see cref="IEnvelope{TResponse}"/> of type <see cref="Unit"/>.</returns>
+        protected IEnvelope<Unit> Success()
         {
-            return Envelope<TResponse>.Success(response);
+            return Envelope<Unit>.Success();
         }
 
         /// <summary>
@@ -35,9 +34,9 @@ namespace MediatorBuddy
         /// <param name="title">The title of the failure.</param>
         /// <param name="detail">The detail of the failure.</param>
         /// <returns>A <see cref="IEnvelope{TResponse}"/>.</returns>
-        protected IEnvelope<TResponse> Failure(int statusCode, string title = "A failure occurred.", string detail = "No details are available for the failure.")
+        protected IEnvelope<Unit> Failure(int statusCode, string title = "A failure occurred.", string detail = "No details are available for the failure.")
         {
-            return new Envelope<TResponse>(statusCode, title, detail);
+            return new Envelope<Unit>(statusCode, title, detail);
         }
 
         /// <summary>
@@ -46,11 +45,11 @@ namespace MediatorBuddy
         /// <param name="title">The title of the failure.</param>
         /// <param name="detail">The detail of the failure.</param>
         /// <returns>A <see cref="IEnvelope{TResponse}"/>.</returns>
-        protected IEnvelope<TResponse> GeneralError(
+        protected IEnvelope<Unit> GeneralError(
             string title = "General error occurred.",
             string detail = "A non-description fault happened somewhere along the process.")
         {
-            return Envelope<TResponse>.GeneralError(title, detail);
+            return Envelope<Unit>.GeneralError(title, detail);
         }
 
         /// <summary>
@@ -59,11 +58,11 @@ namespace MediatorBuddy
         /// <param name="title">The title of the failure.</param>
         /// <param name="detail">The detail of the failure.</param>
         /// <returns>A <see cref="IEnvelope{TResponse}"/>.</returns>
-        protected IEnvelope<TResponse> OperationCouldNotBeCompleted(
+        protected IEnvelope<Unit> OperationCouldNotBeCompleted(
             string title = "Operation could not be completed.",
             string detail = "The operation was unable to finish in its entirety.")
         {
-            return Envelope<TResponse>.OperationCouldNotBeCompleted(title, detail);
+            return Envelope<Unit>.OperationCouldNotBeCompleted(title, detail);
         }
 
         /// <summary>
@@ -72,11 +71,11 @@ namespace MediatorBuddy
         /// <param name="title">The title of the failure.</param>
         /// <param name="detail">The detail of the failure.</param>
         /// <returns>A <see cref="IEnvelope{TResponse}"/>.</returns>
-        protected IEnvelope<TResponse> EntityWasNotFound(
+        protected IEnvelope<Unit> EntityWasNotFound(
             string title = "The entity could not be found.",
             string detail = "The system was unable to find the requested entity with the given information.")
         {
-            return Envelope<TResponse>.EntityWasNotFound(title, detail);
+            return Envelope<Unit>.EntityWasNotFound(title, detail);
         }
 
         /// <summary>
@@ -85,11 +84,11 @@ namespace MediatorBuddy
         /// <param name="title">The title of the failure.</param>
         /// <param name="detail">The detail of the failure.</param>
         /// <returns>A <see cref="IEnvelope{TResponse}"/>.</returns>
-        protected IEnvelope<TResponse> ConflictWithOtherResource(
+        protected IEnvelope<Unit> ConflictWithOtherResource(
             string title = "A conflict exists with another resource.",
             string detail = "Another resource or entity already has conflict with another resource that prohibits this operation.")
         {
-            return Envelope<TResponse>.ConflictWithOtherResource(title, detail);
+            return Envelope<Unit>.ConflictWithOtherResource(title, detail);
         }
 
         /// <summary>
@@ -98,11 +97,11 @@ namespace MediatorBuddy
         /// <param name="title">The title of the failure.</param>
         /// <param name="detail">The detail of the failure.</param>
         /// <returns>A <see cref="IEnvelope{TResponse}"/>.</returns>
-        protected IEnvelope<TResponse> ValidationConstraintNotMet(
+        protected IEnvelope<Unit> ValidationConstraintNotMet(
             string title = "A validation constraint was not met.",
             string detail = "An entity or request did not match the specified parameters and the operation could not continue.")
         {
-            return Envelope<TResponse>.ValidationConstraintNotMet(title, detail);
+            return Envelope<Unit>.ValidationConstraintNotMet(title, detail);
         }
 
         /// <summary>
@@ -111,11 +110,11 @@ namespace MediatorBuddy
         /// <param name="title">The title of the failure.</param>
         /// <param name="detail">The detail of the failure.</param>
         /// <returns>A <see cref="IEnvelope{TResponse}"/>.</returns>
-        protected IEnvelope<TResponse> PreConditionNotMet(
+        protected IEnvelope<Unit> PreConditionNotMet(
             string title = "A pre-condition was not met.",
             string detail = "A validation constraint before the operation could be started was not fulfilled.")
         {
-            return Envelope<TResponse>.PreConditionNotMet(title, detail);
+            return Envelope<Unit>.PreConditionNotMet(title, detail);
         }
 
         /// <summary>
@@ -124,11 +123,11 @@ namespace MediatorBuddy
         /// <param name="title">The title of the failure.</param>
         /// <param name="detail">The detail of the failure.</param>
         /// <returns>A <see cref="IEnvelope{TResponse}"/>.</returns>
-        protected IEnvelope<TResponse> PostConditionNotMet(
+        protected IEnvelope<Unit> PostConditionNotMet(
             string title = "A post-condition was not met.",
             string detail = "A validation constraint after the operation finished was not fulfilled.")
         {
-            return Envelope<TResponse>.PostConditionNotMet(title, detail);
+            return Envelope<Unit>.PostConditionNotMet(title, detail);
         }
 
         /// <summary>
@@ -137,11 +136,11 @@ namespace MediatorBuddy
         /// <param name="title">The title of the failure.</param>
         /// <param name="detail">The detail of the failure.</param>
         /// <returns>A <see cref="IEnvelope{TResponse}"/>.</returns>
-        protected IEnvelope<TResponse> CouldNotProcessRequest(
+        protected IEnvelope<Unit> CouldNotProcessRequest(
             string title = "Could not process request.",
             string detail = "The request could not be processed at this time.")
         {
-            return Envelope<TResponse>.CouldNotProcessRequest(title, detail);
+            return Envelope<Unit>.CouldNotProcessRequest(title, detail);
         }
 
         /// <summary>
@@ -150,11 +149,11 @@ namespace MediatorBuddy
         /// <param name="title">The title of the failure.</param>
         /// <param name="detail">The detail of the failure.</param>
         /// <returns>A <see cref="IEnvelope{TResponse}"/>.</returns>
-        protected IEnvelope<TResponse> UserDoesNotExist(
+        protected IEnvelope<Unit> UserDoesNotExist(
             string title = "User does not exist.",
             string detail = "The user given the current information could not be found.")
         {
-            return Envelope<TResponse>.UserDoesNotExist(title, detail);
+            return Envelope<Unit>.UserDoesNotExist(title, detail);
         }
 
         /// <summary>
@@ -163,11 +162,11 @@ namespace MediatorBuddy
         /// <param name="title">The title of the failure.</param>
         /// <param name="detail">The detail of the failure.</param>
         /// <returns>A <see cref="IEnvelope{TResponse}"/>.</returns>
-        protected IEnvelope<TResponse> UserCouldNotBeCreated(
+        protected IEnvelope<Unit> UserCouldNotBeCreated(
             string title = "User could not be created.",
             string detail = "A user could not be created given the current information.")
         {
-            return Envelope<TResponse>.UserCouldNotBeCreated(title, detail);
+            return Envelope<Unit>.UserCouldNotBeCreated(title, detail);
         }
 
         /// <summary>
@@ -176,11 +175,11 @@ namespace MediatorBuddy
         /// <param name="title">The title of the failure.</param>
         /// <param name="detail">The detail of the failure.</param>
         /// <returns>A <see cref="IEnvelope{TResponse}"/>.</returns>
-        protected IEnvelope<TResponse> UsernameAlreadyExists(
+        protected IEnvelope<Unit> UsernameAlreadyExists(
             string title = "UserName already exists.",
             string detail = "That username is already in use and may not be duplicated.")
         {
-            return Envelope<TResponse>.UsernameAlreadyExists(title, detail);
+            return Envelope<Unit>.UsernameAlreadyExists(title, detail);
         }
 
         /// <summary>
@@ -189,11 +188,11 @@ namespace MediatorBuddy
         /// <param name="title">The title of the failure.</param>
         /// <param name="detail">The detail of the failure.</param>
         /// <returns>A <see cref="IEnvelope{TResponse}"/>.</returns>
-        protected IEnvelope<TResponse> EmailIsAlreadyUsed(
+        protected IEnvelope<Unit> EmailIsAlreadyUsed(
             string title = "Email is already used.",
             string detail = "The email given is already being used by an existing user.")
         {
-            return Envelope<TResponse>.EmailIsAlreadyUsed(title, detail);
+            return Envelope<Unit>.EmailIsAlreadyUsed(title, detail);
         }
 
         /// <summary>
@@ -202,11 +201,11 @@ namespace MediatorBuddy
         /// <param name="title">The title of the failure.</param>
         /// <param name="detail">The detail of the failure.</param>
         /// <returns>A <see cref="IEnvelope{TResponse}"/>.</returns>
-        protected IEnvelope<TResponse> PasswordIsIncorrect(
+        protected IEnvelope<Unit> PasswordIsIncorrect(
             string title = "Password is not correct.",
             string detail = "The password given is incorrect for the specified user.")
         {
-            return Envelope<TResponse>.PasswordIsIncorrect(title, detail);
+            return Envelope<Unit>.PasswordIsIncorrect(title, detail);
         }
 
         /// <summary>
@@ -215,11 +214,11 @@ namespace MediatorBuddy
         /// <param name="title">The title of the failure.</param>
         /// <param name="detail">The detail of the failure.</param>
         /// <returns>A <see cref="IEnvelope{TResponse}"/>.</returns>
-        protected IEnvelope<TResponse> PasswordDoesNotMeetRequirements(
+        protected IEnvelope<Unit> PasswordDoesNotMeetRequirements(
             string title = "Password does not make requirements.",
             string detail = "The password does not have the correct number of strength modifiers.")
         {
-            return Envelope<TResponse>.PasswordDoesNotMeetRequirements(title, detail);
+            return Envelope<Unit>.PasswordDoesNotMeetRequirements(title, detail);
         }
 
         /// <summary>
@@ -228,11 +227,11 @@ namespace MediatorBuddy
         /// <param name="title">The title of the failure.</param>
         /// <param name="detail">The detail of the failure.</param>
         /// <returns>A <see cref="IEnvelope{TResponse}"/>.</returns>
-        protected IEnvelope<TResponse> TooManyRecentAttempts(
+        protected IEnvelope<Unit> TooManyRecentAttempts(
             string title = "Too many recent attempts.",
             string detail = "User has attempted too many login attempts recently.")
         {
-            return Envelope<TResponse>.TooManyRecentAttempts(title, detail);
+            return Envelope<Unit>.TooManyRecentAttempts(title, detail);
         }
 
         /// <summary>
@@ -241,11 +240,11 @@ namespace MediatorBuddy
         /// <param name="title">The title of the failure.</param>
         /// <param name="detail">The detail of the failure.</param>
         /// <returns>A <see cref="IEnvelope{TResponse}"/>.</returns>
-        protected IEnvelope<TResponse> AccountIsLockedOut(
+        protected IEnvelope<Unit> AccountIsLockedOut(
             string title = "Account is locked out.",
             string detail = "The account is currently locked out due to suspicious activity.")
         {
-            return Envelope<TResponse>.AccountIsLockedOut(title, detail);
+            return Envelope<Unit>.AccountIsLockedOut(title, detail);
         }
 
         /// <summary>
@@ -254,11 +253,11 @@ namespace MediatorBuddy
         /// <param name="title">The title of the failure.</param>
         /// <param name="detail">The detail of the failure.</param>
         /// <returns>A <see cref="IEnvelope{TResponse}"/>.</returns>
-        protected IEnvelope<TResponse> AccountHasNotBeenVerified(
+        protected IEnvelope<Unit> AccountHasNotBeenVerified(
             string title = "Account has not been verified.",
             string detail = "The account has not been verified and has reduced capabilities.")
         {
-            return Envelope<TResponse>.AccountHasNotBeenVerified(title, detail);
+            return Envelope<Unit>.AccountHasNotBeenVerified(title, detail);
         }
 
         /// <summary>
@@ -267,11 +266,11 @@ namespace MediatorBuddy
         /// <param name="title">The title of the failure.</param>
         /// <param name="detail">The detail of the failure.</param>
         /// <returns>A <see cref="IEnvelope{TResponse}"/>.</returns>
-        protected IEnvelope<TResponse> EmailHasNotBeenVerified(
+        protected IEnvelope<Unit> EmailHasNotBeenVerified(
             string title = "Email has not been verified.",
             string detail = "The email has not been verified, reducing the account capabilities.")
         {
-            return Envelope<TResponse>.EmailHasNotBeenVerified(title, detail);
+            return Envelope<Unit>.EmailHasNotBeenVerified(title, detail);
         }
 
         /// <summary>
@@ -280,11 +279,11 @@ namespace MediatorBuddy
         /// <param name="title">The title of the failure.</param>
         /// <param name="detail">The detail of the failure.</param>
         /// <returns>A <see cref="IEnvelope{TResponse}"/>.</returns>
-        protected IEnvelope<TResponse> TwoFactorCodeIsIncorrect(
+        protected IEnvelope<Unit> TwoFactorCodeIsIncorrect(
             string title = "Two factor code is incorrect.",
             string detail = "The two factor code did not match what was expected.")
         {
-            return Envelope<TResponse>.TwoFactorCodeIsIncorrect(title, detail);
+            return Envelope<Unit>.TwoFactorCodeIsIncorrect(title, detail);
         }
 
         /// <summary>
@@ -293,11 +292,11 @@ namespace MediatorBuddy
         /// <param name="title">The title of the failure.</param>
         /// <param name="detail">The detail of the failure.</param>
         /// <returns>A <see cref="IEnvelope{TResponse}"/>.</returns>
-        protected IEnvelope<TResponse> UnauthorizedUser(
+        protected IEnvelope<Unit> UnauthorizedUser(
             string title = "The current user in question is unauthorized.",
             string detail = "The user must first provide credentials before they may access specific content.")
         {
-            return Envelope<TResponse>.UnauthorizedUser(title, detail);
+            return Envelope<Unit>.UnauthorizedUser(title, detail);
         }
 
         /// <summary>
@@ -306,11 +305,11 @@ namespace MediatorBuddy
         /// <param name="title">The title of the failure.</param>
         /// <param name="detail">The detail of the failure.</param>
         /// <returns>A <see cref="IEnvelope{TResponse}"/>.</returns>
-        protected IEnvelope<TResponse> ContentIsForbidden(
+        protected IEnvelope<Unit> ContentIsForbidden(
             string title = "The content is forbidden.",
             string detail = "The current user does not have the proper credentials to access the content.")
         {
-            return Envelope<TResponse>.ContentIsForbidden(title, detail);
+            return Envelope<Unit>.ContentIsForbidden(title, detail);
         }
 
         /// <summary>
@@ -319,11 +318,11 @@ namespace MediatorBuddy
         /// <param name="title">The title of the failure.</param>
         /// <param name="detail">The detail of the failure.</param>
         /// <returns>A <see cref="IEnvelope{TResponse}"/>.</returns>
-        protected IEnvelope<TResponse> GeneralAuthError(
+        protected IEnvelope<Unit> GeneralAuthError(
             string title = "General auth error.",
             string detail = "A non-descriptive error related to the auth process occurred.")
         {
-            return Envelope<TResponse>.GeneralAuthError(title, detail);
+            return Envelope<Unit>.GeneralAuthError(title, detail);
         }
 
         /// <summary>
@@ -332,11 +331,11 @@ namespace MediatorBuddy
         /// <param name="title">The title of the failure.</param>
         /// <param name="detail">The detail of the failure.</param>
         /// <returns>A <see cref="IEnvelope{TResponse}"/>.</returns>
-        protected IEnvelope<TResponse> AuthenticationChallenged(
+        protected IEnvelope<Unit> AuthenticationChallenged(
             string title = "The authentication scheme was challenged.",
             string detail = "The authentication is being questioned. The server is unable to verify the identity of the user; please verify the user.")
         {
-            return Envelope<TResponse>.AuthenticationChallenged(title, detail);
+            return Envelope<Unit>.AuthenticationChallenged(title, detail);
         }
     }
 }

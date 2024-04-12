@@ -177,12 +177,12 @@ public class MyRequest : IEnvelopeRequest
 
 > IEnvelopeRequest is the short hand version for returning a IEnvelope for each request.
 
-All handlers will now inherit from the [IEnvelopeHandler](https://github.com/mjbradvica/MediatorBuddy/blob/master/source/MediatorBuddy/IEnvelopeHandler.cs) interface.
+All handlers will now inherit from the [EnvelopeHandler](https://github.com/mjbradvica/MediatorBuddy/blob/master/source/MediatorBuddy/IEnvelopeHandler.cs) base class.
 
 ```csharp
-public class MyHandler : IEnvelopeHandler<MyRequest, MyResponse>
+public class MyHandler : EnvelopeHandler<MyRequest, MyResponse>
 {
-    public async Task<IEnvelope<MyResponse>> Handle(MyRequest handler, CancellationToken cancellationToken)
+    public override async Task<IEnvelope<MyResponse>> Handle(MyRequest handler, CancellationToken cancellationToken)
     {
     }
 }
@@ -191,9 +191,9 @@ public class MyHandler : IEnvelopeHandler<MyRequest, MyResponse>
 A handler that does not return an object will look like so:
 
 ```csharp
-public class MyHandler : IEnvelopeHandler<MyRequest>
+public class MyHandler : EnvelopeHandler<MyRequest>
 {
-    public async Task<IEnvelope<Unit>> Handle(MyRequest handler, CancellationToken cancellationToken)
+    public override async Task<IEnvelope<Unit>> Handle(MyRequest handler, CancellationToken cancellationToken)
     {
     }
 }
@@ -201,12 +201,10 @@ public class MyHandler : IEnvelopeHandler<MyRequest>
 
 > Notice that even though your request does not return anything, the handler still MUST return an envelope.
 
-Use the built-in [Envelope](https://github.com/mjbradvica/MediatorBuddy/blob/master/source/MediatorBuddy/Envelope.cs) class to return either a success or failure.
-
-> Envelopes must have a generic argument of your response type due to their static nature.
+The base EnvelopeHandler class has a series of protected methods that are the primary method for returning responses from your handlers. These have a 1:1 relationship with the Envelope class that is being returned.
 
 ```csharp
-public class MyHandler : IEnvelopeHandler<MyRequest, MyResponse>
+public class MyHandler : EnvelopeHandler<MyRequest, MyResponse>
 {
     private readonly IRepository _repository;
 
@@ -215,16 +213,16 @@ public class MyHandler : IEnvelopeHandler<MyRequest, MyResponse>
         _repository = repository;
     }
 
-    public async Task<IEnvelope<MyResponse>> Handle(MyRequest handler, CancellationToken cancellationToken)
+    public override async Task<IEnvelope<MyResponse>> Handle(MyRequest handler, CancellationToken cancellationToken)
     {
         var data = await _repository.GetData();
 
         if (data == null)
         {
-            return Envelope<MyResponse>.EntityNotFound();
+            return EntityNotFound();
         }
 
-        return Envelope<MyResponse>.Success(new MyResponse(data));
+        return Success(new MyResponse(data));
     }
 }
 ```
@@ -257,7 +255,7 @@ public interface IEnvelope<out TResponse>
 The title and description for failures are generic on purpose. You can enrich a fault by adding a custom title and description.
 
 ```csharp
-public class GetWeatherHandler : IEnvelopeHandler<GetWeatherRequest, GetWeatherResponse>
+public class GetWeatherHandler : EnvelopeHandler<GetWeatherRequest, GetWeatherResponse>
 {
     private readonly IDataSource _data;
 
@@ -266,16 +264,16 @@ public class GetWeatherHandler : IEnvelopeHandler<GetWeatherRequest, GetWeatherR
         _data = data;
     }
 
-    public async Task<IEnvelope<GetWeatherResponse>> Handle(GetWeatherRequest request, CancellationToken cancellationToken)
+    public override async Task<IEnvelope<GetWeatherResponse>> Handle(GetWeatherRequest request, CancellationToken cancellationToken)
     {
         var data = await _data.GetData();
 
         if (data == null)
         {
-            return Envelope<GetWeatherResponse>.EntityNotFound("Weather report not found". "No report found for that airport. Do you have the correct code?");
+            return EntityNotFound("Weather report not found". "No report found for that airport. Do you have the correct code?");
         }
 
-        return Envelope<GetWeatherResponse>.Success(new GetWeatherResponse(data));
+        return Success(new GetWeatherResponse(data));
     }
 }
 ```
@@ -309,9 +307,9 @@ public class CustomEnvelope<TResponse>
 Use in your code where needed:
 
 ```csharp
-public class MyHandler : IEnvelopeHandler<MyRequest, MyResponse>
+public class MyHandler : EnvelopeHandler<MyRequest, MyResponse>
 {
-    public async Task<IEnvelope<MyResponse>> Handle(MyRequest request, CancellationToken cancellationToken)
+    public override async Task<IEnvelope<MyResponse>> Handle(MyRequest request, CancellationToken cancellationToken)
     {
         var data = await _data.GetData();
 
@@ -357,25 +355,25 @@ public class GetByIdValidator : AbstractValidator<FluentGetByIdRequest>
 Your handler would resemble:
 
 ```csharp
-public async Task<IEnvelope<FluentGetByIdResponse>> Handle(FluentGetByIdRequest request, CancellationToken cancellationToken)
+public override async Task<IEnvelope<FluentGetByIdResponse>> Handle(FluentGetByIdRequest request, CancellationToken cancellationToken)
 {
     var validationResult = GetByIdValidator.ValidateRequest(request);
 
     if (!validationResult.IsValid)
     {
-        return Envelope<FluentGetByIdResponse>.ValidationConstraintNotMet();
+        return ValidationConstraintNotMet();
     }
 
     var widget = await _widgetRepository.GetById(request.Id);
 
     if (widget == null)
     {
-        return Envelope<FluentGetByIdResponse>.EntityWasNotFound();
+        return EntityWasNotFound();
     }
 
     var response = WidgetFactory.FluentResponse(widget);
 
-    return Envelope<FluentGetByIdResponse>.Success(response);
+    return Success(response);
 }
 ```
 

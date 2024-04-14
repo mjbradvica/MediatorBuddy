@@ -179,7 +179,7 @@ public class MyRequest : IEnvelopeRequest
 
 > IEnvelopeRequest is the short hand version for returning a IEnvelope for each request.
 
-All handlers will now inherit from the [EnvelopeHandler](https://github.com/mjbradvica/MediatorBuddy/blob/master/source/MediatorBuddy/IEnvelopeHandler.cs) base class.
+All handlers will now inherit from the [EnvelopeHandler](https://github.com/mjbradvica/MediatorBuddy/blob/master/source/MediatorBuddy/EnvelopeHandler.cs) base class.
 
 ```csharp
 public class MyHandler : EnvelopeHandler<MyRequest, MyResponse>

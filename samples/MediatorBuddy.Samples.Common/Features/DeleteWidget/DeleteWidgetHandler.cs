@@ -10,7 +10,7 @@ namespace MediatorBuddy.Samples.Common.Features.DeleteWidget
     /// <summary>
     /// Sample delete widget handler.
     /// </summary>
-    public class DeleteWidgetHandler : IEnvelopeHandler<DeleteWidgetRequest>
+    public class DeleteWidgetHandler : EnvelopeHandler<DeleteWidgetRequest>
     {
         private readonly IWidgetRepository _widgetRepository;
 
@@ -29,28 +29,28 @@ namespace MediatorBuddy.Samples.Common.Features.DeleteWidget
         /// <param name="request">A <see cref="DeleteWidgetRequest"/>.</param>
         /// <param name="cancellationToken">A <see cref="CancellationToken"/>.</param>
         /// <returns>A <see cref="IEnvelope{TResponse}"/>.</returns>
-        public async Task<IEnvelope<Unit>> Handle(DeleteWidgetRequest request, CancellationToken cancellationToken)
+        public override async Task<IEnvelope<Unit>> Handle(DeleteWidgetRequest request, CancellationToken cancellationToken)
         {
             if (request.Id == Guid.Empty)
             {
-                return Envelope<Unit>.ValidationConstraintNotMet();
+                return ValidationConstraintNotMet();
             }
 
             var widget = await _widgetRepository.GetById(request.Id);
 
             if (widget == null)
             {
-                return Envelope<Unit>.EntityWasNotFound();
+                return EntityWasNotFound();
             }
 
             var result = await _widgetRepository.DeleteWidget(widget);
 
             if (result == 0)
             {
-                return Envelope<Unit>.OperationCouldNotBeCompleted();
+                return OperationCouldNotBeCompleted();
             }
 
-            return Envelope<Unit>.Success(Unit.Value);
+            return Success();
         }
     }
 }

@@ -9,7 +9,7 @@ namespace MediatorBuddy.Samples.Common.Features.UpdateWidget
     /// <summary>
     /// Sample update widget handler.
     /// </summary>
-    public class UpdateWidgetHandler : IEnvelopeHandler<UpdateWidgetRequest, UpdateWidgetResponse>
+    public class UpdateWidgetHandler : EnvelopeHandler<UpdateWidgetRequest, UpdateWidgetResponse>
     {
         private readonly IWidgetRepository _widgetRepository;
 
@@ -28,37 +28,37 @@ namespace MediatorBuddy.Samples.Common.Features.UpdateWidget
         /// <param name="request">A <see cref="UpdateWidgetRequest"/>.</param>
         /// <param name="cancellationToken">A <see cref="CancellationToken"/>.</param>
         /// <returns>A <see cref="IEnvelope{TResponse}"/>.</returns>
-        public async Task<IEnvelope<UpdateWidgetResponse>> Handle(UpdateWidgetRequest request, CancellationToken cancellationToken)
+        public override async Task<IEnvelope<UpdateWidgetResponse>> Handle(UpdateWidgetRequest request, CancellationToken cancellationToken)
         {
             if (request.Id == Guid.Empty)
             {
-                return Envelope<UpdateWidgetResponse>.ValidationConstraintNotMet();
+                return ValidationConstraintNotMet();
             }
 
             var widget = await _widgetRepository.GetById(request.Id);
 
             if (widget == null)
             {
-                return Envelope<UpdateWidgetResponse>.EntityWasNotFound();
+                return EntityWasNotFound();
             }
 
             var updateResult = widget.UpdateName(request.Name);
 
             if (updateResult == 0)
             {
-                return Envelope<UpdateWidgetResponse>.PreConditionNotMet();
+                return PreConditionNotMet();
             }
 
             var result = await _widgetRepository.UpdateWidget(widget);
 
             if (result == 0)
             {
-                return Envelope<UpdateWidgetResponse>.OperationCouldNotBeCompleted();
+                return OperationCouldNotBeCompleted();
             }
 
             var response = WidgetFactory.UpdateResponse(widget);
 
-            return Envelope<UpdateWidgetResponse>.Success(response);
+            return Success(response);
         }
     }
 }

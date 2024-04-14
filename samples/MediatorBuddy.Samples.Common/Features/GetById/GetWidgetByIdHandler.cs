@@ -9,7 +9,7 @@ namespace MediatorBuddy.Samples.Common.Features.GetById
     /// <summary>
     /// Sample get widget by id handler.
     /// </summary>
-    public class GetWidgetByIdHandler : IEnvelopeHandler<GetWidgetByIdRequest, GetWidgetByIdResponse>
+    public class GetWidgetByIdHandler : EnvelopeHandler<GetWidgetByIdRequest, GetWidgetByIdResponse>
     {
         private readonly IWidgetRepository _widgetRepository;
 
@@ -28,23 +28,23 @@ namespace MediatorBuddy.Samples.Common.Features.GetById
         /// <param name="request">A <see cref="GetWidgetByIdRequest"/>.</param>
         /// <param name="cancellationToken">A <see cref="CancellationToken"/>.</param>
         /// <returns>A <see cref="IEnvelope{TResponse}"/>.</returns>
-        public async Task<IEnvelope<GetWidgetByIdResponse>> Handle(GetWidgetByIdRequest request, CancellationToken cancellationToken)
+        public override async Task<IEnvelope<GetWidgetByIdResponse>> Handle(GetWidgetByIdRequest request, CancellationToken cancellationToken)
         {
             if (request.Id == Guid.Empty)
             {
-                return Envelope<GetWidgetByIdResponse>.ValidationConstraintNotMet();
+                return ValidationConstraintNotMet();
             }
 
             var widget = await _widgetRepository.GetById(request.Id);
 
             if (widget == null)
             {
-                return Envelope<GetWidgetByIdResponse>.EntityWasNotFound();
+                return EntityWasNotFound();
             }
 
             var response = WidgetFactory.GetByIdResponse(widget);
 
-            return Envelope<GetWidgetByIdResponse>.Success(response);
+            return Success(response);
         }
     }
 }

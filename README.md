@@ -71,6 +71,8 @@ What does MediatorBuddy give you?
 
 If you prefer code samples in addition to documentation, there are full samples available for each framework type that can be [viewed here](https://github.com/mjbradvica/MediatorBuddy/tree/master/samples).
 
+> It is recommended to look at the samples if this is your first time using MediatorBuddy.
+
 ## Framework Support
 
 | Framework   | Supported |

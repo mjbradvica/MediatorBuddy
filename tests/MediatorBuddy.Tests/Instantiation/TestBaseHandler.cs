@@ -5,25 +5,9 @@
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace MediatorBuddy.Tests
+namespace MediatorBuddy.Tests.Instantiation
 {
-    /// <summary>
-    /// Tests for the base envelope handler.
-    /// </summary>
-    [TestClass]
-    public class EnvelopeHandlerTests
-    {
-    }
-
-    /// <summary>
-    /// Sample request for handler.
-    /// </summary>
-    internal class TestRequest : IEnvelopeRequest
-    {
-    }
-
     /// <inheritdoc />
     internal class TestBaseHandler : EnvelopeHandler<TestRequest>
     {

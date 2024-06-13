@@ -22,7 +22,7 @@ namespace MediatorBuddy.Tests.Responses
         /// Ensures the FileResponse has the correct properties.
         /// </summary>
         [TestMethod]
-        public void FileResponse_FileContents_IsCorrect()
+        public void FileContentResponse_FileContents_IsCorrect()
         {
             var fileContents = Encoding.UTF8.GetBytes("bytes");
             const string contentType = "application/octet-stream";
@@ -30,7 +30,7 @@ namespace MediatorBuddy.Tests.Responses
             var entityTag = EntityTagHeaderValue.Any;
             const bool enableRangeProcessing = false;
 
-            var result = ResponseOptions.FileResponse<TestResponse>(_ =>
+            var result = ResponseOptions.FileContentResponse<TestResponse>(_ =>
                 (fileContents,
                 contentType,
                 lastModified,
@@ -51,7 +51,7 @@ namespace MediatorBuddy.Tests.Responses
         /// Ensures the FileResponse has the correct properties.
         /// </summary>
         [TestMethod]
-        public void FileResponse_FileContentsWithControllerName_IsCorrect()
+        public void FileContentResponse_FileContentsWithControllerName_IsCorrect()
         {
             var fileContents = Encoding.UTF8.GetBytes("bytes");
             const string contentType = "application/octet-stream";
@@ -60,7 +60,7 @@ namespace MediatorBuddy.Tests.Responses
             var entityTag = EntityTagHeaderValue.Any;
             const bool enableRangeProcessing = false;
 
-            var result = ResponseOptions.FileResponse<TestResponse>(_ =>
+            var result = ResponseOptions.FileContentResponse<TestResponse>(_ =>
                     (fileContents,
                     contentType,
                     fileDownloadName,
@@ -83,7 +83,7 @@ namespace MediatorBuddy.Tests.Responses
         /// Ensures the FileResponse has the correct properties.
         /// </summary>
         [TestMethod]
-        public void FileResponse_StreamContents_IsCorrect()
+        public void FileStreamResponse_StreamContents_IsCorrect()
         {
             using (var fileStream = new FileStream($"{Directory.GetCurrentDirectory()}/test.txt", FileMode.OpenOrCreate))
             {
@@ -92,7 +92,7 @@ namespace MediatorBuddy.Tests.Responses
                 var entityTag = EntityTagHeaderValue.Any;
                 const bool enableRangeProcessing = false;
 
-                var result = ResponseOptions.FileResponse<TestResponse>(_ =>
+                var result = ResponseOptions.FileStreamResponse<TestResponse>(_ =>
                         (fileStream,
                         contentType,
                         lastModified,
@@ -114,7 +114,7 @@ namespace MediatorBuddy.Tests.Responses
         /// Ensures the FileResponse has the correct properties.
         /// </summary>
         [TestMethod]
-        public void FileResponse_StreamContentsWithControllerName_IsCorrect()
+        public void FileStreamResponse_StreamContentsWithControllerName_IsCorrect()
         {
             using (var fileStream = new FileStream($"{Directory.GetCurrentDirectory()}/test.txt", FileMode.OpenOrCreate))
             {
@@ -124,7 +124,7 @@ namespace MediatorBuddy.Tests.Responses
                 var entityTag = EntityTagHeaderValue.Any;
                 const bool enableRangeProcessing = false;
 
-                var result = ResponseOptions.FileResponse<TestResponse>(_ =>
+                var result = ResponseOptions.FileStreamResponse<TestResponse>(_ =>
                         (fileStream,
                         contentType,
                         fileDownloadName,
@@ -148,7 +148,7 @@ namespace MediatorBuddy.Tests.Responses
         /// Ensures the FileResponse has the correct properties.
         /// </summary>
         [TestMethod]
-        public void FileResponse_VirtualPath_IsCorrect()
+        public void VirtualFileResponse_VirtualPath_IsCorrect()
         {
             const string virtualPath = "fileName";
             const string contentType = "application/octet-stream";
@@ -156,7 +156,7 @@ namespace MediatorBuddy.Tests.Responses
             var entityTag = EntityTagHeaderValue.Any;
             const bool enableRangeProcessing = false;
 
-            var result = ResponseOptions.FileResponse<TestResponse>(_ =>
+            var result = ResponseOptions.VirtualFileResponse<TestResponse>(_ =>
                 (virtualPath,
                 contentType,
                 lastModified,
@@ -177,7 +177,7 @@ namespace MediatorBuddy.Tests.Responses
         /// Ensures the FileResponse has the correct properties.
         /// </summary>
         [TestMethod]
-        public void FileResponse_VirtualPathWithControllerName_IsCorrect()
+        public void VirtualFileResponse_VirtualPathWithControllerName_IsCorrect()
         {
             const string virtualPath = "fileName";
             const string contentType = "application/octet-stream";
@@ -186,7 +186,7 @@ namespace MediatorBuddy.Tests.Responses
             var entityTag = EntityTagHeaderValue.Any;
             const bool enableRangeProcessing = false;
 
-            var result = ResponseOptions.FileResponse<TestResponse>(_ =>
+            var result = ResponseOptions.VirtualFileResponse<TestResponse>(_ =>
                     (virtualPath,
                     contentType,
                     fileDownloadName,

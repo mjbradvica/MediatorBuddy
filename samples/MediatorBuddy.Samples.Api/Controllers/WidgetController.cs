@@ -53,7 +53,7 @@ namespace MediatorBuddy.Samples.Api.Controllers
         [ProducesResponseType(typeof(GetWidgetByIdResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetWidgetById(Guid id)
         {
-            return await ExecuteRequest(new GetWidgetByIdRequest(id), ResponseOptions.OkResponse<GetWidgetByIdResponse>());
+            return await ExecuteRequest(new GetWidgetByIdRequest(id), ResponseOptions.OkObjectResponse<GetWidgetByIdResponse>());
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace MediatorBuddy.Samples.Api.Controllers
         [ProducesResponseType(typeof(GetAllWidgetsResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAllWidgets()
         {
-            return await ExecuteRequest(new GetAllWidgetsRequest(), ResponseOptions.OkResponse<GetAllWidgetsResponse>());
+            return await ExecuteRequest(new GetAllWidgetsRequest(), ResponseOptions.OkObjectResponse<GetAllWidgetsResponse>());
         }
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace MediatorBuddy.Samples.Api.Controllers
         [ProducesResponseType(typeof(UpdateWidgetResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> UpdateWidget(UpdateWidgetRequest request)
         {
-            return await ExecuteRequest(request, ResponseOptions.OkResponse<UpdateWidgetResponse>());
+            return await ExecuteRequest(request, ResponseOptions.OkObjectResponse<UpdateWidgetResponse>());
         }
     }
 }

@@ -407,7 +407,7 @@ public class MyController : MediatorBuddyApi
         [MediatorBuddy404ErrorResponse]
         public async Task<IActionResult> GetMyData()
         {
-            return await ExecuteRequest(new MyRequest(), ResponseOptions.OkResponse<MyResponse>());
+            return await ExecuteRequest(new MyRequest(), ResponseOptions.OkObjectResponse<MyResponse>());
         }
     }
 }

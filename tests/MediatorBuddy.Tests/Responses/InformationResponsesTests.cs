@@ -28,7 +28,7 @@ namespace MediatorBuddy.Tests.Responses
         }
 
         /// <summary>
-        /// Ensures the Switching Protocols Result has the correct properties..
+        /// Ensures the Switching Protocols Result has the correct properties.
         /// </summary>
         [TestMethod]
         public void SwitchingProtocolsResult_IsCorrect()

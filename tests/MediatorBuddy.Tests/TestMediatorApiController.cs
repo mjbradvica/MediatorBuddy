@@ -34,7 +34,7 @@ namespace MediatorBuddy.Tests
         [HttpPost]
         public async Task<IActionResult> Handle(TestObjectRequest request)
         {
-            return await ExecuteRequest(request, ResponseOptions.OkResponse<TestResponse>());
+            return await ExecuteRequest(request, ResponseOptions.OkObjectResponse<TestResponse>());
         }
     }
 }

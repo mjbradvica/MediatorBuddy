@@ -17,9 +17,8 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: |
-            6.0.x
-            7.0.x
             8.0.x
+            9.0.x
 
       - name: Restore
         run: dotnet restore
@@ -28,7 +27,7 @@ jobs:
         run: dotnet format --no-restore
 
       - name: Build
-        run: dotnet build --no-restore -c Release
+        run: dotnet build --no-restore --no-restore -c Release
 
       - name: Test
-        run: dotnet test --no-build --verbosity normal -c Release /p:CollectCoverage=true /p:Threshold=100 /p:ThresholdType=branch
+        run: dotnet test --no-restore --no-build --verbosity normal -c Release /p:CollectCoverage=true /p:Threshold=100 /p:ThresholdType=branch

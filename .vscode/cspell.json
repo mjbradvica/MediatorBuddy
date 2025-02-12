@@ -6,6 +6,7 @@
     "buildtransitive",
     "contentfiles",
     "Mediat",
+    "msbuild",
     "nupkg",
     "Paredo",
     "stylecop",

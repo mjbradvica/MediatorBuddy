@@ -2,17 +2,18 @@
 
   <PropertyGroup>
 	  <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <Title>MediatorBuddy</Title>
     <Authors>Michael Bradvica</Authors>
-    <Company>Michael Bradvica LLC.</Company>
+    <Company>Simplex Software LLC</Company>
     <Description>An opinionated implementation of the MediatR library.</Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <Copyright>Copyright 2024. All rights reserved.</Copyright>
+    <Copyright>Copyright (c) Simplex Software LLC 2025. All rights reserved.</Copyright>
     <PackageProjectUrl>https://github.com/mjbradvica/MediatorBuddy</PackageProjectUrl>
     <RepositoryUrl>https://github.com/mjbradvica/MediatorBuddy</RepositoryUrl>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageIcon>logo.png</PackageIcon>
-    <Version>0.9.3</Version>
+    <Version>0.9.4</Version>
     <PackageTags>mediator, aspnet</PackageTags>
   </PropertyGroup>
 

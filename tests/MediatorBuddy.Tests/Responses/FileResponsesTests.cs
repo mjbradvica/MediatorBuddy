@@ -2,8 +2,6 @@
 // Copyright (c) Simplex Software LLC. All rights reserved.
 // </copyright>
 
-using System;
-using System.IO;
 using System.Text;
 using MediatorBuddy.AspNet.Responses;
 using Microsoft.AspNetCore.Mvc;

@@ -2,8 +2,6 @@
 // Copyright (c) Simplex Software LLC. All rights reserved.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
 using MediatorBuddy.AspNet;
 using Microsoft.AspNetCore.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

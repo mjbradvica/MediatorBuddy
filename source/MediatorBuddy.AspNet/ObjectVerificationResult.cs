@@ -2,9 +2,6 @@
 // Copyright (c) Simplex Software LLC. All rights reserved.
 // </copyright>
 
-using System.Collections.Generic;
-using System.Linq;
-
 namespace MediatorBuddy.AspNet
 {
     /// <summary>

@@ -3,8 +3,6 @@
 // </copyright>
 
 using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
 using MediatorBuddy.AspNet.Registration;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;

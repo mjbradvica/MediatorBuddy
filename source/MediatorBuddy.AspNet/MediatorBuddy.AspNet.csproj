@@ -3,7 +3,6 @@
   <PropertyGroup>
 	  <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-    <Nullable>enable</Nullable>
     <Title>MediatorBuddy.AspNet</Title>
     <Authors>Michael Bradvica</Authors>
     <Company>Simplex Software LLC</Company>

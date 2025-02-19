@@ -2,7 +2,6 @@
 // Copyright (c) Simplex Software LLC. All rights reserved.
 // </copyright>
 
-using System.Linq;
 using MediatorBuddy.AspNet;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

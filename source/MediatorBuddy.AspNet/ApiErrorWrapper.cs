@@ -2,8 +2,6 @@
 // Copyright (c) Simplex Software LLC. All rights reserved.
 // </copyright>
 
-using System;
-
 namespace MediatorBuddy.AspNet
 {
     /// <summary>

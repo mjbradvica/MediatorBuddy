@@ -1,8 +1,7 @@
-﻿// <copyright file="OkResponses.cs" company="Michael Bradvica LLC">
-// Copyright (c) Michael Bradvica LLC. All rights reserved.
+﻿// <copyright file="OkResponses.cs" company="Simplex Software LLC">
+// Copyright (c) Simplex Software LLC. All rights reserved.
 // </copyright>
 
-using System;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MediatorBuddy.AspNet.Responses
@@ -28,7 +27,7 @@ namespace MediatorBuddy.AspNet.Responses
         /// <typeparam name="TResponse">The type of the response object.</typeparam>
         /// <param name="response">A static <see cref="object"/> for the response.</param>
         /// <returns>A <see cref="IActionResult"/> of type <see cref="OkObjectResult"/>.</returns>
-        public static Func<TResponse, IActionResult> OkResponse<TResponse>(object response)
+        public static Func<TResponse, IActionResult> OkObjectResponse<TResponse>(object response)
         {
             return _ => new OkObjectResult(response);
         }
@@ -38,7 +37,7 @@ namespace MediatorBuddy.AspNet.Responses
         /// </summary>
         /// <typeparam name="TResponse">The type of the response object.</typeparam>
         /// <returns>A <see cref="IActionResult"/> of type <see cref="OkObjectResult"/>.</returns>
-        public static Func<TResponse, IActionResult> OkResponse<TResponse>()
+        public static Func<TResponse, IActionResult> OkObjectResponse<TResponse>()
         {
             return response => new OkObjectResult(response);
         }
@@ -49,7 +48,7 @@ namespace MediatorBuddy.AspNet.Responses
         /// <typeparam name="TResponse">The type of the response object.</typeparam>
         /// <param name="responseFunc">A <see cref="Func{TResult}"/> that yields an object from the response.</param>
         /// <returns>A <see cref="IActionResult"/> of type <see cref="OkObjectResult"/>.</returns>
-        public static Func<TResponse, IActionResult> OkResponse<TResponse>(Func<TResponse, object> responseFunc)
+        public static Func<TResponse, IActionResult> OkObjectResponse<TResponse>(Func<TResponse, object> responseFunc)
         {
             return response => new OkObjectResult(responseFunc.Invoke(response));
         }

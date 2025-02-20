@@ -407,7 +407,7 @@ public class MyController : MediatorBuddyApi
         [MediatorBuddy404ErrorResponse]
         public async Task<IActionResult> GetMyData()
         {
-            return await ExecuteRequest(new MyRequest(), ResponseOptions.OkResponse<MyResponse>());
+            return await ExecuteRequest(new MyRequest(), ResponseOptions.OkObjectResponse<MyResponse>());
         }
     }
 }
@@ -649,7 +649,7 @@ Create a custom error types class that inherits from [ErrorTypes](https://github
 ```csharp
 public class CustomErrorTypes : ErrorTypes
 {
-    public Uri NotEnoughSteam { get; set; } = new Uri("Error/NotEnoughSteam", UriKind.Relative);
+    public Uri NotEnoughSteam { get; } = new Uri("Error/NotEnoughSteam", UriKind.Relative);
 }
 ```
 

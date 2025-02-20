@@ -1,9 +1,7 @@
-﻿// <copyright file="MediatorBuddyPage.cs" company="Michael Bradvica LLC">
-// Copyright (c) Michael Bradvica LLC. All rights reserved.
+﻿// <copyright file="MediatorBuddyPage.cs" company="Simplex Software LLC">
+// Copyright (c) Simplex Software LLC. All rights reserved.
 // </copyright>
 
-using System;
-using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -43,8 +41,9 @@ namespace MediatorBuddy.AspNet
         /// <typeparam name="TResponse">The response type being returned from the controller action.</typeparam>
         /// <param name="request">The request object being sent to the execution pipeline.</param>
         /// <param name="responseFunc">A <see cref="Func{TResult}"/> that will accept a response object and return a <see cref="IActionResult"/>.</param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/>.</param>
         /// <returns>A <see cref="Task"/> of type <see cref="IActionResult"/> representing the end result of the request object.</returns>
-        protected async Task<IActionResult> ExecuteRequest<TResponse>(IRequest<IEnvelope<TResponse>> request, Func<TResponse, IActionResult> responseFunc)
+        protected async Task<IActionResult> ExecuteRequest<TResponse>(IRequest<IEnvelope<TResponse>> request, Func<TResponse, IActionResult> responseFunc, CancellationToken cancellationToken = default)
         {
             var validationResult = ObjectVerification.Validate(request);
             if (validationResult.Failed)
@@ -54,7 +53,7 @@ namespace MediatorBuddy.AspNet
 
             try
             {
-                var result = await Mediator.Send(request);
+                var result = await Mediator.Send(request, cancellationToken);
 
                 if (result.Status == ApplicationStatus.Success)
                 {
@@ -67,7 +66,7 @@ namespace MediatorBuddy.AspNet
             }
             catch (Exception exception)
             {
-                await Mediator.Publish(new GlobalExceptionOccurred(exception));
+                await Mediator.Publish(new GlobalExceptionOccurred(exception), cancellationToken);
 
                 return RedirectToPage(_errorPage);
             }
@@ -79,8 +78,9 @@ namespace MediatorBuddy.AspNet
         /// <typeparam name="TResponse">The response type being returned from the controller action.</typeparam>
         /// <param name="request">The request object being sent to the execution pipeline.</param>
         /// <param name="resultAction">A <see cref="Action"/> that will accept a response object. Typically, to update a view model.</param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/>.</param>
         /// <returns>A <see cref="Task"/> of type <see cref="IActionResult"/> representing the end result of the request object.</returns>
-        protected async Task<IActionResult> ExecuteRequest<TResponse>(IRequest<IEnvelope<TResponse>> request, Action<TResponse> resultAction)
+        protected async Task<IActionResult> ExecuteRequest<TResponse>(IRequest<IEnvelope<TResponse>> request, Action<TResponse> resultAction, CancellationToken cancellationToken = default)
         {
             var validationResult = ObjectVerification.Validate(request);
             if (validationResult.Failed)
@@ -90,7 +90,7 @@ namespace MediatorBuddy.AspNet
 
             try
             {
-                var result = await Mediator.Send(request);
+                var result = await Mediator.Send(request, cancellationToken);
 
                 if (result.Status == ApplicationStatus.Success)
                 {
@@ -105,7 +105,7 @@ namespace MediatorBuddy.AspNet
             }
             catch (Exception exception)
             {
-                await Mediator.Publish(new GlobalExceptionOccurred(exception));
+                await Mediator.Publish(new GlobalExceptionOccurred(exception), cancellationToken);
 
                 return RedirectToPage(_errorPage);
             }

@@ -1,5 +1,5 @@
-﻿// <copyright file="InformationResponsesTests.cs" company="Michael Bradvica LLC">
-// Copyright (c) Michael Bradvica LLC. All rights reserved.
+﻿// <copyright file="InformationResponsesTests.cs" company="Simplex Software LLC">
+// Copyright (c) Simplex Software LLC. All rights reserved.
 // </copyright>
 
 using MediatorBuddy.AspNet.Responses;
@@ -28,7 +28,7 @@ namespace MediatorBuddy.Tests.Responses
         }
 
         /// <summary>
-        /// Ensures the Switching Protocols Result has the correct properties..
+        /// Ensures the Switching Protocols Result has the correct properties.
         /// </summary>
         [TestMethod]
         public void SwitchingProtocolsResult_IsCorrect()

@@ -1,8 +1,7 @@
-﻿// <copyright file="GlobalExceptionOccurred.cs" company="Michael Bradvica LLC">
-// Copyright (c) Michael Bradvica LLC. All rights reserved.
+﻿// <copyright file="GlobalExceptionOccurred.cs" company="Simplex Software LLC">
+// Copyright (c) Simplex Software LLC. All rights reserved.
 // </copyright>
 
-using System;
 using MediatR;
 
 namespace MediatorBuddy
@@ -19,7 +18,7 @@ namespace MediatorBuddy
         public GlobalExceptionOccurred(Exception exception)
         {
             Exception = exception;
-            DateTime = DateTime.UtcNow;
+            DateTimeOffset = DateTimeOffset.UtcNow;
         }
 
         /// <summary>
@@ -30,6 +29,6 @@ namespace MediatorBuddy
         /// <summary>
         /// Gets a time stamp when the exception occurred.
         /// </summary>
-        public DateTime DateTime { get; }
+        public DateTimeOffset DateTimeOffset { get; }
     }
 }

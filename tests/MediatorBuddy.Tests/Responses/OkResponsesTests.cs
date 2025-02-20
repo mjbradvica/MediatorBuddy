@@ -1,5 +1,5 @@
-﻿// <copyright file="OkResponsesTests.cs" company="Michael Bradvica LLC">
-// Copyright (c) Michael Bradvica LLC. All rights reserved.
+﻿// <copyright file="OkResponsesTests.cs" company="Simplex Software LLC">
+// Copyright (c) Simplex Software LLC. All rights reserved.
 // </copyright>
 
 using MediatorBuddy.AspNet.Responses;
@@ -29,11 +29,11 @@ namespace MediatorBuddy.Tests.Responses
         /// Ensures the OkResponse has the correct properties.
         /// </summary>
         [TestMethod]
-        public void OkResponse_StaticObject_IsCorrect()
+        public void OkObjectResponse_StaticObject_IsCorrect()
         {
             object response = string.Empty;
 
-            var result = ResponseOptions.OkResponse<TestResponse>(response).Invoke(new TestResponse());
+            var result = ResponseOptions.OkObjectResponse<TestResponse>(response).Invoke(new TestResponse());
 
             Assert.IsInstanceOfType<OkObjectResult>(result);
             Assert.AreEqual(response, (result as OkObjectResult)?.Value);
@@ -43,11 +43,11 @@ namespace MediatorBuddy.Tests.Responses
         /// Ensures the OkResponse has the correct properties.
         /// </summary>
         [TestMethod]
-        public void OkResponse_ResponseObject_IsCorrect()
+        public void OkObjectResponse_ResponseObject_IsCorrect()
         {
             var response = new TestResponse();
 
-            var result = ResponseOptions.OkResponse<TestResponse>().Invoke(response);
+            var result = ResponseOptions.OkObjectResponse<TestResponse>().Invoke(response);
 
             Assert.IsInstanceOfType<OkObjectResult>(result);
             Assert.AreEqual(response, (result as OkObjectResult)?.Value);
@@ -57,11 +57,11 @@ namespace MediatorBuddy.Tests.Responses
         /// Ensures the OkResponse has the correct properties.
         /// </summary>
         [TestMethod]
-        public void OkResponse_ResponseObjectFunc_IsCorrect()
+        public void OkObjectResponse_ResponseObjectFunc_IsCorrect()
         {
             var response = new TestResponse();
 
-            var result = ResponseOptions.OkResponse<TestResponse>(_ => response).Invoke(response);
+            var result = ResponseOptions.OkObjectResponse<TestResponse>(_ => response).Invoke(response);
 
             Assert.IsInstanceOfType<OkObjectResult>(result);
             Assert.AreEqual(response, (result as OkObjectResult)?.Value);

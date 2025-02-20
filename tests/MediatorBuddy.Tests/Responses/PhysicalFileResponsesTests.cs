@@ -1,8 +1,7 @@
-﻿// <copyright file="PhysicalFileResponsesTests.cs" company="Michael Bradvica LLC">
-// Copyright (c) Michael Bradvica LLC. All rights reserved.
+﻿// <copyright file="PhysicalFileResponsesTests.cs" company="Simplex Software LLC">
+// Copyright (c) Simplex Software LLC. All rights reserved.
 // </copyright>
 
-using System;
 using MediatorBuddy.AspNet.Responses;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;

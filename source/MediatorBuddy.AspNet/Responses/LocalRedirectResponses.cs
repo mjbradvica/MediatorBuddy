@@ -1,8 +1,7 @@
-﻿// <copyright file="LocalRedirectResponses.cs" company="Michael Bradvica LLC">
-// Copyright (c) Michael Bradvica LLC. All rights reserved.
+﻿// <copyright file="LocalRedirectResponses.cs" company="Simplex Software LLC">
+// Copyright (c) Simplex Software LLC. All rights reserved.
 // </copyright>
 
-using System;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MediatorBuddy.AspNet.Responses

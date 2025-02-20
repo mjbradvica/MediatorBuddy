@@ -1,8 +1,15 @@
 {
   "words": [
+    "aspnet",
     "Blazor",
     "Bradvica",
+    "buildtransitive",
+    "contentfiles",
     "Mediat",
-    "Paredo"
+    "msbuild",
+    "nupkg",
+    "Paredo",
+    "stylecop",
+    "Swashbuckle"
   ]
 }

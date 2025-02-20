@@ -1,9 +1,7 @@
-﻿// <copyright file="MediatorBuddyApi.cs" company="Michael Bradvica LLC">
-// Copyright (c) Michael Bradvica LLC. All rights reserved.
+﻿// <copyright file="MediatorBuddyApi.cs" company="Simplex Software LLC">
+// Copyright (c) Simplex Software LLC. All rights reserved.
 // </copyright>
 
-using System;
-using System.Threading.Tasks;
 using MediatorBuddy.AspNet.Attributes;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -48,8 +46,9 @@ namespace MediatorBuddy.AspNet
         /// <typeparam name="TResponse">The response type being returned from the controller action.</typeparam>
         /// <param name="request">The request object being sent to the execution pipeline.</param>
         /// <param name="responseFunc">A function that will accept a response object and return a web response.</param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/>.</param>
         /// <returns>An IActionResult representing the end successResult of the request object.</returns>
-        protected async Task<IActionResult> ExecuteRequest<TResponse>(IRequest<IEnvelope<TResponse>> request, Func<TResponse, IActionResult> responseFunc)
+        protected async Task<IActionResult> ExecuteRequest<TResponse>(IRequest<IEnvelope<TResponse>> request, Func<TResponse, IActionResult> responseFunc, CancellationToken cancellationToken = default)
         {
             IActionResult response;
 
@@ -63,13 +62,13 @@ namespace MediatorBuddy.AspNet
 
             try
             {
-                var result = await Mediator.Send(request);
+                var result = await Mediator.Send(request, cancellationToken);
 
                 response = DetermineResponse(result, responseFunc.Invoke(result.Response), currentRoute, _extraOptions);
             }
             catch (Exception exception)
             {
-                await Mediator.Publish(new GlobalExceptionOccurred(exception));
+                await Mediator.Publish(new GlobalExceptionOccurred(exception), cancellationToken);
 
                 return StatusCode(StatusCodes.Status500InternalServerError, ErrorResponse.InternalError(_errorTypes.General, currentRoute));
             }

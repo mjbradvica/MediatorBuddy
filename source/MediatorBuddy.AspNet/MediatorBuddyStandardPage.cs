@@ -1,9 +1,7 @@
-﻿// <copyright file="MediatorBuddyStandardPage.cs" company="Michael Bradvica LLC">
-// Copyright (c) Michael Bradvica LLC. All rights reserved.
+﻿// <copyright file="MediatorBuddyStandardPage.cs" company="Simplex Software LLC">
+// Copyright (c) Simplex Software LLC. All rights reserved.
 // </copyright>
 
-using System;
-using System.Threading.Tasks;
 using MediatorBuddy.AspNet.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -41,11 +39,12 @@ namespace MediatorBuddy.AspNet
         /// </summary>
         /// <typeparam name="TResponse">The type of the response.</typeparam>
         /// <param name="request">The request to be executed.</param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/>.</param>
         /// <returns>A <see cref="Task"/> of type <see cref="IActionResult"/>.</returns>
-        protected async Task<IActionResult> ExecuteQuery<TResponse>(IEnvelopeRequest<TResponse> request)
+        protected async Task<IActionResult> ExecuteQuery<TResponse>(IEnvelopeRequest<TResponse> request, CancellationToken cancellationToken = default)
             where TResponse : TViewModel
         {
-            return await ExecuteRequest(request, response => ViewModel = response);
+            return await ExecuteRequest(request, response => ViewModel = response, cancellationToken);
         }
 
         /// <summary>
@@ -54,10 +53,11 @@ namespace MediatorBuddy.AspNet
         /// <typeparam name="TResponse">The type of the response.</typeparam>
         /// <param name="request">The request to be processed.</param>
         /// <param name="mappingFunc">A <see cref="Func{TResult}"/> that accepts the response and returns the viewModel type.</param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/>.</param>
         /// <returns>A <see cref="Task"/> of type <see cref="IActionResult"/>.</returns>
-        protected async Task<IActionResult> ExecuteQuery<TResponse>(IEnvelopeRequest<TResponse> request, Func<TResponse, TViewModel> mappingFunc)
+        protected async Task<IActionResult> ExecuteQuery<TResponse>(IEnvelopeRequest<TResponse> request, Func<TResponse, TViewModel> mappingFunc, CancellationToken cancellationToken = default)
         {
-            return await ExecuteRequest(request, response => ViewModel = mappingFunc.Invoke(response));
+            return await ExecuteRequest(request, response => ViewModel = mappingFunc.Invoke(response), cancellationToken);
         }
 
         /// <summary>
@@ -65,10 +65,11 @@ namespace MediatorBuddy.AspNet
         /// </summary>
         /// <param name="request">The request to be processed.</param>
         /// <param name="pageName">The page name to redirect to.</param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/>.</param>
         /// <returns>A <see cref="Task"/> of type <see cref="IActionResult"/>.</returns>
-        protected async Task<IActionResult> ExecuteCommand(IEnvelopeRequest request, string pageName)
+        protected async Task<IActionResult> ExecuteCommand(IEnvelopeRequest request, string pageName, CancellationToken cancellationToken = default)
         {
-            return await ExecuteRequest(request, ResponseOptions.RedirectToPageResponse<Unit>(_ => (pageName, null, null)));
+            return await ExecuteRequest(request, ResponseOptions.RedirectToPageResponse<Unit>(_ => (pageName, null, null)), cancellationToken);
         }
 
         /// <summary>
@@ -77,10 +78,11 @@ namespace MediatorBuddy.AspNet
         /// <typeparam name="TResponse">The type of the response.</typeparam>
         /// <param name="request">The request to be processed.</param>
         /// <param name="pageName">The page name to redirect to.</param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/>.</param>
         /// <returns>A <see cref="Task"/> of type <see cref="IActionResult"/>.</returns>
-        protected async Task<IActionResult> ExecuteCommand<TResponse>(IEnvelopeRequest<TResponse> request, string pageName)
+        protected async Task<IActionResult> ExecuteCommand<TResponse>(IEnvelopeRequest<TResponse> request, string pageName, CancellationToken cancellationToken = default)
         {
-            return await ExecuteRequest(request, ResponseOptions.RedirectToPageResponse<TResponse>(_ => (pageName, null, null)));
+            return await ExecuteRequest(request, ResponseOptions.RedirectToPageResponse<TResponse>(_ => (pageName, null, null)), cancellationToken);
         }
 
         /// <summary>
@@ -89,10 +91,11 @@ namespace MediatorBuddy.AspNet
         /// <typeparam name="TResponse">The type of the response.</typeparam>
         /// <param name="request">The request to be processed.</param>
         /// <param name="resultFunc">A <see cref="Func{TResult}"/> to define what page name to redirect to.</param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/>.</param>
         /// <returns>A <see cref="Task"/> of type <see cref="IActionResult"/>.</returns>
-        protected async Task<IActionResult> ExecuteCommand<TResponse>(IEnvelopeRequest<TResponse> request, Func<TResponse, (string? PageName, string? PageHandler, RouteValueDictionary? RouteValues)> resultFunc)
+        protected async Task<IActionResult> ExecuteCommand<TResponse>(IEnvelopeRequest<TResponse> request, Func<TResponse, (string? PageName, string? PageHandler, RouteValueDictionary? RouteValues)> resultFunc, CancellationToken cancellationToken = default)
         {
-            return await ExecuteRequest(request, ResponseOptions.RedirectToPageResponse(resultFunc));
+            return await ExecuteRequest(request, ResponseOptions.RedirectToPageResponse(resultFunc), cancellationToken);
         }
     }
 }

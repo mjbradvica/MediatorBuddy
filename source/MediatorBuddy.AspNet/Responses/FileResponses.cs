@@ -1,9 +1,7 @@
-﻿// <copyright file="FileResponses.cs" company="Michael Bradvica LLC">
-// Copyright (c) Michael Bradvica LLC. All rights reserved.
+﻿// <copyright file="FileResponses.cs" company="Simplex Software LLC">
+// Copyright (c) Simplex Software LLC. All rights reserved.
 // </copyright>
 
-using System;
-using System.IO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
 

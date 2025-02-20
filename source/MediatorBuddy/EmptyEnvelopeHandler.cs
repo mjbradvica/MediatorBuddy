@@ -1,9 +1,7 @@
-﻿// <copyright file="EmptyEnvelopeHandler.cs" company="Michael Bradvica LLC">
-// Copyright (c) Michael Bradvica LLC. All rights reserved.
+﻿// <copyright file="EmptyEnvelopeHandler.cs" company="Simplex Software LLC">
+// Copyright (c) Simplex Software LLC. All rights reserved.
 // </copyright>
 
-using System.Threading;
-using System.Threading.Tasks;
 using MediatR;
 
 namespace MediatorBuddy

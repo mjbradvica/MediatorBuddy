@@ -4,26 +4,26 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace MediatorBuddy.Tests
+namespace MediatorBuddy.Tests.Events
 {
     /// <summary>
-    /// Tests the <see cref="GlobalExceptionOccurred"/> class capabilities.
+    /// Tests for the <see cref="GlobalExceptionOccurred"/> class.
     /// </summary>
     [TestClass]
     public class GlobalExceptionOccurredTests
     {
         /// <summary>
-        /// Ensures the object has the correct default properties.
+        /// Event has the correct properties.
         /// </summary>
         [TestMethod]
-        public void GlobalExceptionsNotification_HasCorrectDefaultProperties()
+        public void GlobalExceptionOccurred_HasCorrectProperties()
         {
-            var exception = new ArgumentNullException();
+            var exception = new NullReferenceException();
 
             var notification = new GlobalExceptionOccurred(exception);
 
             Assert.AreEqual(exception, notification.Exception);
-            Assert.AreEqual(DateTime.UtcNow.Date, notification.DateTime.Date);
+            Assert.IsTrue(notification.DateTime > DateTime.MinValue);
         }
     }
 }

@@ -1,5 +1,5 @@
-﻿// <copyright file="FluentGetByIdResponse.cs" company="Michael Bradvica LLC">
-// Copyright (c) Michael Bradvica LLC. All rights reserved.
+﻿// <copyright file="FluentGetByIdResponse.cs" company="Simplex Software LLC">
+// Copyright (c) Simplex Software LLC. All rights reserved.
 // </copyright>
 
 using MediatorBuddy.Samples.Common.Features.Common;

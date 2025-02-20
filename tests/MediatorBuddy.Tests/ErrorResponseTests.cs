@@ -1,9 +1,7 @@
-﻿// <copyright file="ErrorResponseTests.cs" company="Michael Bradvica LLC">
-// Copyright (c) Michael Bradvica LLC. All rights reserved.
+﻿// <copyright file="ErrorResponseTests.cs" company="Simplex Software LLC">
+// Copyright (c) Simplex Software LLC. All rights reserved.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
 using MediatorBuddy.AspNet;
 using Microsoft.AspNetCore.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -76,6 +74,23 @@ namespace MediatorBuddy.Tests
             Assert.AreEqual(title, errorResponse.Title);
             Assert.AreEqual(status, errorResponse.Status);
             Assert.AreEqual(detail, errorResponse.Detail);
+            Assert.AreEqual(instance, errorResponse.Instance);
+        }
+
+        /// <summary>
+        /// Internal error response has the correct properties.
+        /// </summary>
+        [TestMethod]
+        public void InternalError_HasCorrectProperties()
+        {
+            var type = new Uri("/Error/GeneralError", UriKind.Relative);
+
+            var instance = new Uri("/people", UriKind.Relative);
+
+            var errorResponse = ErrorResponse.InternalError(type, instance);
+
+            Assert.AreEqual(type, errorResponse.Type);
+            Assert.AreEqual(500, errorResponse.Status);
             Assert.AreEqual(instance, errorResponse.Instance);
         }
     }

@@ -23,7 +23,7 @@ namespace MediatorBuddy.Tests
             var notification = new GlobalExceptionOccurred(exception);
 
             Assert.AreEqual(exception, notification.Exception);
-            Assert.AreEqual(DateTime.UtcNow.Date, notification.DateTime.Date);
+            Assert.AreEqual(DateTimeOffset.UtcNow.Date, notification.DateTimeOffset.Date);
         }
     }
 }

@@ -76,5 +76,22 @@ namespace MediatorBuddy.Tests
             Assert.AreEqual(detail, errorResponse.Detail);
             Assert.AreEqual(instance, errorResponse.Instance);
         }
+
+        /// <summary>
+        /// Internal error response has the correct properties.
+        /// </summary>
+        [TestMethod]
+        public void InternalError_HasCorrectProperties()
+        {
+            var type = new Uri("/Error/GeneralError", UriKind.Relative);
+
+            var instance = new Uri("/people", UriKind.Relative);
+
+            var errorResponse = ErrorResponse.InternalError(type, instance);
+
+            Assert.AreEqual(type, errorResponse.Type);
+            Assert.AreEqual(500, errorResponse.Status);
+            Assert.AreEqual(instance, errorResponse.Instance);
+        }
     }
 }

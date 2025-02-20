@@ -649,7 +649,7 @@ Create a custom error types class that inherits from [ErrorTypes](https://github
 ```csharp
 public class CustomErrorTypes : ErrorTypes
 {
-    public Uri NotEnoughSteam { get; set; } = new Uri("Error/NotEnoughSteam", UriKind.Relative);
+    public Uri NotEnoughSteam { get; } = new Uri("Error/NotEnoughSteam", UriKind.Relative);
 }
 ```
 

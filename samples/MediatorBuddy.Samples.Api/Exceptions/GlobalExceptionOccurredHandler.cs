@@ -30,7 +30,7 @@ namespace MediatorBuddy.Samples.Api.Exceptions
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public Task Handle(GlobalExceptionOccurred notification, CancellationToken cancellationToken)
         {
-            _logger.LogError(notification.Exception, message: "Global exception at {dateTime}", notification.DateTime);
+            _logger.LogError(notification.Exception, message: "Global exception at {dateTime}", notification.DateTimeOffset);
 
             return Task.CompletedTask;
         }

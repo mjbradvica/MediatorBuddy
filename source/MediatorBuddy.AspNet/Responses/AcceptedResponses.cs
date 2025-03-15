@@ -25,6 +25,16 @@ namespace MediatorBuddy.AspNet.Responses
         /// Yields a <see cref="AcceptedResult"/> with the response for the value and location Func for the location.
         /// </summary>
         /// <typeparam name="TResponse">The type of the response object.</typeparam>
+        /// <returns>A <see cref="IActionResult"/> of type <see cref="AcceptedResult"/>.</returns>
+        public static Func<TResponse, IActionResult> AcceptedResponse<TResponse>()
+        {
+            return response => new AcceptedResult(string.Empty, response);
+        }
+
+        /// <summary>
+        /// Yields a <see cref="AcceptedResult"/> with the response for the value and location Func for the location.
+        /// </summary>
+        /// <typeparam name="TResponse">The type of the response object.</typeparam>
         /// <param name="locationFunc">A <see cref="Func{TResult}"/> that will yield a <see cref="Uri"/> with the location of the resource.</param>
         /// <returns>A <see cref="IActionResult"/> of type <see cref="AcceptedResult"/>.</returns>
         public static Func<TResponse, IActionResult> AcceptedResponse<TResponse>(Func<TResponse, Uri> locationFunc)

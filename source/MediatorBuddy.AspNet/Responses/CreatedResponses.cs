@@ -24,6 +24,16 @@ namespace MediatorBuddy.AspNet.Responses
         /// <summary>
         /// Yields a <see cref="CreatedResult"/>.
         /// </summary>
+        /// <typeparam name="TResponse">The type of the response object.</typeparam>
+        /// <returns>A <see cref="IActionResult"/> of type <see cref="CreatedResult"/>.</returns>
+        public static Func<TResponse, IActionResult> CreatedResponse<TResponse>()
+        {
+            return response => new CreatedResult(string.Empty, response);
+        }
+
+        /// <summary>
+        /// Yields a <see cref="CreatedResult"/>.
+        /// </summary>
         /// <param name="locationFunc">A <see cref="Uri"/> where the resource can be accessed.</param>
         /// <typeparam name="TResponse">The type of the response object.</typeparam>
         /// <returns>A <see cref="IActionResult"/> of type <see cref="CreatedResult"/>.</returns>

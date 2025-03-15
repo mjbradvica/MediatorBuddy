@@ -14,7 +14,7 @@
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageIcon>logo.png</PackageIcon>
     <PackageTags>mediator, aspnet</PackageTags>
-    <Version>0.9.4</Version>
+    <Version>0.9.5</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -37,6 +37,6 @@
 	</ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="MediatorBuddy" Version="0.9.4" />
+    <PackageReference Include="MediatorBuddy" Version="0.9.5" />
   </ItemGroup>
 </Project>

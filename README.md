@@ -385,13 +385,15 @@ public override async Task<IEnvelope<FluentGetByIdResponse>> Handle(FluentGetByI
 
 ### Quick Start for API Controllers
 
-1) Have your controller inherit from the [MediatorBuddyApi](https://github.com/mjbradvica/MediatorBuddy/blob/master/source/MediatorBuddy.AspNet/MediatorBuddyApi.cs) base class.
+> The best way to learn is to take a quick look at the [sample controller here](./samples/MediatorBuddy.Samples.Api/Controllers/WidgetController.cs)!
 
-2) Create an action method that will return a Task of type IActionResult.
+1. Have your controller inherit from the [MediatorBuddyApi](https://github.com/mjbradvica/MediatorBuddy/blob/master/source/MediatorBuddy.AspNet/MediatorBuddyApi.cs) base class.
 
-3) Pass your requests to the "ExecuteRequest" method, and use one of the built-in success callbacks from the [ResponseOptions](https://github.com/mjbradvica/MediatorBuddy/tree/master/source/MediatorBuddy.AspNet/Responses) class.
+2. Create an action method that will return a Task of type IActionResult.
 
-4) Annotate your method with the built-in error response attributes for each specific error type you return.
+3. Pass your requests to one of the easy methods for returning an "Ok", "Created", "Accepted", or "NoContent" responses.
+
+4. Annotate your method with the built-in error response attributes for each specific error type you return.
 
 > The base controller already annotates for a 400-Bad Request and 500-Internal Server Error codes.
 
@@ -405,9 +407,10 @@ public class MyController : MediatorBuddyApi
     {
         [HttpGet]
         [MediatorBuddy404ErrorResponse]
+        [ProducesResponseType<MyResponse>(StatusCodes.Status200Ok)]
         public async Task<IActionResult> GetMyData()
         {
-            return await ExecuteRequest(new MyRequest(), ResponseOptions.OkObjectResponse<MyResponse>());
+            return await ExecuteOkObject(new MyRequest());
         }
     }
 }
@@ -439,9 +442,35 @@ public class ErrorController : BaseErrorController
 }
 ```
 
+#### Easy Base Methods
+
+There are six methods that can account for 95%+ of all your requests:
+
+- The Created and Accepted may take an optional Func that returns a URI for the resource location.
+- All can accept a Cancellation Token.
+
+| Method Name      | Return Type     | Optional Params   |
+| ---------------- | --------------- | ----------------- |
+| ExecuteOkObject  | OkObjectResult  | None              |
+| ExecuteAccepted  | AcceptedResult  | Location Uri Func |
+| ExecuteCreated   | CreatedResult   | Location Uri Func |
+| ExecuteNoContent | NoContentResult | None              |
+
 ### Detailed Usage for API Controllers
 
 #### Detailed Response
+
+If there is a response type you need that isn't included by default, there is a response call back you can use.
+
+```csharp
+[HttpPost(Name = "AddWeatherForecast")]
+public async Task<IActionResult> Add(AddWeatherRequest request)
+{
+    return await ExecuteRequest(
+        request,
+        ResponseOptions.CreatedEmptyResponse<AddWeatherResponse>());
+}
+```
 
 Some ResponseOptions allow you to pass another callback. Such is the case of a 201 Created response.
 
@@ -770,7 +799,7 @@ public class MyPage : MediatorBuddyBasePage<MyViewModel>
     public async Task<IActionResult> OnPostAsync()
     {
         return await ExecuteCommand(
-            new MyCommandRequest(), 
+            new MyCommandRequest(),
             response => ("Details", null, new RouteValueDictionary(new { Id = response.Widget.Id })));
     }
 }
@@ -1004,7 +1033,7 @@ public class MyController : MediatorBuddyMvc
     {
         return await ExecuteRequest(
             new MyRequest(),
-            (response, razorData) => 
+            (response, razorData) =>
             {
                 var tempData = razorData.TempData;
                 var viewData = razorData.ViewData;

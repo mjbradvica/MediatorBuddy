@@ -28,6 +28,21 @@ namespace MediatorBuddy.Tests.Responses
         }
 
         /// <summary>
+        /// Ensures the AcceptedResult has the correct properties.
+        /// </summary>
+        [TestMethod]
+        public void AcceptedEmptyLocation_IsCorrect()
+        {
+            var result = ResponseOptions.AcceptedResponse<TestResponse>().Invoke(new TestResponse());
+
+            var asResult = result as AcceptedResult;
+
+            Assert.IsInstanceOfType<AcceptedResult>(result);
+            Assert.IsNotNull(asResult?.Value);
+            Assert.AreEqual(string.Empty, asResult?.Location);
+        }
+
+        /// <summary>
         /// Ensures the AcceptedAtActionResult has the correct properties.
         /// </summary>
         [TestMethod]

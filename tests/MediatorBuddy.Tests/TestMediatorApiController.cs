@@ -34,5 +34,59 @@ namespace MediatorBuddy.Tests
         {
             return await ExecuteRequest(request, ResponseOptions.OkObjectResponse<TestResponse>());
         }
+
+        /// <summary>
+        /// Ok object response.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public async Task<IActionResult> HandleOkObject()
+        {
+            return await ExecuteOkObject(TestObjectRequest.Valid(), CancellationToken.None);
+        }
+
+        /// <summary>
+        /// Accepted location object response.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public async Task<IActionResult> HandleAcceptedLocation()
+        {
+            return await ExecuteAccepted(TestObjectRequest.Valid(), _ => new Uri("https://www.mySite.com"), CancellationToken.None);
+        }
+
+        /// <summary>
+        /// Accepted location object response.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public async Task<IActionResult> HandleAccepted()
+        {
+            return await ExecuteAccepted(TestObjectRequest.Valid(), CancellationToken.None);
+        }
+
+        /// <summary>
+        /// Created location object response.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public async Task<IActionResult> HandleCreatedLocation()
+        {
+            return await ExecuteCreated(TestObjectRequest.Valid(), _ => new Uri("https://www.mySite.com"), CancellationToken.None);
+        }
+
+        /// <summary>
+        /// Created location object response.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public async Task<IActionResult> HandleCreated()
+        {
+            return await ExecuteCreated(TestObjectRequest.Valid(), CancellationToken.None);
+        }
+
+        /// <summary>
+        /// No Content response.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public async Task<IActionResult> HandleNoContent()
+        {
+            return await ExecuteNoContent(new TestUnitRequest(), CancellationToken.None);
+        }
     }
 }

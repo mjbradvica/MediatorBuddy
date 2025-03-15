@@ -369,6 +369,96 @@ namespace MediatorBuddy.Tests
             Assert.AreEqual(new Uri(requestPath, UriKind.Relative), responseObject?.Instance);
         }
 
+        /// <summary>
+        /// Method has correct action response.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+        [TestMethod]
+        public async Task ExecuteOkObject_HasCorrectResponse()
+        {
+            _mediator.Setup(x => x.Send(It.IsAny<TestObjectRequest>(), CancellationToken.None))
+                .ReturnsAsync(Envelope<TestResponse>.Success(new TestResponse()));
+
+            var result = await _apiController.HandleOkObject();
+
+            Assert.IsInstanceOfType<OkObjectResult>(result);
+        }
+
+        /// <summary>
+        /// Method has correct action response.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+        [TestMethod]
+        public async Task ExecuteAcceptedLocation_HasCorrectResponse()
+        {
+            _mediator.Setup(x => x.Send(It.IsAny<TestObjectRequest>(), CancellationToken.None))
+                .ReturnsAsync(Envelope<TestResponse>.Success(new TestResponse()));
+
+            var result = await _apiController.HandleAcceptedLocation();
+
+            Assert.IsInstanceOfType<AcceptedResult>(result);
+        }
+
+        /// <summary>
+        /// Method has correct action response.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+        [TestMethod]
+        public async Task ExecuteAccepted_HasCorrectResponse()
+        {
+            _mediator.Setup(x => x.Send(It.IsAny<TestObjectRequest>(), CancellationToken.None))
+                .ReturnsAsync(Envelope<TestResponse>.Success(new TestResponse()));
+
+            var result = await _apiController.HandleAccepted();
+
+            Assert.IsInstanceOfType<AcceptedResult>(result);
+        }
+
+        /// <summary>
+        /// Method has correct action response.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+        [TestMethod]
+        public async Task ExecuteCreatedLocation_HasCorrectResponse()
+        {
+            _mediator.Setup(x => x.Send(It.IsAny<TestObjectRequest>(), CancellationToken.None))
+                .ReturnsAsync(Envelope<TestResponse>.Success(new TestResponse()));
+
+            var result = await _apiController.HandleCreatedLocation();
+
+            Assert.IsInstanceOfType<CreatedResult>(result);
+        }
+
+        /// <summary>
+        /// Method has correct action response.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+        [TestMethod]
+        public async Task ExecuteCreated_HasCorrectResponse()
+        {
+            _mediator.Setup(x => x.Send(It.IsAny<TestObjectRequest>(), CancellationToken.None))
+                .ReturnsAsync(Envelope<TestResponse>.Success(new TestResponse()));
+
+            var result = await _apiController.HandleCreated();
+
+            Assert.IsInstanceOfType<CreatedResult>(result);
+        }
+
+        /// <summary>
+        /// Method has correct action response.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+        [TestMethod]
+        public async Task ExecuteNoContent_HasCorrectResponse()
+        {
+            _mediator.Setup(x => x.Send(It.IsAny<TestUnitRequest>(), CancellationToken.None))
+                .ReturnsAsync(Envelope<Unit>.Success());
+
+            var result = await _apiController.HandleNoContent();
+
+            Assert.IsInstanceOfType<NoContentResult>(result);
+        }
+
         private async Task AssertStatusCorrect<TResponseType>(IEnvelope<TestResponse> response)
             where TResponseType : ObjectResult
         {

@@ -33,6 +33,21 @@ namespace MediatorBuddy.Tests.Responses
         /// Ensures the CreatedResponse properties are correct.
         /// </summary>
         [TestMethod]
+        public void CreatedEmptyLocation_IsCorrect()
+        {
+            var result = ResponseOptions.CreatedResponse<TestResponse>().Invoke(new TestResponse());
+
+            var asResult = result as CreatedResult;
+
+            Assert.IsInstanceOfType<CreatedResult>(result);
+            Assert.AreEqual(string.Empty, asResult?.Location);
+            Assert.IsNotNull(asResult?.Value);
+        }
+
+        /// <summary>
+        /// Ensures the CreatedResponse properties are correct.
+        /// </summary>
+        [TestMethod]
         public void CreatedResponse_Response_IsCorrect()
         {
             var location = TestHelpers.UriLocation();

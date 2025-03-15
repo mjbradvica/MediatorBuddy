@@ -50,7 +50,7 @@ namespace MediatorBuddy.Tests
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task<IActionResult> HandleAcceptedLocation()
         {
-            return await ExecuteAcceptedObject(TestObjectRequest.Valid(), _ => new Uri("https://www.mySite.com"), CancellationToken.None);
+            return await ExecuteAccepted(TestObjectRequest.Valid(), _ => new Uri("https://www.mySite.com"), CancellationToken.None);
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace MediatorBuddy.Tests
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task<IActionResult> HandleAccepted()
         {
-            return await ExecuteAcceptedObject(TestObjectRequest.Valid(), CancellationToken.None);
+            return await ExecuteAccepted(TestObjectRequest.Valid(), CancellationToken.None);
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace MediatorBuddy.Tests
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task<IActionResult> HandleCreatedLocation()
         {
-            return await ExecuteCreatedObject(TestObjectRequest.Valid(), _ => new Uri("https://www.mySite.com"), CancellationToken.None);
+            return await ExecuteCreated(TestObjectRequest.Valid(), _ => new Uri("https://www.mySite.com"), CancellationToken.None);
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace MediatorBuddy.Tests
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task<IActionResult> HandleCreated()
         {
-            return await ExecuteCreatedObject(TestObjectRequest.Valid(), CancellationToken.None);
+            return await ExecuteCreated(TestObjectRequest.Valid(), CancellationToken.None);
         }
 
         /// <summary>

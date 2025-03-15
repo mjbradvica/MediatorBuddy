@@ -90,51 +90,51 @@ namespace MediatorBuddy.AspNet
         }
 
         /// <summary>
-        /// Handles a request with a pre-defined AcceptedObject response with location Uri.
+        /// Handles a request with a pre-defined Accepted response with location Uri.
         /// </summary>
         /// <typeparam name="TResponse">The type of the response object.</typeparam>
         /// <param name="request">A <see cref="IRequest{TResponse}"/> object.</param>
         /// <param name="responseFunc">A <see cref="Func{TResult}"/> to define a location <see cref="Uri"/>.</param>
         /// <param name="cancellationToken">A <see cref="CancellationToken"/>.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        protected async Task<IActionResult> ExecuteAcceptedObject<TResponse>(IRequest<IEnvelope<TResponse>> request, Func<TResponse, Uri> responseFunc, CancellationToken cancellationToken = default)
+        protected async Task<IActionResult> ExecuteAccepted<TResponse>(IRequest<IEnvelope<TResponse>> request, Func<TResponse, Uri> responseFunc, CancellationToken cancellationToken = default)
         {
             return await ExecuteRequest(request, ResponseOptions.AcceptedResponse(responseFunc), cancellationToken);
         }
 
         /// <summary>
-        /// Handles a request with a pre-defined AcceptedObject response.
+        /// Handles a request with a pre-defined Accepted response.
         /// </summary>
         /// <typeparam name="TResponse">The type of the response object.</typeparam>
         /// <param name="request">A <see cref="IRequest{TResponse}"/> object.</param>
         /// <param name="cancellationToken">A <see cref="CancellationToken"/>.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        protected async Task<IActionResult> ExecuteAcceptedObject<TResponse>(IRequest<IEnvelope<TResponse>> request,  CancellationToken cancellationToken = default)
+        protected async Task<IActionResult> ExecuteAccepted<TResponse>(IRequest<IEnvelope<TResponse>> request,  CancellationToken cancellationToken = default)
         {
             return await ExecuteRequest(request, ResponseOptions.AcceptedResponse<TResponse>(), cancellationToken);
         }
 
         /// <summary>
-        /// Handles a request with a pre-defined CreatedObject response with a location Uri.
+        /// Handles a request with a pre-defined Created response with a location Uri.
         /// </summary>
         /// <typeparam name="TResponse">The type of the response object.</typeparam>
         /// <param name="request">A <see cref="IRequest{TResponse}"/> object.</param>
         /// <param name="responseFunc">A <see cref="Func{TResult}"/> to define a location <see cref="Uri"/>.</param>
         /// <param name="cancellationToken">A <see cref="CancellationToken"/>.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        protected async Task<IActionResult> ExecuteCreatedObject<TResponse>(IRequest<IEnvelope<TResponse>> request, Func<TResponse, Uri> responseFunc, CancellationToken cancellationToken = default)
+        protected async Task<IActionResult> ExecuteCreated<TResponse>(IRequest<IEnvelope<TResponse>> request, Func<TResponse, Uri> responseFunc, CancellationToken cancellationToken = default)
         {
             return await ExecuteRequest(request, ResponseOptions.CreatedResponse(responseFunc), cancellationToken);
         }
 
         /// <summary>
-        /// Handles a request with a pre-defined CreatedObject response.
+        /// Handles a request with a pre-defined Created response.
         /// </summary>
         /// <typeparam name="TResponse">The type of the response object.</typeparam>
         /// <param name="request">A <see cref="IRequest{TResponse}"/> object.</param>
         /// <param name="cancellationToken">A <see cref="CancellationToken"/>.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        protected async Task<IActionResult> ExecuteCreatedObject<TResponse>(IRequest<IEnvelope<TResponse>> request, CancellationToken cancellationToken = default)
+        protected async Task<IActionResult> ExecuteCreated<TResponse>(IRequest<IEnvelope<TResponse>> request, CancellationToken cancellationToken = default)
         {
             return await ExecuteRequest(request, ResponseOptions.CreatedResponse<TResponse>(), cancellationToken);
         }
